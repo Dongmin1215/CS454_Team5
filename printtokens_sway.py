@@ -25,11 +25,12 @@
 from __future__ import division
 from Algorithms.sway_sampler import sway, bin_dominate, cont_dominate
 from Benchmarks.POM3 import pre_defined
-from get_apsd import get_apsd
 from repeats import request_new_file
 import time
 import random
 import pdb
+from get_apsd import get_apsd
+from deap import base
 
 
 def dist(ind1, ind2):
@@ -39,7 +40,7 @@ def dist(ind1, ind2):
     return d
 
 
-def where(pop):
+def where(pop): #pop = candidates
     print(len(pop))
     rand = random.choice(pop)
     ds = [dist(i, rand) for i in pop]
@@ -97,43 +98,89 @@ def where(pop):
 
 
 def comparing(part1, part2):
-    print(part1)
-    return bin_dominate(part1, part2)
+    # print(part1)
+    apsd1 = get_apsd(part1)
+    apsd2 = get_apsd(part2)
+    if apsd1 > apsd2:
+        return True
+    else:
+        return False
+    # return bin_dominate(part1, part2)
 
 
+# def get_sway_res(model):
+#     # generating the 10k random solutions
+#     candidates = list()
+#     for _ in range(10000):
+#         ran_dec = [random.random() for _ in range(model.decsNum)]
+#         can = model.Individual(ran_dec)
+#         candidates.append(can)
+#     print("candidates")
+#     print(candidates[0])
+#     global M
+#     M = model
+#     res = sway(candidates, model.eval, where, comparing)
 
-def get_sway_res(model):
+#     return res
+
+def get_sway_res(dim):
     # generating the 10k random solutions
-    dim = len(model)
     candidates = list()
-    for _ in range(10000):
-        ran_dec = [random.random() for _ in range(dim)]
-        candidates.append(ran_dec)
+    for _ in range(1000):
+        can = [random.randint(1,93) for _ in range(dim)]
+        candidates.append(can)
+    # print("candidates")
+    # print(candidates[0])
     global M
     # M = model
+    # res = sway(candidates, model.eval, where, comparing)
     res = sway(candidates, where, comparing)
-    return res
 
+    return res
 
 
 if __name__ == '__main__':
     for repeat in range(10):
-        ii = [0, 1, 2, 3]
-        for i in ii:
+        start_time = time.time()
+        res = get_sway_res(93)
+        finish_time = time.time()
+        print("len(res) : ", str(len(res)))
+        for perm in res:
+            print("apsd : ", get_apsd(perm))
+            print(perm)
+        # for i in ii:
             # POM3_model = pre_defined()[i]
-            start_time = time.time()
-            res = get_sway_res([[1,2,3,4], [2,3,4,1], [1,3,2,4], [2,1,3,4]])
-            print("len(res)", str(len(res)))
-            finish_time = time.time()
+            # start_time = time.time()
+            # res = get_sway_res(93)
+            # finish_time = time.time()
             # print(finish_time-start_time)
             # save the results
-            # with open(request_new_file('./tse_rs/', "res_printtokens.txt"), 'w') as f:
+            # with open(request_new_file('./tse_rs/sway', POM3_model.name), 'w') as f:
             #     f.write('T:' + str(start_time) + '\n~~~\n')
             #     f.write('T:' + str(finish_time) + '\n')
-                
             #     for i in res:
-            #         f.write(' '.join(map(str, i)))
+            #         f.write(' '.join(map(str, i.fitness.values)))
             #         f.write('\n')
 
         print('******   ' + str(repeat) + '   ******')
 
+
+
+# if __name__ == '__main__':
+#     for repeat in range(10):
+#         ii = [0, 1, 2]
+#         for i in ii:
+#             POM3_model = pre_defined()[i]
+#             start_time = time.time()
+#             res = get_sway_res(POM3_model)
+#             finish_time = time.time()
+#             print(finish_time-start_time)
+#             # save the results
+#             with open(request_new_file('./tse_rs/sway', POM3_model.name), 'w') as f:
+#                 f.write('T:' + str(start_time) + '\n~~~\n')
+#                 f.write('T:' + str(finish_time) + '\n')
+#                 for i in res:
+#                     f.write(' '.join(map(str, i.fitness.values)))
+#                     f.write('\n')
+
+#         print('******   ' + str(repeat) + '   ******')
