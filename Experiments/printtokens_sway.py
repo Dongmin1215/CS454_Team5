@@ -1,9 +1,26 @@
-"""
-Created on 2020/12/12
-@author: Dongmin1215, chanijung, nicklee, yhpark
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Copyright (C) 2016, Jianfeng Chen <jchen37@ncsu.edu>
+# vim: set ts=4 sts=4 sw=4 expandtab smartindent:
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+#  of this software and associated documentation files (the "Software"), to deal
+#  in the Software without restriction, including without limitation the rights
+#  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#  copies of the Software, and to permit persons to whom the Software is
+#  furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+#  all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+#  THE SOFTWARE.
 
-Python script for recreating the figures
-"""
 
 from __future__ import division
 from Algorithms.sway_sampler import sway, bin_dominate, cont_dominate
@@ -12,18 +29,24 @@ from repeats import request_new_file
 import time
 import random
 import pdb
+import argparse
+import os
+
 from get_apsd import get_apsd
 from deap import base
 
+import numpy as np
+import pandas as pdb
+import matplotlib.pyplot as plt
 
 def dist(ind1, ind2):
     d = 0
     for i, j in zip(ind1, ind2):
-        d += (i - j) ** 2
+        d += (i-j)**2
     return d
 
 
-def where(pop):  # pop = candidates
+def where(pop): #pop = candidates
     print(len(pop))
     rand = random.choice(pop)
     ds = [dist(i, rand) for i in pop]
@@ -41,16 +64,15 @@ def where(pop):  # pop = candidates
         d = (a + c - b) / cc
         mappings.append((x, d))
 
-    mappings = sorted(mappings, key=lambda i: i[1])
+    mappings = sorted(mappings, key=lambda i:i[1])
     mappings = [i[0] for i in mappings]
 
     n = len(mappings)
-    eastItems = mappings[:int(n * 0.2)] + mappings[int(n * 0.5):int(n * 0.8)]
-    westItems = mappings[int(n * 0.2):int(n * 0.5)] + mappings[int(n * 0.8):]
+    eastItems = mappings[:int(n*0.2)] + mappings[int(n*0.5):int(n*0.8)]
+    westItems = mappings[int(n*0.2):int(n*0.5)] + mappings[int(n*0.8):]
 
     # westItems = mappings[len(mappings)//2:]
     return west, east, eastItems, westItems
-
 
 # M = None
 #
@@ -82,9 +104,10 @@ def where(pop):  # pop = candidates
 
 
 def comparing(part1, part2):
+    path = args.dataset + "/traces"
     # print(part1)
-    apsd1 = get_apsd(part1)
-    apsd2 = get_apsd(part2)
+    apsd1 = get_apsd(path, part1)
+    apsd2 = get_apsd(path, part2)
     if apsd1 > apsd2:
         return True
     else:
@@ -107,12 +130,13 @@ def comparing(part1, part2):
 
 #     return res
 
-def get_sway_res(dim):
+def get_sway_res(path):
+    file_list = os.listdir(path)
     # generating the 10k random solutions
     candidates = list()
-
-    for _ in range(1000):
-        x = list(range(1, 14))
+   
+    for _ in range(10000):
+        x =  list(range(1, len(file_list)))
         random.shuffle(x)
         candidates.append(x)
     # print("candidates")
@@ -120,25 +144,50 @@ def get_sway_res(dim):
     global M
     # M = model
     # res = sway(candidates, model.eval, where, comparing)
-    res = sway(candidates, where, comparing)
+    res = sway(candidates, where, comparing, args.stop)
 
     return res
 
+def draw_box_plot(apsd_dict):
+    fig, ax = plt.subplots()
+    ax.boxplot(apsd_dict.values(), showmeans=True)
+    ax.set_xticklabels(apsd_dict.keys())
+    ax.set_xlabel('Iteration #')
+    ax.set_ylabel('APSD')
+    plt.gca().set_ylim([args.min_y, args.max_y])
+    plt.title('Box plot of APSD of candidates for each iteration for ' + args.dataset)
+    plt.savefig('box_plot_apsd_per_iteration.png')
+
 
 if __name__ == '__main__':
-    datasets = ['printtokens, printtokens2', 'schedule', 'schedule2', 'tcas', 'tot_info', 'replace']
+    parser = argparse.ArgumentParser()
 
-    for dataset in datasets:
-        print('----------   ' + dataset + '   ----------')
-        for repeat in range(10):
-            start_time = time.time()
-            res = get_sway_res(13)
-            finish_time = time.time()
-            print("len(res) : ", str(len(res)))
-            for perm in res:
-                print("apsd : ", get_apsd(dataset, perm))
-                print(perm)
-            # for i in ii:
+    #-d DATASET -i ITERATION -min MIN_Y -max MAX_Y -s STOP
+    parser.add_argument("-d", "--dataset", help="dataset name")
+    parser.add_argument("-i", "--iteration", help="iteration number of SWAY", type=int)
+    parser.add_argument("-min", "--min_y", help="mim value of y axis in box plot", type=float)
+    parser.add_argument("-max", "--max_y", help="max value of y axis in box plot", type=float)
+    parser.add_argument("-s", "--stop", help="stop SWAY clustering when candidate number is less than this value", type=int)
+    
+    args = parser.parse_args()
+    path = args.dataset + "/traces"
+
+    apsd_dict = dict()
+    for repeat in range(args.iteration):
+        start_time = time.time()
+        res = get_sway_res(path)
+        finish_time = time.time()
+        print("len(res) : ", str(len(res)))
+        
+        apsd_list = list()
+        for perm in res:
+            apsd = get_apsd(path, perm)
+            apsd_list.append(apsd)
+            print("apsd : ", apsd)
+            print(perm)
+        
+        apsd_dict[repeat] = apsd_list
+        # for i in ii:
             # POM3_model = pre_defined()[i]
             # start_time = time.time()
             # res = get_sway_res(93)
@@ -152,4 +201,26 @@ if __name__ == '__main__':
             #         f.write(' '.join(map(str, i.fitness.values)))
             #         f.write('\n')
 
-            print('******   ' + str(repeat) + '   ******')
+        print('******   ' + str(repeat) + '   ******')
+    draw_box_plot(apsd_dict)
+
+
+
+# if __name__ == '__main__':
+#     for repeat in range(10):
+#         ii = [0, 1, 2]
+#         for i in ii:
+#             POM3_model = pre_defined()[i]
+#             start_time = time.time()
+#             res = get_sway_res(POM3_model)
+#             finish_time = time.time()
+#             print(finish_time-start_time)
+#             # save the results
+#             with open(request_new_file('./tse_rs/sway', POM3_model.name), 'w') as f:
+#                 f.write('T:' + str(start_time) + '\n~~~\n')
+#                 f.write('T:' + str(finish_time) + '\n')
+#                 for i in res:
+#                     f.write(' '.join(map(str, i.fitness.values)))
+#                     f.write('\n')
+
+#         print('******   ' + str(repeat) + '   ******')

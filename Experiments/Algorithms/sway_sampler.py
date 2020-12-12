@@ -45,11 +45,11 @@ def bin_dominate(ind1, ind2):
     return True
 
 
-def sway(pop, splitor, better):
+def sway(pop, splitor, better, stop):
     def cluster(items):
         # print(len(items))
         # add termination condition here
-        if len(items) < 100:
+        if len(items) < stop:
             return items
             #  end at here
 

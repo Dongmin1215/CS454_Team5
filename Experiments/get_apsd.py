@@ -6,16 +6,15 @@ dataset: name(str) of the benchmark used
 perm: permutation(list of int)
 """
 
-
 def get_apsd(dataset, perm):
     ts_values = []
     tc_order = 1
     uncovered_lines = []
-    for i in perm:  # i is test case number
-        zeros = "00000" if i < 10 else "0000"
-        path = benchmark + "/traces/" + "dump_" + zeros + str(i)
+    for i in perm: #i is test case number
+        zeros = "00000" if i<10 else "0000"
+        file_path = dataset + "/dump_"+zeros+str(i)
         # print(path)
-        f = open(path, "r")
+        f = open(file_path, "r")
         lines = f.readlines()
         profile = []
         line_count = -5
