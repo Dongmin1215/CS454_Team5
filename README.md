@@ -1,10 +1,10 @@
-## CS454 
+## CS454 Final Project: SWAY for Decision Space of Permutationswith Case Study on Test Case Prioritisation
 
 > Junghyun Lee, Dongmin Lee, Chani Jung, and Yoo Hwa Park
 > 
 ---
 
-`parse_suite.py` 
+`Experiments` 
 
 * wraps `-P` or `-I` depending on the way of indicating directory in suite file
 

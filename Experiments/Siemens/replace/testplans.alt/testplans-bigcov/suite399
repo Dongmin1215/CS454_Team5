@@ -1,0 +1,399 @@
+' *[0-9]@[[9-B]??[0-9]-[^-[^0-9]-[a-c][^a-c]' 'NEW' < temp-test/1133.inp.487.1
+' *[9-B]' 'a&' < temp-test/1274.inp.547.1
+' *a-c]' '&a@%' < temp-test/75.inp.32.3
+' -[^9-B][a-c]*' '@%&a' < temp-test/529.inp.229.2
+' -[^9-B][a-c]?*' '@%&a' < temp-test/529.inp.229.2
+'!' 'JeQwMtQsX"@?#Q1)jO;[#@Y^SE,&N$~<>FK' < input/ruin.677
+'$' 'F]"8mW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%`#tLmW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%mW1FGw`iK4QO;MuiQ4{%R:h2`^Ndy W4p?5Yd9N%7tp~' < input/ruin.154
+'$-*[^0-9]' '&@n'< temp-test/201.inp.90.3
+'$? ' 'a@nb@tc' < temp-test/217.inp.97.1
+'$?[^--z]c[^9-B][^9-B]c*?[9-B]c-' '@t' < temp-test/530.inp.230.1
+'$?[^--z]c[^9-B][^9-B]c*?[9-B]c-' '@t' < temp-test/531.inp.230.4
+'$@[*-?[a-c' 'a@nb@tc' < temp-test/208.inp.93.2
+'$[^9-B]@[' 'a@n' < temp-test/220.inp.98.2
+'%*' 's7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp' < input/ruin.1058
+'%-*-' '@n' < temp-test/2009.inp.852.5
+'%-[^9-B][^0-9] $' 'a@n' < temp-test/2026.inp.859.11
+'%-[^9-B][^0-9][_-z]?-^*?$' '@n' < temp-test/1051.inp.452.11
+'%-[^a-c]' '@%@&' < temp-test/863.inp.371.5
+'%-c---[^0-9][0-9][9-B]-' '@n' < temp-test/1034.inp.444.5
+'%?$' '\' < input/ruin.1440
+'%?' '.RM' < input/ruin.1857
+'%?' 'Q!I*e$7' < input/ruin.1457
+'%?' 'w' < input/ruin.1257
+'%?*@*' 'NEW' < temp-test/523.inp.226.5
+'%??-?[^@n][a-]-@*[^a--b][0-9]-$' '@%&a' < temp-test/2249.inp.953.11
+'%?[@@][^0-9][a-c]?-[^0-9]- [^9-B]$' 'NEW' < temp-test/1129.inp.485.10
+'%?[a--b]@[*[0-9][^a-c]?@*[0-9][- *[^@@][-z][9-B]- *-[a-c]$' 'NEW' < temp-test/1743.inp.741.10
+'%?[a-c-?' 'a@nb@tc' < temp-test/2201.inp.932.5
+'%?^$'  < temp-test/513.inp.223.10
+'%@@$' 'H' < input/ruin.324
+'%@@' '}Y}' < input/ruin.1314
+'%@@@@\x[^v]@@' '/!OJ=t,WAMc%C' < input/ruin.344
+'%@[*[9-B]@' '&' < temp-test/492.inp.215.5
+'%@n' 'v' < input/ruin.1561
+'%@t*' '@' < input/ruin.1787
+'%A[0-9]?@**[a-c][^0-9]$' '@%&a' < temp-test/672.inp.292.11
+'%E$' 'I' < input/ruin.1790
+'%[0-4-1]' '-1' < moni/f7.inp
+'%[9-B]?$' '&a@%' < temp-test/2045.inp.867.10
+'%[@t]@*?[^-[9-B]-' 'b@t' < temp-test/1732.inp.736.5
+'%[][^0-9]-?[9-B]?-[9-B]?' '@t' < temp-test/527.inp.228.5
+'%[^-z] ' 'NEW' < temp-test/248.inp.110.5
+'%[^0-9]*' '@t' < temp-test/527.inp.228.5
+'%[^0-9][^0-9][^9-B]' '@n' < temp-test/1955.inp.829.5
+'%[^9-B]$' 'a&' < temp-test/1539.inp.658.10
+'%[^a-c][0-9]' 'a&' < temp-test/1784.inp.759.5
+'%[a-c[^9-B]' '@%@&' < temp-test/1431.inp.614.7
+'%[a-c][^0-9]*[a-c]' '&@nmohaw' < temp-test/693.inp.300.5
+'%[a-c][^0-9]-*-[a-c]-' '@n' < temp-test/693.inp.300.5
+'%[k]' 'T' < input/ruin.475
+'%^-$' '&' < temp-test/875.inp.375.11
+'%^a-c]?*' 'NEW' < temp-test/194.inp.87.7
+'%a[ ]*[ ]c$' '&@n' < moni/f8.inp
+'[^a-c]?$' 'a@n' < temp-test/70.inp.30.9
+'[^a-c]?' '' < temp-test/1148.inp.494.1
+'[^a-c]???@*?[^a-c][a-c[^9-B]' 'NEW' < temp-test/483.inp.211.4
+'[^a-c]@t*' '@t' < temp-test/1189.inp.512.4
+'[^z-}Z-a]^_`a-z-}z-}]' 'v5xI27<*qtgs#`vmdnC IH[' < input/ruin.1333
+'[^z-}]' '!tYvZIshp/O-, z$MMuM0D0Wl[w' < input/ruin.1369
+'[^z-}]' '(]E[? g0RJ5hr+k^RH|*q0V^1p#/qQFY%l3_{n[6PFv_frgx[p&G<^#K2Hfw6' < input/ruin.178
+'[^z-}c-a]' 'h' < input/ruin.1221
+'[_-z]?' 'a@n' < temp-test/308.inp.138.1
+'[a--] *^a-c]?-[0-9]?--a-]@t*?@[[^0-9]' '@%&a' < temp-test/496.inp.217.1
+'[a--][^a-c]' '@n' < temp-test/915.inp.394.4
+'[a--b]?[9-B]' '@%&a' < temp-test/1237.inp.531.1
+'[a--b][-z][^9-B]@t*[^9-B]@t*[^9-B]-[a--b][-z][^9-B]@t*[^9-B]-[a--b][-z][^9-B]@t*[^9-B]' '' < temp-test/833.inp.359.1
+'[a-]' '&@n!4' < temp-test/641.inp.277.1
+'[a-][^a-c]-?' '&' < temp-test/746.inp.319.2
+'[a-c?$' 'a&' < temp-test/520.inp.225.8
+'[a-c]' '@%@&' < temp-test/1207.inp.518.1
+'[a-c]?[^9-B][9-B][^a--b][0-9]-@@*@' '@%&a' < temp-test/489.inp.214.1
+'[a-c]@t' '&' < temp-test/1389.inp.596.1
+'[a-c][^0-9]*[a-c]' '&@na@t@t' < temp-test/691.inp.300.2
+'[a-c][^9-B]' 'NEW' < temp-test/2332.inp.989.1
+'[c-a`]' 'TxfCZ,ncl`!85cZi#F6f>B[=2xb1rZXXah,}F?O2+9xtAeyi[3h9Al$KjK7.Km?K4YU~ '\''' < input/ruin.434
+'[z-}c-a]' '-MPvM'\''v' < input/ruin.244
+'^*-[a-]-[^@t]' 'a@n' < temp-test/1266.inp.543.2
+'^*[^@@]-?^a-][a--][^@@]?-[0-9]' '@%@&' < temp-test/1683.inp.717.1
+'^*[a-c[9-B]?' 'a&' < temp-test/1297.inp.557.1
+'^-?[^9-B]'  < temp-test/510.inp.222.4
+'^-]-[9-B]' '@%&a' < temp-test/1668.inp.711.4
+'^a-]-*$' 'NEW' < temp-test/559.inp.241.6
+'^a-][a--b]$' '@%&a' < temp-test/2065.inp.875.6
+'a-]?-?^-]-[^a-^[^0-9]$' '&a@%' < temp-test/2195.inp.930.9
+'c*?' '@%&a@' < temp-test/355.inp.155.2
+'c*?[a--][^9-B][9-B][a-[a-c@@*[^-?' '@%@&' < temp-test/785.inp.338.1
+'c-^a-]?a-]-][a-c]-' '&a@%' < temp-test/113.inp.51.2
+'c[^0-9][9-B]-' '@%@&' < temp-test/1884.inp.799.1
+'c[^9-B][^9-B]c*?[9-B]c-' '&@n' < temp-test/530.inp.230.1
+'c[^9-B][^9-B]c*?[9-B]c-' '&@n' < temp-test/531.inp.230.4
+'c[^a--]-' '&' < temp-test/317.inp.141.2
+'d' 'MmG]j}^kC1v9&)@IDYiz'\'';OSYD&k}crmPG^5g?/' < input/ruin.955
+'m' '/' < input/ruin.1114
+'q' 'E7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp' < input/ruin.1057
+'w$' 'es=b1R:cvVwr[0nH'\''uMteaL<TR6oIeq' < input/ruin.1701
+'~@@' 'ah' < input/ruin.1313
+< input/ruin.1778
+< input/ruin.1788
+< input/ruin.957
+'%|$' 'j' < input/ruin.944
+'' '_' < input/ruin.1427
+''\''?*@n' 'R$W\g?~KtfT Z7}t^C<isN=sCXIezpz-\C8xg)"zcmNP' < input/ruin.722
+')' 'bj:]m@p4*VSsQ[P&I)~5Q' < input/ruin.410
+'*' '#' < input/ruin.1622
+'*' '*eb47-Z1(o?{cRs3'\''-Z6a+{mK<8:Jtzs2<' < input/ruin.171
+'*' ';vzFr_%VsZj81=`|r?_&t6Pcx5x(hTheq0yE75]Z' < input/ruin.815
+'*' '=' < input/ruin.1676
+'*' '?' < input/ruin.439
+'*' '?{+v!^lJqvUd,&s,5{=7vA' < input/ruin.420
+'*' 'N' < input/ruin.1954
+'*' 'mx0sD,3u'\''aUVn)!`w;[(,]ua' < input/ruin.481
+'*@@' 'H' < input/ruin.693
+'*@@G' 'nI'\''+MH' < input/ruin.743
+'*@t[@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9]' 'F' < input/ruin.320
+'*W@@@@' '~DL\#\S%Frr,MSYXpPBT.^?@ {3sT&TXz"H"$Sf<' < input/ruin.1476
+'*[A-G]?*[A-G]?' '(:,w5(X6)W%qon=YYaq]Q_&nZ~A' < input/ruin.637
+'-' '+' < input/ruin.1488
+'-' '@n' < temp-test/2253.inp.955.1
+'-' 'c}}1&+CkqDp{"XR613}Oox='\''k&j?itc/lkerG9p]GH' < input/ruin.1175
+'--*a-c]?[^0-9]' '@n' < temp-test/1152.inp.496.1
+'--*a-c]?[^0-9]' '@n' < temp-test/1153.inp.496.2
+'--]' 'NEW' < temp-test/1939.inp.824.3
+'-?' '@n' < temp-test/232.inp.104.1
+'-?-?' 'a@n' < temp-test/1700.inp.725.1
+'-?-@**[^0-9]-' '@%@&' < temp-test/2076.inp.880.1
+'-?-@**[^0-9]-@@*[^9-B]?@n*$' '@%@&' < temp-test/2078.inp.880.6
+'-?@@*[_-z][^0-9]' '&' < temp-test/821.inp.354.1
+'-?@@*[_-z][^0-9]' '&' < temp-test/822.inp.354.4
+'-?@[[a-][9-B]- *[a--b]' 'a@n' < temp-test/1037.inp.446.1
+'-?[^a-c]??-@' '@%&a' < temp-test/360.inp.158.1
+'-@**?[^0-9][9-B]---[^0-9]-?' '' < temp-test/2135.inp.904.1
+'-@**[^a--]-^*[a-c]' 'a@nb@tc' < temp-test/1393.inp.597.3
+'-@**[^a-c]?@[[^a-c]' '@%&a' < temp-test/1897.inp.805.1
+'-@*?[9-B]' 'a@nb@tc' < temp-test/1657.inp.706.1
+'-@[*' '@%&a' < temp-test/1403.inp.602.1
+'-@[[^@@]-@**[a-c]' '' < temp-test/453.inp.198.1
+'-@t*-[@@]?-@[*?[^9-B]?[^0-9]-[^a--b] ' '@t' < temp-test/1797.inp.764.2
+'-@t*@t*-@t?[-[a--]?[^a-c[0-9]^-]?-' '&' < temp-test/1889.inp.801.2
+'-[0-9][^0-9][@t][^0-9]@**^[^@@][9-B]' '@%@&' < temp-test/1397.inp.600.1
+'-[0-9][^0-9][@t][^0-9]@**^[^@@][9-B]' '@%@&' < temp-test/1398.inp.600.2
+'-[0-9][^9-B][0-9]?[^0-9]' '@t' < temp-test/1215.inp.522.1
+'-[@n][][^a--b]' 'NEW' < temp-test/213.inp.96.1
+'-[@n][^a--b]*' 'NEW' < temp-test/214.inp.96.3
+'-[^0-9]-?-[^9-B]?[^a--]a-c]-$' '@%&a' < temp-test/1929.inp.819.9
+'-[^0-9]-?-[^9-B]?[^a--]a-c]-' '@%&a' < temp-test/1926.inp.819.1
+'-[^0-9]?[a-c' '@t' < temp-test/384.inp.167.1
+'-[^9-B]?[a-cc*[a-c][^a-c' 'a@nb@tc' < temp-test/1855.inp.787.4
+'-[a-c]' '&' < temp-test/1023.inp.440.1
+'-^$' 'NEW' < temp-test/1289.inp.553.6
+'-^$' 'a@nb@tc' < temp-test/763.inp.326.6
+'-^[^--z]--[a-c?[^-@[[^a-c]^-]@**?-' '@t' < temp-test/2115.inp.897.1
+'-a-]?[^a-c]--[_-z]-' '@n' < temp-test/1892.inp.802.2
+'0-9][a-c]-?A-?-c[0-9][a-c]-?AWzWz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`Wz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`]-*[*0-9][^0-9]*[@t][@t@]' '' < moni/f8.inp
+'4?' '0#z#_$#r' < input/ruin.48
+'5' 'R}^(/YRR' < input/ruin.347
+'6' '_%>N,Bf#:|\xD>emL$bK^QbIRG?jle]Jf=it6/.`' < input/ruin.131
+'8' '[|' < input/ruin.1573
+'9' '>=rt)q>M}/' < input/ruin.748
+'9@@*[^Z-a]^_`a]' '"' < input/ruin.28
+';' 'PuDC_y|{43P)%'\'';2IMC' < input/ruin.1459
+'<' 'v' < input/ruin.428
+'? ' 'a&' < temp-test/610.inp.262.2
+'? *' '@t' < temp-test/858.inp.369.1
+'? *--[a--b]?-]?[a-c]' 'a&@' < temp-test/346.inp.152.1
+'? *--[a--b]?-]?[a-c]@' 'a&' < temp-test/347.inp.152.2
+'?!' 'E2}-sQuI[' < input/ruin.639
+'?' '&a@%' < temp-test/89.inp.40.2
+'?' '' < input/ruin.1235
+'?' '9' < input/ruin.1743
+'?' '</Dco9Q(Uc0D'\''t:qBs3QUn;'\''' < input/ruin.474
+'?' '?b&+AjmcI]eV'\''|:7(2&q@pmv;p3/#;RBU8z}&?C4hjPC3x1{3?wfI6hN-' < input/ruin.168
+'?' 'A' < input/ruin.1010
+'?' 'b' < input/ruin.91
+'?' 'b@t' < temp-test/274.inp.123.1
+'?' 'i1BOet56' < input/ruin.1133
+'?' 'iZVC>' < input/ruin.1509
+'?' '}' < input/ruin.1692
+'?' '})0'\''J&Y6XsPqpxC53aKh3HTW9ITsk@m9aFOys4{Ym@&Eg1[G|ntmx;o|2xwF' < input/ruin.1616
+'?' '}v]6Mz6_|{XHut)!tVgIrm<|P,ANu(q]B](~0W@z' < input/ruin.1989
+'?*[9-B]?%[9-B]*?-[9-B]' '&a@%' < temp-test/9.inp.4.1
+'?-' '' < temp-test/1794.inp.762.4
+'?-*' '@%@&' < temp-test/1691.inp.721.1
+'?-*' '@%@&' < temp-test/1692.inp.721.2
+'?-*?' 'NEW' < temp-test/1701.inp.726.1
+'?--[-- ' '@%&a' < temp-test/2192.inp.929.1
+'?-[-z]-?-' '&' < temp-test/487.inp.212.4
+'?-[^-z][0-9]' '&a@%' < temp-test/224.inp.100.1
+'?-[^0-9]??--?[9-B]' '@%@&' < temp-test/1769.inp.753.1
+'?@**@[*-[9-B]-' '&' < temp-test/1985.inp.843.2
+'?@*?[-?-[^9-B]A*' 'a@nb@tc' < temp-test/1609.inp.684.1
+'?@t*' 'b@t' < temp-test/1004.inp.432.2
+'?A*?[^a-c?$' '&' < temp-test/335.inp.147.9
+'?[0-9]' '@%&a' < temp-test/287.inp.129.1
+'?[0-9][9-B]-' 'a&' < temp-test/1972.inp.838.1
+'?[0-9][a--][^9-B][0-9] *??$' '@t' < temp-test/1292.inp.554.6
+'?[0-9][a--][^9-B][0-9] *??' '@t' < temp-test/1290.inp.554.1
+'?[^--z]c[^9-B][^9-B]c*?[9-B]c-'  < temp-test/531.inp.230.4
+'?[^0-9]?^-]-[^a-c]' 'NEW' < temp-test/583.inp.251.1
+'?[^9-B]-[^0-9]-[9-B]' 'b@t' < temp-test/268.inp.119.2
+'?[^9-B]?@**[9-B]-' 'NEW' < temp-test/87.inp.39.2
+'?[^9-B][^9-B]A$' 'a@n' < temp-test/1809.inp.768.6
+'?[^@@][0-9]-' '&' < temp-test/1192.inp.513.1
+'?[^a-c]- *[9-B]?' '@%@&' < temp-test/1850.inp.785.2
+'?[^a-c]@[*[^a-c]- *^a-c]^' 'a&' < temp-test/901.inp.387.3
+'?[a-' '&' < temp-test/1753.inp.744.4
+'?[a--]?[9-B]?[0-9][^a-c]' '' < temp-test/2018.inp.857.1
+'?[a-c]@**[a-c]^-]-[-' '@n' < temp-test/2050.inp.869.2
+'?^a-]' '@n' < temp-test/244.inp.109.1
+'?c?[-z]??[^0-9]' 'a@nb@tc' < temp-test/1332.inp.571.3
+'?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?@,5rY]~M\ Wz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?t]*[@t@][9-B]-*[0-9]][@t]*[@t@][9-B]t]*[@t@][9-B]-*[0-9]][?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?@,5rY]~M\ Wz]`M0)y8H?fc7Phqi}@,5rY]~M\ Wz]`M0)y8H?t]*[@t@][9-B]-*[0-9]][@t]*[@t@][9-B]t]*[@t@][9-B]-*[0-9]][@t]*[@t@][9-B]ddB]@t]*[@t@][9-B]' '5_edflj&5h8_DCEi.gTlx*L#a)htiLD2@W$74Vc.L' < input/ruin.325
+'@**' '&' < temp-test/2147.inp.909.2
+'@**-' '@t' < temp-test/1860.inp.789.1
+'@**?' 'a@n' < temp-test/868.inp.373.2
+'@**?' 'a@n' < temp-test/870.inp.373.4
+'@**?' 'b@t' < temp-test/2180.inp.922.2
+'@*-?[^a-c-[0-9][0-9]@[?[a-?[-' '@%&a' < temp-test/433.inp.190.2
+'@;' 'p8-lf,m\V=UixymxlH&eP|nwsDhhN(Hcv4 CV$Gmbi' < input/ruin.1087
+'@@$' '>v}~0g-swC7?z' < input/ruin.716
+'@@$' ']Jd2(Pk"IOH.' < input/ruin.1214
+'@@$' '`' < input/ruin.20
+'@@' '!t1D*'\''"z%6' < input/ruin.1711
+'@@' ''\''rtrI}1h*1@x316=8F1Wi(\8ug' < input/ruin.875
+'@@' '+' < input/ruin.708
+'@@' '07mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mp7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpAv6)cN.l7mpe' < input/ruin.1061
+'@@' '1WL1U;05H?Td|ovtm:_+>u63FAZ^pz3d=9iQnoS[&T_T=T5:Ii' < input/ruin.1921
+'@@' '5' < input/ruin.1712
+'@@' ':' < input/ruin.1049
+'@@' '<' < input/ruin.1545
+'@@' 'B<' < input/ruin.1363
+'@@' 'Cq_c#\FHg\Kr?>3*!m/A*_3}{7j1U3TsP)_smq|%~P-OCQ9`6-MO<k4"SN'\''n80N4Y> q^ZY{W5_7' < input/ruin.1435
+'@@' 'H&' < input/ruin.1074
+'@@' 'Hb' < input/ruin.273
+'@@' 'I\/As)Z}7*%*i>17(z_L' < input/ruin.559
+'@@' 'O8(CoPrxFq+.ZM|WW+0YtwT[\iP85^ (' < input/ruin.975
+'@@' 'T' < input/ruin.1330
+'@@' 'Xz' < input/ruin.1863
+'@@' '\"8rH' < input/ruin.483
+'@@' '__v[0r+_odTj'\''e>-[`,Qc9/rT' < input/ruin.989
+'@@' 'eT@aR6@4AoERO"scF)a"dqsE)GaEU$d~$U<<zIU>P>V,&' < input/ruin.1183
+'@@' 'sF1w_ggvWylg>yMc]h,D)_+_$r4m\$Vh ' < input/ruin.55
+'@@-' '@{Pu@]R]' < input/ruin.790
+'@@-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*-[^9-B][^0-9]?*' 'wr' < input/ruin.1340
+'@@?*' 'I' < input/ruin.1485
+'@@@@' '!+f(~L|L^Uc6wf5)pmPAJjC6yX}^=`D&MGl@W' < input/ruin.1920
+'@@@@' '=' < input/ruin.910
+'@@@@\G$H.|M' 'y&' < input/ruin.672
+'@J' 'K' < input/ruin.465
+'@X' 'j' < input/ruin.972
+'@[' '@t' < temp-test/1464.inp.627.2
+'@[*-?[a-c' 'a@nb@tc' < temp-test/208.inp.93.2
+'@[*[0-9]' '' < temp-test/2133.inp.903.2
+'@[*[9-B]?-[a-c]?@**[9-B][-z][^9-B]@@' '@%@&' < temp-test/471.inp.206.1
+'@[A*[9-B]^[0-9]$' '@%&a' < temp-test/1513.inp.647.6
+'@[[9-B]^[^9-B]' 'NEW' < temp-test/812.inp.349.1
+'@n$' '$' < input/ruin.1678
+'@n' '&5D$6:)'\''!!WaohoC<DMt/ns5zA:0vzT p?PADhjzrF.e*NbJLCd;0Sr/.Ja+?2sn-MP+uf6)IZet;aI!3=TH7?$d_6t)!l=Wfh37`[%\<5' < input/ruin.1200
+'@n' '&E' < input/ruin.1184
+'@n' '&U' < input/ruin.1193
+'@n' '&_W$' < input/ruin.1198
+'@n' '0' < input/ruin.779
+'@n' '4 ' < input/ruin.251
+'@n' '60&<9:5*f8GULK>.:&6r]A' < input/ruin.1321
+'@n' ';g&.}:{js8R^#VPXDq2$?H7JEik*Lg_}N\ I(T"' < input/ruin.1180
+'@n' '?<N#N4zMu+/?$@,"oa`nt=1CL!g3y*(k((w!.4aPc>wSP2w2' < input/ruin.487
+'@n' 'P&p' < input/ruin.276
+'@n' 'S1G=&SPJxh*Gd}R$vSwz{HEo.N' < input/ruin.1190
+'@n' 'eT@aR6@4AoERO"scF)a"dqsE)GaEU$d~$U<<zIU>P>V,&' < input/ruin.1183
+'@n' 'i&' < input/ruin.1178
+'@n' 'm&' < input/ruin.1181
+'@n' 'm' < input/ruin.1026
+'@n' 'y$Z1<[1_6wHLcYZnEoC/JY$%O0tKDCdx>(9"' < input/ruin.710
+'@n*[0-9]' '&a@%' < temp-test/2212.inp.937.2
+'@t*$' '.' < input/ruin.1244
+'@t*- *?[^a--]-c*?$' '&' < temp-test/1730.inp.735.8
+'@t?' 'yy' < moni/f7.inp
+'@v' '[' < input/ruin.660
+'A-' 'a@n' < temp-test/1435.inp.616.1
+'A-' 'a@nb@tc' < temp-test/982.inp.422.2
+'A[0-9]?@**[a-c][^0-9]' '@%&a' < temp-test/669.inp.292.1
+'A[^0-9]' '&' < temp-test/443.inp.194.1
+'B' 'Jp=p0sA?1' < input/ruin.189
+'M' 'kE]3,iYi}HxHv$4g_4Un8pHk&TFT([dkb^2' < input/ruin.840
+'Q?*'\''A%ON,r[^Q]' '' < input/ruin.1604
+'T' '*O' < input/ruin.1603
+'T@@' '.b' < input/ruin.361
+'X[>-A]\Mb%-N@@*' '4' < input/ruin.1808
+'[0-9@[^2]*' 'c' < moni/f7.inp
+'[0-9]' '@%@&' < temp-test/1066.inp.458.2
+'[0-9]' '@t' < temp-test/2302.inp.978.1
+'[0-9]*$' '@' < input/ruin.1254
+'[0-9]??@@-[a--]-' '@%&a' < temp-test/1532.inp.656.1
+'[0-9]@*' '&' < temp-test/1114.inp.479.1
+'[0-9][^-' '@%@&' < temp-test/325.inp.144.2
+'[0-9]^-?-^*' '&a@%' < temp-test/1314.inp.564.2
+'[0-9]^-?-^*' '&a@%' < temp-test/1315.inp.564.3
+'[0-9^4]*' 5 < moni/f7.inp
+'[1-9]@t**' 'a' < moni/f7.inp
+'[9-B]' '&' < temp-test/2304.inp.979.1
+'[9-B]' '&' < temp-test/2305.inp.979.2
+'[9-B]-' 'a&' < temp-test/283.inp.127.1
+'[9-B]-' 'b@t' < temp-test/1735.inp.738.2
+'[9-B]??^?^-]' '@t' < temp-test/84.inp.38.1
+'[9-B]@*' '&' < temp-test/540.inp.234.1
+'[9-B]@[?[9-B]-[@n][^a-c[0-9]?@@*[0-9]' '&' < temp-test/1525.inp.653.2
+'[9-B][^9-B]@t*?' '@t' < temp-test/1301.inp.559.1
+'[9-B][^a--b]%[^9-B]@**[9-B]-' '&a@%' < temp-test/29.inp.12.4
+'[9-B]c' 'a@n' < temp-test/493.inp.216.1
+'[9-B]c*' '@%@&' < temp-test/1714.inp.730.3
+'[@t ]**' 'a' < moni/f7.inp
+'[A-G]*' 'CD?Kn2vz[1x#3A{vny,"]_gwInrWC<[9\(}S$J/>[V]^gj;jI2' < input/ruin.1669
+'[Y-a]^_' '&aaaaaaaaaaaaaaaaaaa&' < input/ruin.506
+'[Z-a]^_`a-A-GABCDEFG-c-ac-a]' 'Eu!' < input/ruin.218
+'[Z-a]^_`a-c-ac-a]' '&aNfc%bv4h]P(;lr%%=i&+M7yZz'\''-}}{nQhj^V}:KKyM_j)' < input/ruin.506
+'[Z-a]^_`a]' '9' < input/ruin.1243
+'[Z-a]^_`a]*$' '9' < input/ruin.1243
+'[Z-a]^_`a]*@n' '3&4' < input/ruin.281
+'[][^9-B][9-B]' '@%&a' < temp-test/203.inp.91.1
+'[][a-c?' 'a&' < temp-test/517.inp.225.2
+'[^--z]%[9-B]' '@n' < temp-test/19.inp.9.1
+'[^-z]-*? ' 'NEW' < temp-test/906.inp.390.1
+'[^-z]?*' '&a@%' < temp-test/195.inp.88.1
+'[^-z][a-c]' '&a@%' < temp-test/1206.inp.517.2
+'[^0-9]%' '&a@%' < temp-test/2336.inp.991.1
+'[^0-9]%' '@t' < temp-test/23.inp.10.1
+'[^0-9]' 'NEW' < temp-test/2176.inp.921.1
+'[^0-9]-' '@%&a' < temp-test/1568.inp.670.1
+'[^0-9]-' 'a@nb@tc' < temp-test/2092.inp.886.2
+'[^0-9]-^-]??[9-B]?' '@t' < temp-test/2321.inp.985.1
+'[^0-9]?^[a-c]?[^a--?A*[^9-B]' '@t' < temp-test/1550.inp.663.2
+'[^0-9]@[' '@%&a' < temp-test/688.inp.299.1
+'[^0-9]@[*- ?[^a-][9-B]- ' 'NEW' < temp-test/59.inp.25.2
+'[^0-9][0-9]' 'a&' < temp-test/1377.inp.591.1
+'[^0-9][9-B]*' '@%&a' < temp-test/140.inp.65.2
+'[^0-9][9-B]*' '@%&a' < temp-test/141.inp.65.3
+'[^0-9][^0-9]@n@@@@' '9oW5!fFgN1 7tZf>k' < input/ruin.927
+'[^0-9][a--]- *[^@t]-?' '@t' < temp-test/695.inp.301.1
+'[^0-9][a--][^9-B][^-z]' 'a@nb@tc' < temp-test/2255.inp.956.2
+'[^0-9][a-]' '' < temp-test/148.inp.68.2
+'[^0-9]^$' '@%&a' < temp-test/1011.inp.434.8
+'[^0-9]^' '@%&a' < temp-test/1010.inp.434.2
+'[^9-B]' '&@n^' < temp-test/639.inp.276.1
+'[^9-B]*' 'a@n' < temp-test/221.inp.98.3
+'[^9-B]-*' 'b@t' < temp-test/1606.inp.683.1
+'[^9-B]? -?-[9-B]-[^9-B][^9-B]-' '&a@%' < temp-test/1317.inp.565.1
+'[^9-B]?' '@%&a' < temp-test/1874.inp.795.1
+'[^9-B]?-' '&' < temp-test/440.inp.193.2
+'[^9-B]A*' 'a&' < temp-test/1131.inp.486.2
+'[^9-B][-z]?[0-9][@t]?[0-9]?' 'a@n' < temp-test/55.inp.24.1
+'[^9-B][9-B]' '&@n' < temp-test/203.inp.91.1
+'[^9-B][9-B]' '@%&a' < temp-test/203.inp.91.1
+'[^9-B][9-B]*$' '@%&a' < temp-test/204.inp.91.2
+'[^9-B][9-B]*' '@%&a' < temp-test/204.inp.91.2
+'[^9-B][a-c]' '&a@%' < temp-test/1442.inp.618.3
+'[^9-B][a-c]' '' < temp-test/1676.inp.714.3
+'[^9-B][a-c]?[^0-9]-' '@%&a' < temp-test/1276.inp.548.1
+'[^9-B][a-c][9-B]' < temp-test/529.inp.229.2
+'[^9-B]c' '@%&a' < temp-test/2236.inp.948.1
+'[^>-A]' 'J' < input/ruin.1539
+'[^@@]%-' 'a&' < temp-test/2350.inp.998.1
+'[^@@]-' 'a&' < temp-test/2351.inp.998.2
+'[^@n]?? *?^a-c][9-B]??-?-[^0-9]' 'a@n' < temp-test/2168.inp.917.1
+'[^@n]?? *?^a-c][9-B]??-?-[^0-9]' 'a@n' < temp-test/2169.inp.917.4
+'[^@n]@n?@[[^-z]a-]?a-][^a-c-[^a--]' '&' < temp-test/79.inp.34.1
+'[^A-G]' '8(taNmoh5G<.1@&eZ{_/NNPSZT<l`wW%-PGz=0TF' < input/ruin.1212
+'[^U]' '"c9`I|c[Y#fc?)' < input/ruin.182
+'[^Z-a]^_`a]\p@fz[@@' 'K' < input/ruin.146
+'[^][^9-B][9-B]' '@%&a' < temp-test/203.inp.91.1
+'[^a--]' 'b@t' < temp-test/1502.inp.644.1
+'[^a--]a-c]--]?[^9-B][a--b]@[*-' '@%&a' < temp-test/1795.inp.763.1
+'[^a--b]?[^9-B]? *[^0-9]-' 'NEW' < temp-test/2117.inp.898.1
+'[^a-]?' '&a@%' < temp-test/1518.inp.650.1
+'[^a-]?[0-9]-a-c]--*-@[' '&a@%' < temp-test/545.inp.236.2
+'[^a-c]' '@%@&' < temp-test/1778.inp.758.1
+'[^a-c]-' '@%@&' < temp-test/602.inp.259.3
+'[a-Z(1-9]*$' 'foo' < moni/nn1.t
+'[Cm]*$' 'a@f' <  input/ruin.304
+'@t*$' '&a&' < input/ruin.1244
+'-[9-B][9-B] *-^*^a-][@n]' '@t&@n' < temp-test/1044.inp.450.2
+'[1-9]*@n' 'a@4&@t&a' < moni/rr2.t
+ '@n33[^9-0]omea%harlongstringdoesntmatt@twhatitisbutmustbeverylongwhateverthecharactersaredonesntmatteraslongasthestringistherightlengthandendswiththerightcharacterlkj45?1234ch$rcharcacterswilldojusttypinginsomechars@nandsomeflags@n@t-12345612345?123456-@3@##filedoesntmatt&&eitherasitsneverprocessed&&@@45612345?123456-123456123455?123456-1234561234512345?123456-12345612345?123456-1234561234567890?123456-12345612345?123456-1234561234512345?123456-12345612345?123456-123456[a-c-9]' 'substringdoesntmatter' < input/ruin.1338
+'%[a-b]*$' '&@t&@t&'  < moni/rr5.t
+'NEW*EW-[0-9][^0-9][@t][^0-9]@**^[^@@][erg-[0-9][^0-9][@t][3459]@**^[^@@][9-B]-[0-9][^0-9][@t][^0abc-9]@**^[^@@][9-B]-[0-9][^0-9][@t][^0-9]@**^[^@@][9-B]-[0-9][^0-9][@t][^0-9]@**^[^@@][9-B]' '@%@&' < temp-test/1397.inp.600.1
+'45' '&abdfegh123456789123412345678912345678956789123456789123456789123312345678945678912345678912345678912345679123456789' < moni/f1.inp
+'4' '&abdfegh1234567891234123451234567890872348793847239847234234234324367891234312345678945678912345678912345678912345679123456789' < moni/f1.inp 
+'%123[7-9]*' '&@t&'  < moni/rr2.t
+'%123[7-9]*$' '&@t&'  < moni/rr2.t
+'123[7-9]*' '&@&&'  < moni/rr2.t
+'123[1-9]*$' '&&'  < moni/rr2.t
+'[0-3]!*' '&[lkjasdlkjdf]&'  < moni/rr3.t
+'@t@n' '/&q@t@t' < input/ruin.539
+'[^0[^0-9]@**^[^@@]-[0-9][@t][^0-9]@**^[^@@][9-B]-[0-9][^0-9][@t][^0-9]@**^[^@@]'  < temp-test/1397.inp.600.1
+'aa' '&@t&@t&'  < moni/rr5.t
+'[d]*' '&@t&@t&' < moni/rr13.t
+'[1]*' '&@t&                      &' < moni/rr17.t
+'[1-8@t[]]*' '&plain&textl&' < moni/rr17.t
+'1*' '&%[-]]]@t&&' < moni/rr17.t
+'[%1-9]*' '&@5%&[0-9 &' < moni/rr18.t
+'[d*]*' '&@t&@t&' < moni/rr8.t
+'[d1]*' '&@t&@t&' < moni/rr9.t
