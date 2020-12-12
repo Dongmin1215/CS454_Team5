@@ -29,9 +29,15 @@ from repeats import request_new_file
 import time
 import random
 import pdb
+import argparse
+import os
+
 from get_apsd import get_apsd
 from deap import base
 
+import numpy as np
+import pandas as pdb
+import matplotlib.pyplot as plt
 
 def dist(ind1, ind2):
     d = 0
@@ -98,9 +104,10 @@ def where(pop): #pop = candidates
 
 
 def comparing(part1, part2):
+    path = args.dataset + "/traces"
     # print(part1)
-    apsd1 = get_apsd(part1)
-    apsd2 = get_apsd(part2)
+    apsd1 = get_apsd(path, part1)
+    apsd2 = get_apsd(path, part2)
     if apsd1 > apsd2:
         return True
     else:
@@ -123,12 +130,13 @@ def comparing(part1, part2):
 
 #     return res
 
-def get_sway_res(dim):
+def get_sway_res(path):
+    file_list = os.listdir(path)
     # generating the 10k random solutions
     candidates = list()
    
-    for _ in range(1000):
-        x =  list(range(1, 14))
+    for _ in range(10000):
+        x =  list(range(1, len(file_list)))
         random.shuffle(x)
         candidates.append(x)
     # print("candidates")
@@ -136,20 +144,49 @@ def get_sway_res(dim):
     global M
     # M = model
     # res = sway(candidates, model.eval, where, comparing)
-    res = sway(candidates, where, comparing)
+    res = sway(candidates, where, comparing, args.stop)
 
     return res
 
+def draw_box_plot(apsd_dict):
+    fig, ax = plt.subplots()
+    ax.boxplot(apsd_dict.values(), showmeans=True)
+    ax.set_xticklabels(apsd_dict.keys())
+    ax.set_xlabel('Iteration #')
+    ax.set_ylabel('APSD')
+    plt.gca().set_ylim([args.min_y, args.max_y])
+    plt.title('Box plot of APSD of candidates for each iteration for ' + args.dataset)
+    plt.savefig('box_plot_apsd_per_iteration.png')
+
 
 if __name__ == '__main__':
-    for repeat in range(10):
+    parser = argparse.ArgumentParser()
+
+    #-d DATASET -i ITERATION -min MIN_Y -max MAX_Y -s STOP
+    parser.add_argument("-d", "--dataset", help="dataset name")
+    parser.add_argument("-i", "--iteration", help="iteration number of SWAY", type=int)
+    parser.add_argument("-min", "--min_y", help="mim value of y axis in box plot", type=float)
+    parser.add_argument("-max", "--max_y", help="max value of y axis in box plot", type=float)
+    parser.add_argument("-s", "--stop", help="stop SWAY clustering when candidate number is less than this value", type=int)
+    
+    args = parser.parse_args()
+    path = args.dataset + "/traces"
+
+    apsd_dict = dict()
+    for repeat in range(args.iteration):
         start_time = time.time()
-        res = get_sway_res(13)
+        res = get_sway_res(path)
         finish_time = time.time()
         print("len(res) : ", str(len(res)))
+        
+        apsd_list = list()
         for perm in res:
-            print("apsd : ", get_apsd(perm))
+            apsd = get_apsd(path, perm)
+            apsd_list.append(apsd)
+            print("apsd : ", apsd)
             print(perm)
+        
+        apsd_dict[repeat] = apsd_list
         # for i in ii:
             # POM3_model = pre_defined()[i]
             # start_time = time.time()
@@ -165,6 +202,7 @@ if __name__ == '__main__':
             #         f.write('\n')
 
         print('******   ' + str(repeat) + '   ******')
+    draw_box_plot(apsd_dict)
 
 
 

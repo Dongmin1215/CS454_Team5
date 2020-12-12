@@ -2,15 +2,15 @@ import os
 import random
 
 #Assume that perm is a list of integers
-def get_apsd(perm):
+def get_apsd(path, perm):
     ts_values = []
     tc_order = 1
     uncovered_lines = []
     for i in perm: #i is test case number
         zeros = "00000" if i<10 else "0000"
-        path = "printtokens/traces/" + "dump_"+zeros+str(i)
+        file_path = path + "/dump_"+zeros+str(i)
         # print(path)
-        f = open(path, "r")
+        f = open(file_path, "r")
         lines = f.readlines()
         profile = []
         line_count = -5
