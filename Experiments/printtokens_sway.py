@@ -135,7 +135,7 @@ def get_sway_res(path):
     # generating the 10k random solutions
     candidates = list()
    
-    for _ in range(10000):
+    for _ in range(100):
         x =  list(range(1, len(file_list)))
         random.shuffle(x)
         candidates.append(x)
