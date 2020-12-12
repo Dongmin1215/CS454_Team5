@@ -119,10 +119,10 @@ def get_sway_res(path):
     file_list = os.listdir(path)
     # generating the 10k random solutions
     candidates = list()
-
-    for _ in range(10000):
+    
+    for _ in range(100):
         x = list(range(1, len(file_list)))
-        while x not in set(candidates):
+        while x in candidates:
             random.shuffle(x)
         candidates.append(x)
     # print("candidates")
