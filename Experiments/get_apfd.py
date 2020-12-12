@@ -1,19 +1,25 @@
 """
 Created on 2020/12/12
-@author: Dongmin1215, chanijung
+@author: nicklee
 
 dataset: name(str) of the benchmark used
 perm: permutation(list of int)
 """
 
 
-def get_apsd(dataset, perm):
+def fault_matrix(dataset):
+    path = dataset + '/info/fault-matrix'
+    with open(path, "r") as f:
+        # implement
+
+
+def get_apfd(dataset, perm):
     ts_values = []
     tc_order = 1
     uncovered_lines = []
     for i in perm:  # i is test case number
         zeros = "00000" if i < 10 else "0000"
-        path = benchmark + "/traces/" + "dump_" + zeros + str(i)
+        path = dataset + "/traces/" + "dump_" + zeros + str(i)
         # print(path)
         f = open(path, "r")
         lines = f.readlines()
