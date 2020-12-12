@@ -16,7 +16,8 @@ def fault_matrix(dataset):
         dataset:
 
     Returns:
-
+        fault matrix of size num_faults x num_tests
+        dict of test case name: index
     """
     path = dataset + '/info/fault-matrix'
     f = open(path, "r")
@@ -27,12 +28,17 @@ def fault_matrix(dataset):
     start = num_tests + 2
 
     matrix = np.empty(num_tests, num_faults)
+    dict = {}
     for i in range(num_tests):
+        dict[l[2 + i]] = i
         for j in range(num_faults):
             matrix[i][j] = int(l[start + i * (num_faults * 2 + 1) + 2 * (j + 1)].strip())
 
-    return matrix
+    return matrix, dict
 
+
+def perm_to_str(perm, suite):
+    
 
 def get_apfd(dataset, perm):
     """
