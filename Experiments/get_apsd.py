@@ -1,5 +1,9 @@
-import os
-import random
+"""
+Created on 2020/12/12
+@author: Dongmin1215, chanijung
+dataset: name(str) of the benchmark used
+perm: permutation(list of int)
+"""
 
 def isValidLine(x):
     """x값이 주석이나 선언문과 같은 줄과 달리 valid하면 true"""
@@ -21,21 +25,21 @@ def get_apsd(path, perm):
         line_count = -5
         for line in lines:
             line_count += 1
-            if line[line.find(":")-1].isdigit():
+            if line[line.find(":") - 1].isdigit():
                 profile.append(1)
             elif line[line.find(":")-1] == "#####":
                 profile.append(0)
             else:
                 profile.append(-1)
         # print(profile)
-        if tc_order==1:
+        if tc_order == 1:
             uncovered_lines = list(range(len(profile)))
         f.close()
-        for j in uncovered_lines: #j is line number
+        for j in uncovered_lines:  # j is line number
             bit = profile[j]
             if bit:
                 ts_values.append(tc_order)
-                uncovered_lines.remove(j) #Will not check the cover of this line anymore\
+                uncovered_lines.remove(j)  # Will not check the cover of this line anymore\
         tc_order += 1
         
         
@@ -47,11 +51,4 @@ def get_apsd(path, perm):
     valid_profile = [x for x in profile if isValidLine(x)]
     apsd = 1- sum(ts_values)/((tc_order-1)*len(valid_profile)) + 0.5/(tc_order-1)
     # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
-    
     return apsd
-
-
-# perm0 = list(range(1,70))
-# for i in range(10):
-#     random.shuffle(perm0)
-#     apsd = get_apsd(perm0)
