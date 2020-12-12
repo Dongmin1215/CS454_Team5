@@ -151,6 +151,7 @@ if __name__ == '__main__':
 
     # -d DATASET -i ITERATION -min MIN_Y -max MAX_Y -s STOP
     parser.add_argument("-d", "--dataset", help="dataset name")
+    parser.add_argument("-suite", "--suite", help="name of test suite (ex. s889)", type=int)
     parser.add_argument("-i", "--iteration", help="iteration number of SWAY", type=int)
     parser.add_argument("-min", "--min_y", help="mim value of y axis in box plot", type=float)
     parser.add_argument("-max", "--max_y", help="max value of y axis in box plot", type=float)

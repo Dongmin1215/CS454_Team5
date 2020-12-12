@@ -6,6 +6,24 @@ dataset: name(str) of the benchmark used
 perm: permutation(list of int)
 """
 
+def coverage_matrix(dataset):
+    path = dataset + '/info/fault-matrix'
+    f = open(path, "r")
+    l = f.readlines()
+
+    num_faults = int(l[0].split()[0])
+    num_tests = int(l[1].split()[0])
+    start = num_tests + 2
+
+    matrix = np.empty(num_tests, num_faults)
+    dict = {}
+    for i in range(num_tests):
+        dict[l[2 + i]] = i
+        for j in range(num_faults):
+            matrix[i][j] = int(l[start + i * (num_faults * 2 + 1) + 2 * (j + 1)].strip())
+
+    return matrix, dict
+
 
 def get_apsd(dataset, perm):
     ts_values = []

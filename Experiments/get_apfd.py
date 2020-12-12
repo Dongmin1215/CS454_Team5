@@ -38,7 +38,7 @@ def fault_matrix(dataset):
 
 
 def perm_to_str(perm, suite):
-    
+
 
 def get_apfd(dataset, perm):
     """
