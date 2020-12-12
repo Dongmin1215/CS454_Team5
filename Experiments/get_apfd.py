@@ -6,14 +6,44 @@ dataset: name(str) of the benchmark used
 perm: permutation(list of int)
 """
 
+import numpy as np
+
 
 def fault_matrix(dataset):
+    """
+
+    Args:
+        dataset:
+
+    Returns:
+
+    """
     path = dataset + '/info/fault-matrix'
-    with open(path, "r") as f:
-        # implement
+    f = open(path, "r")
+    l = f.readlines()
+
+    num_faults = int(l[0].split()[0])
+    num_tests = int(l[1].split()[0])
+    start = num_tests + 2
+
+    matrix = np.empty(num_tests, num_faults)
+    for i in range(num_tests):
+        for j in range(num_faults):
+            matrix[i][j] = int(l[start + i * (num_faults * 2 + 1) + 2 * (j + 1)].strip())
+
+    return matrix
 
 
 def get_apfd(dataset, perm):
+    """
+
+    Args:
+        dataset:
+        perm:
+
+    Returns:
+
+    """
     ts_values = []
     tc_order = 1
     uncovered_lines = []
