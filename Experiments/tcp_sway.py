@@ -57,9 +57,9 @@ def where(pop):  # pop = candidates
 
 
 def get_sway_res(dataset, initial, stop):
-    path = 'Siemens/' + dataset + '/traces'
+    path = 'Datasets/' + dataset + '/traces'
     file_list = os.listdir(path)
-    l = len(file_list)
+    l = sum(['dump' in name for name in file_list])
     candidates = []
 
     # Build initial population
@@ -73,60 +73,66 @@ def get_sway_res(dataset, initial, stop):
     def comparing(part1, part2):
         return get_apsd(dataset, part1) > get_apsd(dataset, part2)
 
-    return sway(candidates, where, comparing, stop)
+    return sway(candidates, where, comparing, stop), candidates
 
 
-def draw_box_plot(dataset, apsd_dict):
+def draw_box_plot(dataset, apsd_dict, type):
     fig, ax = plt.subplots()
     ax.boxplot(apsd_dict.values(), showmeans=True)
     ax.set_xticklabels(apsd_dict.keys())
     ax.set_xlabel('Iteration #')
-    ax.set_ylabel('APSD')
     plt.gca().set_ylim([args.min_y, args.max_y])
-    plt.title('Box plot of APSD of candidates for each iteration for ' + args.dataset)
-    plt.savefig(dataset + 'apsd-box-plot.png')
+    if type == 'apsd':
+        ax.set_ylabel('APSD')
+        plt.title('Box-whisker plot of APSD of resulting candidates (' + args.dataset + ')')
+        plt.savefig('Plots/APSD/' + dataset + '.png')
+    elif type == 'apfd':
+        ax.set_ylabel('APFD')
+        plt.title('Box-whisker plot of APFD of resulting candidates (' + args.dataset + ')')
+        plt.savefig('Plots/APFD/' + dataset + '.png')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    # -d DATASET -suite SUITE -init INITIAL -iter ITERATION -min MIN_Y -max MAX_Y -s STOP
+    # -d DATASET -suite SUITE -e EMBEDDING -init INITIAL -s STOP -iter ITERATION -min MIN_Y -max MAX_Y
     parser.add_argument("-d", "--dataset", help="dataset name")
     parser.add_argument("-suite", "--suite", help="name of test suite (s1 ~ s1000)", type=str)
+    parser.add_argument("-e", "--embedding", help="type of embedding used (1 for non-distortive, 2 for distortive)",
+                        type=int)
     parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 15)
-    parser.add_argument("-iter", "--iteration", help="iteration number of SWAY", type=int, default=10)
-    parser.add_argument("-min", "--min_y", help="min value of y axis in box plot", type=float, default=0)
-    parser.add_argument("-max", "--max_y", help="max value of y axis in box plot", type=float, default=1.1)
     parser.add_argument("-s", "--stop", help="stop SWAY clustering when candidate number is less than this value",
-                        type=int, default=10)
+                        type=int, default=2**7)
+    parser.add_argument("-iter", "--iteration", help="iteration number of SWAY", type=int, default=10)
+    parser.add_argument("-min", "--min_y", help="min value of y axis in box plot", type=float, default=0.4)
+    parser.add_argument("-max", "--max_y", help="max value of y axis in box plot", type=float, default=1.1)
 
     args = parser.parse_args()
     dataset = args.dataset
 
-    # Parsing test suites....
-    for i in range(1000):
-        x = "suite" + str(i)
-        y = "s" + str(i)
-        parse_file(dataset, x, y)
-
-    # Setup the experiment...
-    subprocess.call(['sh', 'setup.sh', dataset])
+    matrix, fault_dict = fault_matrix(dataset)
 
     apsd_dict = dict()
+    apfd_dict = dict()
     print("ITERATIONS")
     for repeat in tqdm(range(args.iteration)):
         start_time = time.time()
-        res = get_sway_res(dataset, args.initial, args.stop)
+        res, can = get_sway_res(dataset, args.initial, args.stop)
         finish_time = time.time()
         # print("len(res) : ", str(len(res)))
 
         apsd_list = list()
-        for perm in res:
+        apfd_list = list()
+        # for perm in res:
+        for perm in can:
             apsd_list.append(get_apsd(dataset, perm))
             # print("apsd : ", apsd)
             # print(perm)
+            apfd_list.append(get_apfd(matrix, fault_dict, dataset, args.suite, perm))
 
         apsd_dict[repeat] = apsd_list
+        apfd_dict[repeat] = apfd_list
 
     # Save boxplot
-    draw_box_plot(dataset, apsd_dict)
+    draw_box_plot(dataset, apsd_dict, type='apsd')
+    draw_box_plot(dataset, apfd_dict, type='apfd')

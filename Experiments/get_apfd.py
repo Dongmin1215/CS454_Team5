@@ -1,9 +1,6 @@
 """
 Created on 2020/12/12
 @author: nicklee
-
-dataset: name(str) of the benchmark used
-perm: permutation(list of int)
 """
 
 import numpy as np
@@ -19,7 +16,7 @@ def fault_matrix(dataset):
         fault matrix of size num_faults x num_tests
         dict of test case name: index
     """
-    path = dataset + '/info/fault-matrix'
+    path = 'Datasets/' + dataset + '/info/fault-matrix'
     f = open(path, "r")
     l = f.readlines()
 
@@ -27,58 +24,79 @@ def fault_matrix(dataset):
     num_tests = int(l[1].split()[0])
     start = num_tests + 2
 
-    matrix = np.empty(num_tests, num_faults)
+    matrix = np.empty([num_tests, num_faults])
     dict = {}
     for i in range(num_tests):
-        dict[l[2 + i]] = i
+        tmp = l[2 + i].strip()
+        if "/" in tmp:
+            tmp = tmp[tmp.rfind("/") + 1:]
+        if "<" in tmp:
+            tmp = tmp[tmp.rfind("<") + 2:]
+        dict[tmp] = i
         for j in range(num_faults):
             matrix[i][j] = int(l[start + i * (num_faults * 2 + 1) + 2 * (j + 1)].strip())
 
     return matrix, dict
 
 
-def perm_to_str(perm, suite):
-
-
-def get_apfd(dataset, perm):
+def perm_to_str(perm, dataset, suite):
     """
 
-    Args:
-        dataset:
-        perm:
-
-    Returns:
-
+    :param perm:
+    :param dataset:
+    :param suite:
+    :return:
     """
-    ts_values = []
-    tc_order = 1
-    uncovered_lines = []
-    for i in perm:  # i is test case number
-        zeros = "00000" if i < 10 else "0000"
-        path = dataset + "/traces/" + "dump_" + zeros + str(i)
-        # print(path)
-        f = open(path, "r")
-        lines = f.readlines()
-        profile = []
-        line_count = -5
-        for line in lines:
-            line_count += 1
-            if line[line.find(":") - 1].isdigit():
-                profile.append(1)
-            else:
-                profile.append(0)
-        # print(profile)
-        if tc_order == 1:
-            uncovered_lines = list(range(len(profile)))
-        f.close()
-        for j in uncovered_lines:  # j is line number
-            bit = profile[j]
-            if bit:
-                ts_values.append(tc_order)
-                uncovered_lines.remove(j)  # Will not check the cover of this line anymore\
-        tc_order += 1
-    # print(f'ts_values: {ts_values}')
-    # print(f'uncovered_lines: {uncovered_lines}')
-    # print(f'tc_order: {tc_order}')
-    apsd = 1 - sum(ts_values) / ((tc_order - 1) * len(profile)) + 0.5 / (tc_order - 1)
-    return apsd
+    if dataset != 'space' or dataset != 'sed':
+        suite_path = 'Datasets/' + dataset + '/testplans.alt/testplans-bigcov/' + suite
+    else:
+        suite_path = 'Datasets/' + dataset + '/testplans.alt/testplans.cov/' + suite
+
+    f = open(suite_path, "r", encoding="ISO-8859-1")  # Default utf-8 encoding results in errors
+    cases = f.readlines()
+
+    result = []
+    for i in perm:
+        case = cases[i - 1]
+        case = case[case.find("[") + 1: case.find("]")]
+        if "/" in case:
+            case = case[case.rfind("/") + 1:]
+        if "<" in case:
+            case = case[case.rfind("<") + 2:]
+        result.append(case)
+
+    return result
+
+
+def get_apfd(matrix, dict, dataset, suite, perm):
+    """
+
+    :param matrix:
+    :param dict:
+    :param dataset:
+    :param suite:
+    :param perm:
+    :return:
+    """
+    test_suite = perm_to_str(perm, dataset, suite)
+    num_cases = matrix.shape[0]
+    num_faults = matrix.shape[1]
+    TFs = np.zeros(num_faults)
+    # print(dict)
+
+    i = 1
+    for case in test_suite:
+        if np.prod(TFs) > 0:
+            break
+        for j in range(num_faults):
+            if TFs[j] == 0 and matrix[dict[case]][j] != 0:
+                TFs[j] = i
+        i += 1
+
+    apfd = 1 - sum(TFs) / (num_cases * num_faults) + 0.5 / num_cases
+    # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
+    return apfd
+
+
+if __name__ == '__main__':
+    print(perm_to_str([1, 2, 3, 4, 5], 'printtokens', 's50'))

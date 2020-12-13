@@ -6,7 +6,7 @@ import numpy as np
 
 
 def coverage_matrix(dataset):
-    path = 'Siemens/' + dataset + '/info/fault-matrix'
+    path = 'Datasets/' + dataset + '/info/fault-matrix'
     f = open(path, "r")
     l = f.readlines()
 
@@ -36,12 +36,12 @@ def get_apsd(dataset, perm):
     uncovered_lines = []
     # apsd_cumulative = []
 
-    path = 'Siemens/' + dataset + '/traces'
+    path = 'Datasets/' + dataset + '/traces'
     for i in perm:  # i is test case number
         zeros = ''.join(['0' for s in range(6 - len(str(i)))])
         file_path = path + "/dump_" + zeros + str(i)
         # print(path)
-        f = open(file_path, "r")
+        f = open(file_path, "r", encoding="ISO-8859-1") # Default utf-8 encoding results in errors
         lines = f.readlines()
         profile = []
         line_count = -5
