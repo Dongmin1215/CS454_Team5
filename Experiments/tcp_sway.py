@@ -96,34 +96,34 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dataset = args.dataset
 
-#    matrix, fault_dict = fault_matrix(dataset)
-#
-#    apsd_dict = dict()
-#    apfd_dict = dict()
-#    candidates = list()
-#    print("ITERATIONS")
-#    for repeat in tqdm(range(args.iteration)):
-#        start_time = time.time()
-#        res, can = get_sway_res(dataset, args.initial, args.stop)
-#        finish_time = time.time()
-#        candidates.extend(can)
-#        # print("len(res) : ", str(len(res)))
-#
-#        apsd_list = list()
-#        apfd_list = list()
-#        # for perm in res:
-#        for perm in can:
-#            apsd_list.append(get_apsd(dataset, perm))
-#            # print("apsd : ", apsd)
-#            # print(perm)
-#            apfd_list.append(get_apfd(matrix, fault_dict, dataset, args.suite, perm))
-#
-#        apsd_dict[repeat] = apsd_list
-#        apfd_dict[repeat] = apfd_list
-#
-#    # Save boxplot
-#    draw_box_plot(dataset, apsd_dict, type='apsd')
-#    draw_box_plot(dataset, apfd_dict, type='apfd')
+    matrix, fault_dict = fault_matrix(dataset)
+
+    apsd_dict = dict()
+    apfd_dict = dict()
+    candidates = list()
+    print("ITERATIONS")
+    for repeat in tqdm(range(args.iteration)):
+        start_time = time.time()
+        res, can = get_sway_res(dataset, args.initial, args.stop)
+        finish_time = time.time()
+        candidates.extend(can)
+        # print("len(res) : ", str(len(res)))
+
+        apsd_list = list()
+        apfd_list = list()
+        # for perm in res:
+        for perm in can:
+            apsd_list.append(get_apsd(dataset, perm))
+            # print("apsd : ", apsd)
+            # print(perm)
+            apfd_list.append(get_apfd(matrix, fault_dict, dataset, args.suite, perm))
+
+        apsd_dict[repeat] = apsd_list
+        apfd_dict[repeat] = apfd_list
+
+    # Save boxplot
+    draw_box_plot(dataset, apsd_dict, type='apsd')
+    draw_box_plot(dataset, apfd_dict, type='apfd')
     
     # Draw cumulative graph
-    draw_cumulative_graph(list(range(1, 33)), dataset, args.suite)
+    #draw_cumulative_graph(list(range(1, 33)), dataset, args.suite)
