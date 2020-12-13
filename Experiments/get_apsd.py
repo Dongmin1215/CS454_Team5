@@ -3,6 +3,7 @@ Created on 2020/12/12
 @author: Dongmin1215, chanijung, yhpark, nicklee
 """
 import numpy as np
+import random
 
 
 def coverage_matrix(dataset):
@@ -53,7 +54,6 @@ def get_apsd(dataset, perm):
                 profile.append(0)
             else:
                 profile.append(-1)
-        # print(profile)
         if tc_order == 1:
             uncovered_lines = list(range(len(profile)))
         f.close()
@@ -66,9 +66,6 @@ def get_apsd(dataset, perm):
 
         # apsd = 1- sum(ts_values)/((tc_order-1)*len(profile)) + 0.5/(tc_order-1)
         # apsd_cumulative.append(apsd)
-    # print(f'ts_values: {ts_values}')
-    # print(f'uncovered_lines: {uncovered_lines}')
-    # print(f'tc_order: {tc_order}')
     valid_profile = [x for x in profile if isValidLine(x)]
     apsd = 1 - sum(ts_values) / ((tc_order - 1) * len(valid_profile)) + 0.5 / (tc_order - 1)
     # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
