@@ -21,7 +21,7 @@ def make_shell(perm, dataset):
     for p in perm:
         for line in x[p]:
             if "rm" not in line:
-                fw.write(line)
+                fw.write(line.replace('traces', 'traces_tmp'))
                 fw.write("\n")
     fw.close()
 

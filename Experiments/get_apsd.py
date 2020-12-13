@@ -41,7 +41,7 @@ def get_apsd(dataset, perm):
         zeros = ''.join(['0' for s in range(6 - len(str(i)))])
         file_path = path + "/dump_" + zeros + str(i)
         # print(path)
-        f = open(file_path, "r", encoding="ISO-8859-1") # Default utf-8 encoding results in errors
+        f = open(file_path, "r", encoding="ISO-8859-1")  # Default utf-8 encoding results in errors
         lines = f.readlines()
         profile = []
         line_count = -5

@@ -14,22 +14,27 @@ import random
 import numpy as np
 
 
-def draw_box_plot(dataset, apsd_dict, plot_type, min_y, max_y):
-    fig, ax = plt.subplots()
-    ax.boxplot(apsd_dict.values(), showmeans=True)
-    ax.set_xticklabels(apsd_dict.keys())
-    ax.set_xlabel('Iteration #')
+def draw_box_plot(dataset, input_dict, plot_type, min_y, max_y):
+    plt.clf()
+    labels, data = input_dict.keys(), input_dict.values()
+    plt.boxplot(data, showmeans=True)
+    plt.xticks(range(1, len(labels)+1), labels)
+    plt.xlabel('Algorithm', fontweight='bold')
 
-    plt.figure(dpi=1200)
-    plt.gca().set_ylim([min_y, max_y])
     if plot_type == 'apsd':
-        ax.set_ylabel('APSD')
+        plt.ylim([min_y, max_y])
+        plt.ylabel('APSD', fontweight='bold')
         plt.title('Box-whisker plot of APSD (' + dataset + ')')
-        plt.savefig('Plots/APSD/' + dataset + '.png')
+        plt.savefig('Plots/APSD/' + dataset + '.png', dpi=1200)
     elif plot_type == 'apfd':
-        ax.set_ylabel('APFD')
+        plt.ylim([min_y, max_y])
+        plt.ylabel('APFD', fontweight='bold')
         plt.title('Box-whisker plot of APFD (' + dataset + ')')
-        plt.savefig('Plots/APFD/' + dataset + '.png')
+        plt.savefig('Plots/APFD/' + dataset + '.png', dpi=1200)
+    elif plot_type == 'time':
+        plt.ylabel('time(sec)', fontweight='bold')
+        plt.title('Box-whisker plot of time (' + dataset + ')')
+        plt.savefig('Plots/time/' + dataset + '.png', dpi=1200)
 
 
 def draw_cumulative_graph_coverage(perm, dataset, suite, alg):
@@ -41,24 +46,25 @@ def draw_cumulative_graph_coverage(perm, dataset, suite, alg):
     cumulative_coverage.insert(0, 0)
 
     plt.figure(dpi=1200)
-    plt.plot(list(range(1, len(perm) + 1)), cumulative_coverage)
-    if alg == 'greedy':
-        plt.title(f'Greedy ({dataset}, {suite})')
-    elif alg == 'sway':
-        plt.title(f'SWAY ({dataset}, {suite})')
+    plt.plot(list(range(len(perm) + 1)), cumulative_coverage)
     plt.ylabel('Coverage %')
     plt.xlabel('# of Test Cases Executed')
     plt.gca().set_ylim([0, 100])
-    plt.savefig('Plots/cumulative_coverage/' + dataset + '_' + suite)
+    if alg == 'greedy':
+        plt.title(f'Greedy ({dataset}, {suite})')
+    elif alg == 'random':
+        plt.title(f'Random ({dataset}, {suite})')
+    elif alg == 'sway':
+        plt.title(f'SWAY ({dataset}, {suite})')
+    plt.savefig(f'Plots/cumulative_coverage/{dataset}_{suite}_{alg}')
 
 
 def draw_cumulative_graph_fault(matrix, fault_dict, perm, dataset, suite, alg):
     test_suite = perm_to_str(perm, dataset, suite)
-    num_cases = matrix.shape[0]
     num_faults = matrix.shape[1]
 
     faults = np.zeros(num_faults)
-    fault_coverage = []
+    fault_coverage = [0]
 
     for case in test_suite:
         for j in range(num_faults):
@@ -67,15 +73,17 @@ def draw_cumulative_graph_fault(matrix, fault_dict, perm, dataset, suite, alg):
         fault_coverage.append(sum(faults))
 
     plt.figure(dpi=1200)
-    plt.plot(list(range(1, len(perm) + 1)), fault_coverage)
-    if alg == 'greedy':
-        plt.title(f'Greedy ({dataset}, {suite})')
-    elif alg == 'sway':
-        plt.title(f'SWAY ({dataset}, {suite})')
+    plt.plot(list(range(len(perm) + 1)), fault_coverage)
     plt.ylabel('Number of faults covered')
     plt.xlabel('# of Test Cases Executed')
-    plt.gca().set_ylim([0, 100])
-    plt.savefig('Plots/cumulative_fault/' + dataset + '_' + suite)
+    # plt.gca().set_ylim([0, 100])
+    if alg == 'greedy':
+        plt.title(f'Greedy ({dataset}, {suite})')
+    if alg == 'random':
+            plt.title(f'Random ({dataset}, {suite})')
+    elif alg == 'sway':
+        plt.title(f'SWAY ({dataset}, {suite})')
+    plt.savefig(f'Plots/cumulative_fault/{dataset}_{suite}_{alg}')
 
 
 if __name__ == '__main__':

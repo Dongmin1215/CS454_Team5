@@ -1,3 +1,5 @@
+
+
 # include <ctype.h>
 
 # define START  5
@@ -131,10 +133,10 @@ CHARACTER ch;
 character_stream stream_ptr;
 {
       if(stream_ptr->stream_ind == 0)
-          return 0;
+          return;
       else
           stream_ptr->stream[--(stream_ptr->stream_ind)]=ch;
-      return 0;
+      return;
 }
 
 
@@ -188,31 +190,31 @@ token_stream tstream_ptr;
       cu_state=token_ind=token_found=0;
       while(!token_found)
       {
-    if(token_ind < 80) /* ADDED ERROR CHECK - hf */
-    {
-        token_str[token_ind++]=ch;
-        next_st=next_state(cu_state,ch);
-    }
-    else
-    {
-        next_st = -1; /* - hf */
-    }
-    if (next_st == -1) { /* ERROR or EOF case */
-        return(error_or_eof_case(tstream_ptr, 
-               token_ptr,cu_state,token_str,token_ind,ch));
-    } else if (next_st == -2) {/* This is numeric case. */
-        return(numeric_case(tstream_ptr,token_ptr,ch,
-          token_str,token_ind));
-    } else if (next_st == -3) {/* This is the IDENTIFIER case */
-        token_ptr->token_id=IDENTIFIER;
-        unget_char(ch,tstream_ptr->ch_stream);
-        token_ind--;
-        get_actual_token(token_str,token_ind);
-        strcpy(token_ptr->token_string,token_str);
-        return(token_ptr);
-    } 
-      
-    switch(next_st) 
+	  if(token_ind < 80) /* ADDED ERROR CHECK - hf */
+	  {
+	      token_str[token_ind++]=ch;
+	      next_st=next_state(cu_state,ch);
+	  }
+	  else
+	  {
+	      next_st = -1; /* - hf */
+	  }
+	  if (next_st == -1) { /* ERROR or EOF case */
+	      return(error_or_eof_case(tstream_ptr, 
+				       token_ptr,cu_state,token_str,token_ind,ch));
+	  } else if (next_st == -2) {/* This is numeric case. */
+	      return(numeric_case(tstream_ptr,token_ptr,ch,
+				  token_str,token_ind));
+	  } else if (next_st == -3) {/* This is the IDENTIFIER case */
+	      token_ptr->token_id=IDENTIFIER;
+	      unget_char(ch,tstream_ptr->ch_stream);
+	      token_ind--;
+	      get_actual_token(token_str,token_ind);
+	      strcpy(token_ptr->token_string,token_str);
+	      return(token_ptr);
+	  } 
+	    
+	  switch(next_st) 
             { 
                  default : break;
                  case 6  : /* These are all KEYWORD cases. */
@@ -273,10 +275,10 @@ int token_ind;
         {   /* Error case */
             token_ptr->token_id=ERROR;
             while(check_delimiter(ch)==FALSE)
-      {
-    if(token_ind >= 80) break; /* Added protection - hf */
-    token_str[token_ind++]=ch=get_char(tstream_ptr->ch_stream);
-      }
+	    {
+		if(token_ind >= 80) break; /* Added protection - hf */
+		token_str[token_ind++]=ch=get_char(tstream_ptr->ch_stream);
+	    }
             unget_char(ch,tstream_ptr->ch_stream);
             token_ind--;
             get_actual_token(token_str,token_ind);
@@ -413,8 +415,8 @@ character_stream stream_ptr;
         while((c=get_char(stream_ptr))!='\n' && 
                !is_end_of_character_stream(stream_ptr))
              ; /* Skip the characters until EOF or EOL found. */
-  if(c==EOF) unget_char(c, stream_ptr); /* Put back to leave gracefully - hf */
-        return 0;
+	if(c==EOF) unget_char(c, stream_ptr); /* Put back to leave gracefully - hf */
+        return;
 }
 
 /* *********************************************************************
@@ -557,5 +559,5 @@ char token_str[];
           for(start=0;ind<=token_ind;++start,++ind) /* Delete the leading
                                                        white spaces. */
                 token_str[start]=token_str[ind];
-          return 0;
+          return;
 }

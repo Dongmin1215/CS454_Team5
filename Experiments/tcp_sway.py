@@ -48,7 +48,7 @@ def where(pop):  # pop = candidates
     return west, east, eastItems, westItems
 
 
-def get_sway_res(dataset, initial, stop):
+def tcp_sway(dataset, initial, stop):
     path = 'Datasets/' + dataset + '/traces'
     file_list = os.listdir(path)
     length = sum(['dump' in name for name in file_list])

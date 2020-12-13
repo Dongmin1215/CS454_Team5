@@ -50,7 +50,8 @@ def perm_to_str(perm, dataset, suite):
     if dataset != 'space' or dataset != 'sed':
         suite_path = 'Datasets/' + dataset + '/testplans.alt/testplans-bigcov/' + suite
     else:
-        suite_path = 'Datasets/' + dataset + '/testplans.alt/testplans.cov/' + suite
+        # suite_path = 'Datasets/' + dataset + '/testplans.alt/testplans.cov/' + suite
+        suite_path = 'Datasets/' + dataset + '/testplans.alt/testplans-bigcov/' + suite
 
     f = open(suite_path, "r", encoding="ISO-8859-1")  # Default utf-8 encoding results in errors
     cases = f.readlines()

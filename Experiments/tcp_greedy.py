@@ -3,14 +3,15 @@ Created on 2020/12/12
 @author: chanijung
 """
 import numpy as np
+import random
 from os import listdir
 from os.path import isfile, join
 
 
-def greedy(dataset):
+def tcp_greedy(dataset):
     path = 'Datasets/' + dataset + '/traces'
     dump_files = [f for f in listdir(path) if isfile(join(path, f))]
-    num_tests = len(dump_files)
+    num_tests = sum(['dump' in name for name in dump_files])
 
     # Get the number of valid statements in this program
     sample = open(path + "/" + dump_files[0], "r", encoding="ISO-8859-1")
@@ -19,7 +20,7 @@ def greedy(dataset):
     for line in lines:
         if line[line.find(":") - 1] != '-':
             num_valid_stats += 1
-    print(f'#valid statements: {num_valid_stats}')
+    # print(f'#valid statements: {num_valid_stats}')
 
     # Build converage matrix
     mat = np.zeros((num_tests, num_valid_stats))
@@ -42,25 +43,31 @@ def greedy(dataset):
     # Find TCP solution with greedy algorithm
     sol = []
     covered_stats = np.zeros((1, num_valid_stats))
-    for i in range(num_tests):
+    for _ in range(num_tests):
         addit_stats = (mat - covered_stats == 1).astype(int)
         # print(f'diff\n{diff}')
         addit_cov = np.sum(addit_stats, axis=1)
+        # print(f'addit_cov:\n{addit_cov}')
         if np.sum(addit_cov) == 0:
             break
-        # print(f'addit_cov:\n{addit_cov}')
         next_test = np.argmax(addit_cov) + 1
         # print(f'next_test:{next_test}')
         covered_stats = (covered_stats + mat[next_test - 1] > 0).astype(int)
-        # print(f'covered stats\n{covered_stats}')
-        print(f'#covered statements:{np.sum(covered_stats)}')
+        # print(f'#covered statements:{np.sum(covered_stats)}')
         sol.append(next_test)
+
+    # If full coverage is obtained before going through all test cases...
+    if len(sol) < num_tests:
+        remaining = list(set(range(1, num_tests+1)) - set(sol))
+        random.shuffle(remaining)
+        sol += remaining
+
     return sol
     # print(f'num tests: {num_tests}')
 
 
 if __name__ == '__main__':
-    print("solution: ", greedy("printtokens"))
+    print("solution: ", tcp_greedy("printtokens"))
     # greedy("printtokens2")
     # greedy("schedule")
     # greedy("schedule2")

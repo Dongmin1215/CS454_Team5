@@ -6,12 +6,12 @@ Created on 2020/12/14
 """
 from tcp_sway import *
 from tcp_greedy import *
+from tcp_random import *
 from plot_util import *
 
 from get_apfd import *
 from get_apsd import *
 
-from tqdm import tqdm
 import time
 import argparse
 
@@ -23,7 +23,7 @@ if __name__ == '__main__':
     parser.add_argument("-suite", "--suite", help="name of test suite (s1 ~ s1000)", type=str)
     parser.add_argument("-e", "--embedding", help="type of embedding used (1 for non-distortive, 2 for distortive)",
                         type=int)
-    parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 15)
+    parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 20)
     parser.add_argument("-s", "--stop", help="stop SWAY clustering when candidate number is less than this value",
                         type=int, default=20)
     # parser.add_argument("-iter", "--iteration", help="iteration number of SWAY", type=int, default=1)
@@ -35,18 +35,34 @@ if __name__ == '__main__':
 
     matrix, fault_dict = fault_matrix(dataset)
 
-    # algs = ['Distortive SWAY', 'Non-distortive SWAY', 'Additional Greedy']
-    algs = ['SWAY', 'Additional Greedy']
+    # algs = ['Distortive SWAY', 'Non-distortive SWAY', 'Additional Greedy', 'random']
+    algs = ['SWAY', 'Additional Greedy', 'random']
 
     apsd_dict = dict()
     apfd_dict = dict()
     time_dict = dict()
 
+    # Random permutation ("sanity check")
+    apsd_list, apfd_list = [], []
+
+    start_time = time.time()
+    res = tcp_random(dataset)
+    time_dict['random'] = time.time() - start_time
+
+    apsd_list.append(get_apsd(dataset, res))
+    apfd_list.append(get_apfd(matrix, fault_dict, dataset, args.suite, res))
+
+    apsd_dict['random'] = apsd_list
+    apfd_dict['random'] = apfd_list
+
+    draw_cumulative_graph_coverage(res, dataset, args.suite, alg='random')
+    draw_cumulative_graph_fault(matrix, fault_dict, res, dataset, args.suite, alg='random')
+
     # Greedy algorithm
     apsd_list, apfd_list = [], []
 
     start_time = time.time()
-    res = greedy(dataset)
+    res = tcp_greedy(dataset)
     time_dict['greedy'] = time.time() - start_time
 
     apsd_list.append(get_apsd(dataset, res))
@@ -62,7 +78,7 @@ if __name__ == '__main__':
     apsd_list, apfd_list = [], []
 
     start_time = time.time()
-    res, can = get_sway_res(dataset, args.initial, args.stop)
+    res, can = tcp_sway(dataset, args.initial, args.stop)
     time_dict['sway'] = time.time() - start_time
 
     for perm in res:
@@ -76,6 +92,4 @@ if __name__ == '__main__':
     draw_cumulative_graph_coverage(res_, dataset, args.suite, alg='sway')
     draw_cumulative_graph_fault(matrix, fault_dict, res_, dataset, args.suite, alg='sway')
 
-    # Save boxplot
-    draw_box_plot(dataset, apsd_dict, 'apsd', args.min_y, args.max_y)
-    draw_box_plot(dataset, apfd_dict, 'apfd', args.min_y, args.max_y)
+    print(time_dict)
