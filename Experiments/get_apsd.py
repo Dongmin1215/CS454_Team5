@@ -49,7 +49,7 @@ def get_apsd(dataset, perm):
             line_count += 1
             if line[line.find(":") - 1].isdigit():
                 profile.append(1)
-            elif line[line.find(":") - 1] == "#####":
+            elif line[line.find(":") - 1] == "#":
                 profile.append(0)
             else:
                 profile.append(-1)

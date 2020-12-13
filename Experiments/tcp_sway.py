@@ -17,6 +17,7 @@ from tqdm import tqdm
 from parse_suite import *
 from get_apfd import *
 from get_apsd import *
+from printtokens.scripts.do_test import *
 
 import matplotlib.pyplot as plt
 
@@ -90,6 +91,20 @@ def draw_box_plot(dataset, apsd_dict, type):
         ax.set_ylabel('APFD')
         plt.title('Box-whisker plot of APFD of resulting candidates (' + args.dataset + ')')
         plt.savefig('Plots/APFD/' + dataset + '.png')
+        
+def draw_cumulative_graph(perm):
+    make_shell(perm)
+    out = subprocess.Popen(['sh', 'do_testme.sh'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd='./printtokens/scripts')
+    stdout, stderr = out.communicate()
+    cumulative_coverage = [float(x[15:20]) for x in stdout.decode('utf-8').split('\n') if '%' in x]
+    cumulative_coverage.insert(0, 0)
+    
+    plt.plot(list(range(0, len(perm) + 1)), cumulative_coverage)
+    plt.title('Cumulative Coverage of ' + dataset + ' ' + args.suite)
+    plt.ylabel('Coverage %')
+    plt.xlabel('# of Test Cases Executed')
+    plt.gca().set_ylim([0, 100])
+    plt.savefig('Plots/cumulative_coverage/' + dataset + '_' + args.suite)
 
 
 if __name__ == '__main__':
@@ -114,11 +129,13 @@ if __name__ == '__main__':
 
     apsd_dict = dict()
     apfd_dict = dict()
+    candidates = list()
     print("ITERATIONS")
     for repeat in tqdm(range(args.iteration)):
         start_time = time.time()
         res, can = get_sway_res(dataset, args.initial, args.stop)
         finish_time = time.time()
+        candidates.extend(can)
         # print("len(res) : ", str(len(res)))
 
         apsd_list = list()
@@ -136,3 +153,6 @@ if __name__ == '__main__':
     # Save boxplot
     draw_box_plot(dataset, apsd_dict, type='apsd')
     draw_box_plot(dataset, apfd_dict, type='apfd')
+    
+    # Draw cumulative graph
+    #draw_cumulative_graph(list(range(1, 33)))
