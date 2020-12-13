@@ -50,14 +50,10 @@ def get_apsd(dataset, perm):
             line_count += 1
             if line[line.find(":") - 1].isdigit():
                 profile.append(1)
-                # print("1")
             elif line[line.find(":") - 1] == "#":
                 profile.append(0)
-                # print("here")
             else:
                 profile.append(-1)
-                # print("-1")
-        # print(profile)
         if tc_order == 1:
             uncovered_lines = list(range(len(profile)))
         f.close()
@@ -70,15 +66,7 @@ def get_apsd(dataset, perm):
 
         # apsd = 1- sum(ts_values)/((tc_order-1)*len(profile)) + 0.5/(tc_order-1)
         # apsd_cumulative.append(apsd)
-    # print(f'ts_values: {ts_values}')
-    # print(f'uncovered_lines: {uncovered_lines}')
-    # print(f'tc_order: {tc_order}')
     valid_profile = [x for x in profile if isValidLine(x)]
     apsd = 1 - sum(ts_values) / ((tc_order - 1) * len(valid_profile)) + 0.5 / (tc_order - 1)
     # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
     return apsd
-
-perm = list(range(1,323))
-for i in range(50):
-    random.shuffle(perm)
-    print(get_apsd("printtokens", perm))
