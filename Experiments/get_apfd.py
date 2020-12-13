@@ -68,11 +68,11 @@ def perm_to_str(perm, dataset, suite):
     return result
 
 
-def get_apfd(matrix, dict, dataset, suite, perm):
+def get_apfd(matrix, fault_dict, dataset, suite, perm):
     """
 
     :param matrix:
-    :param dict:
+    :param fault_dict:
     :param dataset:
     :param suite:
     :param perm:
@@ -82,14 +82,13 @@ def get_apfd(matrix, dict, dataset, suite, perm):
     num_cases = matrix.shape[0]
     num_faults = matrix.shape[1]
     TFs = np.zeros(num_faults)
-    # print(dict)
 
     i = 1
     for case in test_suite:
         if np.prod(TFs) > 0:
             break
         for j in range(num_faults):
-            if TFs[j] == 0 and matrix[dict[case]][j] != 0:
+            if TFs[j] == 0 and matrix[fault_dict[case]][j] != 0:
                 TFs[j] = i
         i += 1
 

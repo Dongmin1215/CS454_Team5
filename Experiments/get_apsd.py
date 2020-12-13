@@ -3,7 +3,6 @@ Created on 2020/12/12
 @author: Dongmin1215, chanijung, yhpark, nicklee
 """
 import numpy as np
-import random
 
 
 def coverage_matrix(dataset):
