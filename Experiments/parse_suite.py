@@ -35,14 +35,13 @@ def parse_file(dataset, file_name, new_name):
 
 if __name__ == '__main__':
     datasets = ['printtokens', 'printtokens2', 'replace', 'schedule', 'schedule2', 'tcas', 'totinfo']
-    datasets_ = ['space']
-
     for dataset in datasets:
         for i in range(1, 1001):
             x = "suite" + str(i)
             y = "s" + str(i)
             parse_file(dataset, x, y)
 
+    datasets_ = ['space']
     for dataset in datasets_:
         for i in range(0, 1000):
             x = "suite" + str(i)
