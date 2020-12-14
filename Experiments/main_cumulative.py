@@ -63,6 +63,7 @@ if __name__ == '__main__':
 
     start_time = time.time()
     res = tcp_greedy(dataset)
+    print(res)
     time_dict['greedy'] = time.time() - start_time
 
     apsd_list.append(get_apsd(dataset, res))

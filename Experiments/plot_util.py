@@ -39,6 +39,7 @@ def draw_box_plot(dataset, input_dict, plot_type, min_y, max_y):
 
 
 def draw_cumulative_graph_coverage(perm_list, dataset, suite):
+    plt.clf()
     cumulative_coverage_list = list()
     
     for perm in perm_list:
@@ -46,14 +47,10 @@ def draw_cumulative_graph_coverage(perm_list, dataset, suite):
         out = subprocess.Popen(['sh', 'do_testme.sh'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                cwd='Datasets/' + dataset + '/scripts')
         stdout, stderr = out.communicate()
-        print(stdout.decode('utf-8').split('\n'))
-        relevant_sent = [x for x in stdout.decode('utf-8').split('\n') if '%' in x]
-        relevant_words = [x.split(' ') for x in relevant_sent]
-        cumulative_coverage = [x for x in relevant_words if '%' in x]
-        #cumulative_coverage.insert(0, 0)
+        cumulative_coverage = [float(x[15:20]) for x in stdout.decode('utf-8').split('\n') if '%' in x]
+        cumulative_coverage.insert(0, 0)
         cumulative_coverage_list.append(cumulative_coverage)
-#        print(relevant_words)
-#        print(cumulative_coverage)
+        #print(cumulative_coverage)
 #    print(cumulative_coverage_list)
     
     df = pd.DataFrame({'x': range(len(perm) + 1), 'y1': cumulative_coverage_list[0], 'y2': cumulative_coverage_list[1], 'y3': cumulative_coverage_list[2] })
@@ -62,20 +59,16 @@ def draw_cumulative_graph_coverage(perm_list, dataset, suite):
     plt.plot( 'x', 'y2', data=df, color='olive', label="greedy" )
     plt.plot( 'x', 'y3', data=df, color='orange', label="sway" )
     plt.legend()
-    plt.ylabel('Coverage %')
-    plt.xlabel('# of Test Cases Executed')
+    plt.ylabel('Coverage %', fontweight='bold')
+    plt.xlabel('# of Test Cases Executed', fontweight='bold')
     plt.ylim([0, 100])
-    if alg == 'greedy':
-        plt.title(f'Greedy ({dataset}, {suite})')
-    elif alg == 'random':
-        plt.title(f'Random ({dataset}, {suite})')
-    elif alg == 'sway':
-        plt.title(f'SWAY ({dataset}, {suite})')
-    plt.savefig(f'Plots/cumulative_coverage/{dataset}_{suite}_{alg}.png', dpi=1200)
+    plt.title(f'Cumulative plot of statement coverage ({dataset}, {suite})')
+    plt.savefig(f'Plots/cumulative_coverage/{dataset}_{suite}_all.png', dpi=1200)
     # plt.show()
 
 
 def draw_cumulative_graph_fault(matrix, fault_dict, perm_list, dataset, suite):
+    plt.clf()
     fault_coverage_list = list()
     
     for perm in perm_list:
@@ -99,16 +92,11 @@ def draw_cumulative_graph_fault(matrix, fault_dict, perm_list, dataset, suite):
     plt.plot( 'x', 'y3', data=df, color='orange', label="sway" )
     plt.legend()
 
-    plt.ylabel('Number of faults covered')
-    plt.xlabel('# of Test Cases Executed')
+    plt.ylabel('Number of faults covered', fontweight='bold')
+    plt.xlabel('# of Test Cases Executed', fontweight='bold')
     # plt.gca().set_ylim([0, 100])
-    if alg == 'greedy':
-        plt.title(f'Greedy ({dataset}, {suite})')
-    if alg == 'random':
-        plt.title(f'Random ({dataset}, {suite})')
-    elif alg == 'sway':
-        plt.title(f'SWAY ({dataset}, {suite})')
-    plt.savefig(f'Plots/cumulative_fault/{dataset}_{suite}_{alg}.png', dpi=1200)
+    plt.title(f'Cumulative plot of fault coverage ({dataset}, {suite})')
+    plt.savefig(f'Plots/cumulative_fault/{dataset}_{suite}_all.png', dpi=1200)
     # plt.show()
 
 
