@@ -57,27 +57,27 @@
         -:   52: 
         1:   53:        totdf = 0;
         -:   54:
-       20:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
+        3:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
         -:   56:		{
-       34:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
+        4:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
         -:   58:			;
         -:   59:
-       19:   60:		if ( *p == '\0' )
-       12:   61:			continue;	/* skip blank line */
+        2:   60:		if ( *p == '\0' )
+        1:   61:			continue;	/* skip blank line */
         -:   62:
-        7:   63:		if ( *p == COMMENT )
+        1:   63:		if ( *p == COMMENT )
         -:   64:			{		/* copy comment through */
-        2:   65:			(void)fputs( line, stdout );
-        2:   66:			continue;
+    #####:   65:			(void)fputs( line, stdout );
+    #####:   66:			continue;
         -:   67:			}
         -:   68:
-        5:   69:		if ( sscanf( p, "%d %d\n", &r, &c ) != 2 )
+        1:   69:		if ( sscanf( p, "%d %d\n", &r, &c ) != 2 )
         -:   70:			{
     #####:   71:			(void)fputs( "* invalid row/column line *\n", stdout );
     #####:   72:			return EXIT_FAILURE;
         -:   73:			}
         -:   74:
-        5:   75:		if ( r * c > MAXTBL )
+        1:   75:		if ( r * c > MAXTBL )
         -:   76:			{
     #####:   77:			(void)fputs( "* table too large *\n", stdout );
     #####:   78:			return EXIT_FAILURE;
@@ -85,23 +85,23 @@
         -:   80:
         -:   81:		/* input tallies */
         -:   82:
-       36:   83:		for ( i = 0; i < r; ++i )
-      589:   84:			for ( j = 0; j < c; ++j )
-      558:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
+       13:   83:		for ( i = 0; i < r; ++i )
+      276:   84:			for ( j = 0; j < c; ++j )
+      264:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
         -:   89:						   );
     #####:   90:					return EXIT_FAILURE;
-       31:   91:					}
+       12:   91:					}
         -:   92:
         -:   93:		/* compute statistic */
         -:   94:
-        5:   95:		info = InfoTbl( r, c, f, &infodf );
+        1:   95:		info = InfoTbl( r, c, f, &infodf );
         -:   96:
         -:   97:		/* print results */
         -:   98:
-        5:   99:		if ( info >= 0.0 )
+        1:   99:		if ( info >= 0.0 )
         -:  100:			{
         1:  101:			(void)printf( "2info = %5.2f\tdf = %2d\tq = %7.4f\n",
         1:  102:				      info, infodf,
@@ -111,11 +111,11 @@
         1:  106:			totdf += infodf;
         1:  107:			}
         -:  108:		else
-        8:  109:			(void)fputs( info < -3.5 ? "out of memory\n"
-        4:  110:				   : info < -2.5 ? "table too small\n"
-        3:  111:				   : info < -1.5 ? "negative freq\n"
+    #####:  109:			(void)fputs( info < -3.5 ? "out of memory\n"
+    #####:  110:				   : info < -2.5 ? "table too small\n"
+    #####:  111:				   : info < -1.5 ? "negative freq\n"
         -:  112:				   : "table all zeros\n",
-        4:  113:				     stdout
+    #####:  113:				     stdout
         -:  114:				   );
         -:  115:		}
         -:  116:
@@ -295,7 +295,7 @@
         -:  290:#define	x(i,j)	f[(i)*c+(j)]		/* convenient way to access freqs */
         -:  291:
         -:  292:double
-        5:  293:InfoTbl( r, c, f, pdf )
+        1:  293:InfoTbl( r, c, f, pdf )
         -:  294:	int		r;		/* # rows in table */
         -:  295:	int		c;		/* # columns in table */
         -:  296:	const long	*f;		/* -> r*c frequency tallies */
@@ -307,24 +307,24 @@
         -:  302:	double		info;		/* accumulates information measure */
         -:  303:	double		*xi;		/* row sums */
         -:  304:	double		*xj;		/* col sums */
-        5:  305:	int		rdf = r - 1;	/* row degrees of freedom */
-        5:  306:	int		cdf = c - 1;	/* column degrees of freedom */
+        1:  305:	int		rdf = r - 1;	/* row degrees of freedom */
+        1:  306:	int		cdf = c - 1;	/* column degrees of freedom */
         -:  307:
-        5:  308:	if ( rdf <= 0 || cdf <= 0 )
+        1:  308:	if ( rdf <= 0 || cdf <= 0 )
         -:  309:		{
-        1:  310:		info = -3.0;
-        1:  311:		goto ret3;
+    #####:  310:		info = -3.0;
+    #####:  311:		goto ret3;
         -:  312:		}
         -:  313:
-        4:  314:	*pdf = rdf * cdf;		/* total degrees of freedom */
+        1:  314:	*pdf = rdf * cdf;		/* total degrees of freedom */
         -:  315:
-        4:  316:	if ( (xi = (double *)malloc( r * sizeof(double) )) == NULL )
+        1:  316:	if ( (xi = (double *)malloc( r * sizeof(double) )) == NULL )
         -:  317:		{
     #####:  318:		info = -4.0;
     #####:  319:		goto ret3;
         -:  320:		}
         -:  321:
-        4:  322:	if ( (xj = (double *)malloc( c * sizeof(double) )) == NULL )
+        1:  322:	if ( (xj = (double *)malloc( c * sizeof(double) )) == NULL )
         -:  323:		{
     #####:  324:		info = -4.0;
     #####:  325:		goto ret2;
@@ -332,32 +332,32 @@
         -:  327:
         -:  328:	/* compute row sums and total */
         -:  329:
-        4:  330:	N = 0.0;
+        1:  330:	N = 0.0;
         -:  331:
-       20:  332:	for ( i = 0; i < r; ++i )
+       13:  332:	for ( i = 0; i < r; ++i )
         -:  333:		{
-       18:  334:		double	sum = 0.0;	/* accumulator */
+       12:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-      308:  336:		for ( j = 0; j < c; ++j )
+      276:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
-      292:  338:			long	k = x(i,j);
+      264:  338:			long	k = x(i,j);
         -:  339:
-      292:  340:			if ( k < 0L )
+      264:  340:			if ( k < 0L )
         -:  341:				{
-        2:  342:				info = -2.0;
-        2:  343:				goto ret1;
+    #####:  342:				info = -2.0;
+    #####:  343:				goto ret1;
         -:  344:				}
         -:  345:
-      290:  346:			sum += (double)k;
-      290:  347:			}
+      264:  346:			sum += (double)k;
+      264:  347:			}
         -:  348:
-       16:  349:		N += xi[i] = sum;
-       16:  350:		}
+       12:  349:		N += xi[i] = sum;
+       12:  350:		}
         -:  351:
-        2:  352:	if ( N <= 0.0 )
+        1:  352:	if ( N <= 0.0 )
         -:  353:		{
-        1:  354:		info = -1.0;
-        1:  355:		goto ret1;
+    #####:  354:		info = -1.0;
+    #####:  355:		goto ret1;
         -:  356:		}
         -:  357:
         -:  358:	/* compute column sums */
@@ -388,7 +388,7 @@
       264:  383:			double	pij = (double)x(i,j);
         -:  384:
       264:  385:			if ( pij > 0.0 )
-      254:  386:				info += pij * log( pij );	/* part 3 */
+      262:  386:				info += pij * log( pij );	/* part 3 */
       264:  387:			}
        12:  388:		}
         -:  389:
@@ -403,9 +403,9 @@
         1:  398:	info *= 2.0;			/* for comparability with chi-square */
         -:  399:
         -:  400:    ret1:
-        4:  401:	free( (pointer)xj );
+        1:  401:	free( (pointer)xj );
         -:  402:    ret2:
-        4:  403:	free( (pointer)xi );
+        1:  403:	free( (pointer)xi );
         -:  404:    ret3:
-        5:  405:	return info;
+        1:  405:	return info;
         -:  406:	}

@@ -59,7 +59,7 @@
         -:   54:
         3:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
         -:   56:		{
-        3:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
+        9:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
         -:   58:			;
         -:   59:
         2:   60:		if ( *p == '\0' )
@@ -85,15 +85,15 @@
         -:   80:
         -:   81:		/* input tallies */
         -:   82:
-        2:   83:		for ( i = 0; i < r; ++i )
-        5:   84:			for ( j = 0; j < c; ++j )
+        3:   83:		for ( i = 0; i < r; ++i )
+        6:   84:			for ( j = 0; j < c; ++j )
         4:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
         -:   89:						   );
     #####:   90:					return EXIT_FAILURE;
-        1:   91:					}
+        2:   91:					}
         -:   92:
         -:   93:		/* compute statistic */
         -:   94:
@@ -103,33 +103,33 @@
         -:   98:
         1:   99:		if ( info >= 0.0 )
         -:  100:			{
-    #####:  101:			(void)printf( "2info = %5.2f\tdf = %2d\tq = %7.4f\n",
-    #####:  102:				      info, infodf,
-    #####:  103:				      QChiSq( info, infodf )
+        1:  101:			(void)printf( "2info = %5.2f\tdf = %2d\tq = %7.4f\n",
+        1:  102:				      info, infodf,
+        1:  103:				      QChiSq( info, infodf )
         -:  104:				    );
-    #####:  105:			totinfo += info;
-    #####:  106:			totdf += infodf;
-    #####:  107:			}
+        1:  105:			totinfo += info;
+        1:  106:			totdf += infodf;
+        1:  107:			}
         -:  108:		else
-        2:  109:			(void)fputs( info < -3.5 ? "out of memory\n"
-        1:  110:				   : info < -2.5 ? "table too small\n"
+    #####:  109:			(void)fputs( info < -3.5 ? "out of memory\n"
+    #####:  110:				   : info < -2.5 ? "table too small\n"
     #####:  111:				   : info < -1.5 ? "negative freq\n"
         -:  112:				   : "table all zeros\n",
-        1:  113:				     stdout
+    #####:  113:				     stdout
         -:  114:				   );
         -:  115:		}
         -:  116:
         1:  117:	if ( totdf <= 0 )
         -:  118:		{
-        1:  119:		(void)fputs( "\n*** no information accumulated ***\n", stdout );
-        1:  120:		return EXIT_FAILURE;
+    #####:  119:		(void)fputs( "\n*** no information accumulated ***\n", stdout );
+    #####:  120:		return EXIT_FAILURE;
         -:  121:		}
         -:  122:
-    #####:  123:	(void)printf( "\ntotal 2info = %5.2f\tdf = %2d\tq = %7.4f\n",
-    #####:  124:		      totinfo, totdf,
-    #####:  125:		      QChiSq( totinfo, totdf )
+        1:  123:	(void)printf( "\ntotal 2info = %5.2f\tdf = %2d\tq = %7.4f\n",
+        1:  124:		      totinfo, totdf,
+        1:  125:		      QChiSq( totinfo, totdf )
         -:  126:		    );
-    #####:  127:	return EXIT_SUCCESS;
+        1:  127:	return EXIT_SUCCESS;
         1:  128:	}
         -:  129:
         -:  130:
@@ -186,15 +186,15 @@
         -:  181:#define	EPS	3.0e-7
         -:  182:
         -:  183:static double
-    #####:  184:gser( a, x )
+        2:  184:gser( a, x )
         -:  185:	double		a, x;
         -:  186:	{
         -:  187:	double		ap, del, sum;
         -:  188:	int	n;
         -:  189:
         -:  190:
-    #####:  191:	if ( x <= 0.0 )
-    #####:  192:		return 0.0;
+        2:  191:	if ( x <= 0.0 )
+        2:  192:		return 0.0;
         -:  193:
     #####:  194:	del = sum = 1.0 / (ap = a);
         -:  195:
@@ -207,7 +207,7 @@
     #####:  202:		}
         -:  203:
         -:  204:	/*NOTREACHED*/
-    #####:  205:	}
+        2:  205:	}
         -:  206:
         -:  207:static double
     #####:  208:gcf( a, x )
@@ -246,19 +246,19 @@
     #####:  241:	}
         -:  242:
         -:  243:double
-    #####:  244:QGamma( a, x )
+        2:  244:QGamma( a, x )
         -:  245:	double	a, x;
         -:  246:	{
         -:  247:
-    #####:  248:	return x < a + 1.0 ? 1.0 - gser( a, x ) : gcf( a, x );
+        2:  248:	return x < a + 1.0 ? 1.0 - gser( a, x ) : gcf( a, x );
         -:  249:	}
         -:  250:
         -:  251:double
-    #####:  252:QChiSq( chisq, df )
+        2:  252:QChiSq( chisq, df )
         -:  253:	double	chisq;
         -:  254:	int	df;
         -:  255:	{
-    #####:  256:	return QGamma( (double)df / 2.0, chisq / 2.0 );
+        2:  256:	return QGamma( (double)df / 2.0, chisq / 2.0 );
         -:  257:	}
         -:  258:
         -:  259:
@@ -312,19 +312,19 @@
         -:  307:
         1:  308:	if ( rdf <= 0 || cdf <= 0 )
         -:  309:		{
-        1:  310:		info = -3.0;
-        1:  311:		goto ret3;
+    #####:  310:		info = -3.0;
+    #####:  311:		goto ret3;
         -:  312:		}
         -:  313:
-    #####:  314:	*pdf = rdf * cdf;		/* total degrees of freedom */
+        1:  314:	*pdf = rdf * cdf;		/* total degrees of freedom */
         -:  315:
-    #####:  316:	if ( (xi = (double *)malloc( r * sizeof(double) )) == NULL )
+        1:  316:	if ( (xi = (double *)malloc( r * sizeof(double) )) == NULL )
         -:  317:		{
     #####:  318:		info = -4.0;
     #####:  319:		goto ret3;
         -:  320:		}
         -:  321:
-    #####:  322:	if ( (xj = (double *)malloc( c * sizeof(double) )) == NULL )
+        1:  322:	if ( (xj = (double *)malloc( c * sizeof(double) )) == NULL )
         -:  323:		{
     #####:  324:		info = -4.0;
     #####:  325:		goto ret2;
@@ -332,29 +332,29 @@
         -:  327:
         -:  328:	/* compute row sums and total */
         -:  329:
-    #####:  330:	N = 0.0;
+        1:  330:	N = 0.0;
         -:  331:
-    #####:  332:	for ( i = 0; i < r; ++i )
+        3:  332:	for ( i = 0; i < r; ++i )
         -:  333:		{
-    #####:  334:		double	sum = 0.0;	/* accumulator */
+        2:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-    #####:  336:		for ( j = 0; j < c; ++j )
+        6:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
-    #####:  338:			long	k = x(i,j);
+        4:  338:			long	k = x(i,j);
         -:  339:
-    #####:  340:			if ( k < 0L )
+        4:  340:			if ( k < 0L )
         -:  341:				{
     #####:  342:				info = -2.0;
     #####:  343:				goto ret1;
         -:  344:				}
         -:  345:
-    #####:  346:			sum += (double)k;
-    #####:  347:			}
+        4:  346:			sum += (double)k;
+        4:  347:			}
         -:  348:
-    #####:  349:		N += xi[i] = sum;
-    #####:  350:		}
+        2:  349:		N += xi[i] = sum;
+        2:  350:		}
         -:  351:
-    #####:  352:	if ( N <= 0.0 )
+        1:  352:	if ( N <= 0.0 )
         -:  353:		{
     #####:  354:		info = -1.0;
     #####:  355:		goto ret1;
@@ -362,50 +362,50 @@
         -:  357:
         -:  358:	/* compute column sums */
         -:  359:
-    #####:  360:	for ( j = 0; j < c; ++j )
+        3:  360:	for ( j = 0; j < c; ++j )
         -:  361:		{
-    #####:  362:		double	sum = 0.0;	/* accumulator */
+        2:  362:		double	sum = 0.0;	/* accumulator */
         -:  363:
-    #####:  364:		for ( i = 0; i < r; ++i )
-    #####:  365:			sum += (double)x(i,j);
+        6:  364:		for ( i = 0; i < r; ++i )
+        4:  365:			sum += (double)x(i,j);
         -:  366:
-    #####:  367:		xj[j] = sum;
-    #####:  368:		}
+        2:  367:		xj[j] = sum;
+        2:  368:		}
         -:  369:
         -:  370:	/* compute information measure (four parts) */
         -:  371:
-    #####:  372:	info = N * log( N );					/* part 1 */
+        1:  372:	info = N * log( N );					/* part 1 */
         -:  373:
-    #####:  374:	for ( i = 0; i < r; ++i )
+        3:  374:	for ( i = 0; i < r; ++i )
         -:  375:		{
-    #####:  376:		double	pi = xi[i];	/* row sum */
+        2:  376:		double	pi = xi[i];	/* row sum */
         -:  377:
-    #####:  378:		if ( pi > 0.0 )
-    #####:  379:			info -= pi * log( pi );			/* part 2 */
+        2:  378:		if ( pi > 0.0 )
+        1:  379:			info -= pi * log( pi );			/* part 2 */
         -:  380:
-    #####:  381:		for ( j = 0; j < c; ++j )
+        6:  381:		for ( j = 0; j < c; ++j )
         -:  382:			{
-    #####:  383:			double	pij = (double)x(i,j);
+        4:  383:			double	pij = (double)x(i,j);
         -:  384:
-    #####:  385:			if ( pij > 0.0 )
-    #####:  386:				info += pij * log( pij );	/* part 3 */
-    #####:  387:			}
-    #####:  388:		}
+        4:  385:			if ( pij > 0.0 )
+        1:  386:				info += pij * log( pij );	/* part 3 */
+        4:  387:			}
+        2:  388:		}
         -:  389:
-    #####:  390:	for ( j = 0; j < c; ++j )
+        3:  390:	for ( j = 0; j < c; ++j )
         -:  391:		{
-    #####:  392:		double	pj = xj[j];	/* column sum */
+        2:  392:		double	pj = xj[j];	/* column sum */
         -:  393:
-    #####:  394:		if ( pj > 0.0 )
-    #####:  395:			info -= pj * log( pj );			/* part 4 */
-    #####:  396:		}
+        2:  394:		if ( pj > 0.0 )
+        1:  395:			info -= pj * log( pj );			/* part 4 */
+        2:  396:		}
         -:  397:
-    #####:  398:	info *= 2.0;			/* for comparability with chi-square */
+        1:  398:	info *= 2.0;			/* for comparability with chi-square */
         -:  399:
         -:  400:    ret1:
-    #####:  401:	free( (pointer)xj );
+        1:  401:	free( (pointer)xj );
         -:  402:    ret2:
-    #####:  403:	free( (pointer)xi );
+        1:  403:	free( (pointer)xi );
         -:  404:    ret3:
         1:  405:	return info;
         -:  406:	}

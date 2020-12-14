@@ -45,18 +45,18 @@ def draw_cumulative_graph_coverage(perm, dataset, suite, alg):
     cumulative_coverage = [float(x[15:20]) for x in stdout.decode('utf-8').split('\n') if '%' in x]
     cumulative_coverage.insert(0, 0)
 
-    plt.figure(dpi=1200)
     plt.plot(list(range(len(perm) + 1)), cumulative_coverage)
     plt.ylabel('Coverage %')
     plt.xlabel('# of Test Cases Executed')
-    plt.gca().set_ylim([0, 100])
+    plt.ylim([0, 100])
     if alg == 'greedy':
         plt.title(f'Greedy ({dataset}, {suite})')
     elif alg == 'random':
         plt.title(f'Random ({dataset}, {suite})')
     elif alg == 'sway':
         plt.title(f'SWAY ({dataset}, {suite})')
-    plt.savefig(f'Plots/cumulative_coverage/{dataset}_{suite}_{alg}')
+    plt.savefig(f'Plots/cumulative_coverage/{dataset}_{suite}_{alg}.png', dpi=1200)
+    # plt.show()
 
 
 def draw_cumulative_graph_fault(matrix, fault_dict, perm, dataset, suite, alg):
@@ -72,7 +72,6 @@ def draw_cumulative_graph_fault(matrix, fault_dict, perm, dataset, suite, alg):
                 faults[j] = 1
         fault_coverage.append(sum(faults))
 
-    plt.figure(dpi=1200)
     plt.plot(list(range(len(perm) + 1)), fault_coverage)
     plt.ylabel('Number of faults covered')
     plt.xlabel('# of Test Cases Executed')
@@ -80,13 +79,14 @@ def draw_cumulative_graph_fault(matrix, fault_dict, perm, dataset, suite, alg):
     if alg == 'greedy':
         plt.title(f'Greedy ({dataset}, {suite})')
     if alg == 'random':
-            plt.title(f'Random ({dataset}, {suite})')
+        plt.title(f'Random ({dataset}, {suite})')
     elif alg == 'sway':
         plt.title(f'SWAY ({dataset}, {suite})')
-    plt.savefig(f'Plots/cumulative_fault/{dataset}_{suite}_{alg}')
+    plt.savefig(f'Plots/cumulative_fault/{dataset}_{suite}_{alg}.png', dpi=1200)
+    # plt.show()
 
 
 if __name__ == '__main__':
     tmp = list(range(1, 322))
     random.shuffle(tmp)
-    draw_cumulative_graph_coverage(tmp, 'printtokens', 's50', 'sway')
+    draw_cumulative_graph_coverage(tmp, 'printtokens2', 's50', 'sway')

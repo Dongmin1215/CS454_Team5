@@ -1,7 +1,7 @@
         -:    0:Source:print_tokens2.c
         -:    0:Graph:print_tokens2.gcno
         -:    0:Data:print_tokens2.gcda
-        -:    0:Runs:232
+        -:    0:Runs:233
         -:    0:Programs:1
         -:    1:/***********************************************/
         -:    2:/*  assgnment.5  Shu Z. A00042813 for CS453    */
@@ -23,32 +23,32 @@
         -:   18:#define TRUE 1
         -:   19:#define FALSE 0
         -:   20:
-      232:   21:main(argc,argv)
+      233:   21:main(argc,argv)
         -:   22:int argc;
         -:   23:char *argv[3];
         -:   24:{  char *fname;
         -:   25:   token tok;
         -:   26:   token_stream tp;
-      232:   27:     if(argc==1)                  /* if not given filename,take as '""' */
+      233:   27:     if(argc==1)                  /* if not given filename,take as '""' */
         -:   28:       {
-      160:   29:        fname= (char *) malloc(sizeof(char));
-      160:   30:        *fname = '\0';
-      160:   31:       }
-       72:   32:     else if(argc==2)
+      164:   29:        fname= (char *) malloc(sizeof(char));
+      164:   30:        *fname = '\0';
+      164:   31:       }
+       69:   32:     else if(argc==2)
        69:   33:        fname= argv[1];
         -:   34:     else
-        3:   35:       { fprintf(stdout, "Error!,please give the token stream\n");
-        3:   36:         exit(0);
+    #####:   35:       { fprintf(stdout, "Error!,please give the token stream\n");
+    #####:   36:         exit(0);
         -:   37:       }
-      229:   38:    tp=open_token_stream(fname);  /* open token stream */
-      229:   39:    tok=get_token(tp);
-     1962:   40:    while (is_eof_token(tok) ==FALSE) /* take one token each time until eof */
+      233:   38:    tp=open_token_stream(fname);  /* open token stream */
+      233:   39:    tok=get_token(tp);
+     1922:   40:    while (is_eof_token(tok) ==FALSE) /* take one token each time until eof */
         -:   41:    {
-     1733:   42:       print_token(tok);
-     1733:   43:       tok=get_token(tp);
+     1689:   42:       print_token(tok);
+     1689:   43:       tok=get_token(tp);
         -:   44:    }
-      227:   45:    print_token(tok); /* print eof signal */
-      227:   46:    exit(0);
+      233:   45:    print_token(tok); /* print eof signal */
+      233:   46:    exit(0);
         -:   47:}
         -:   48:
         -:   49:/* stream.c code */
@@ -61,17 +61,17 @@
         -:   56:/*              open stdin,otherwise open      */
         -:   57:/*              the existed file               */
         -:   58:/***********************************************/
-      229:   59:character_stream open_character_stream(fname)
+      233:   59:character_stream open_character_stream(fname)
         -:   60:char *fname;
         -:   61:{ character_stream fp;
-      229:   62:  if(fname == NULL)
-      160:   63:     fp=stdin;
+      233:   62:  if(fname == NULL)
+      164:   63:     fp=stdin;
        69:   64:  else if ((fp=fopen(fname,"r"))== NULL)
         -:   65:  {
-        2:   66:       fprintf(stdout, "The file %s doesn't exists\n",fname);
-        2:   67:       exit(0);
+    #####:   66:       fprintf(stdout, "The file %s doesn't exists\n",fname);
+    #####:   67:       exit(0);
         -:   68:  }
-      227:   69:  return(fp);
+      233:   69:  return(fp);
         -:   70:}
         -:   71:
         -:   72:/**********************************************/
@@ -79,11 +79,11 @@
         -:   74:/* INPUT:       a pointer to char_stream      */
         -:   75:/* OUTPUT:      a character                   */
         -:   76:/**********************************************/
-    14774:   77:char get_char(fp)
+    12725:   77:char get_char(fp)
         -:   78:character_stream fp;
         -:   79:{ char ch;
-    14774:   80:  ch=getc(fp);
-    14774:   81:  return(ch);
+    12725:   80:  ch=getc(fp);
+    12725:   81:  return(ch);
         -:   82:}
         -:   83:
         -:   84:/***************************************************/
@@ -92,18 +92,18 @@
         -:   87:/* OUTPUT:    a character                          */
         -:   88:/* DESCRIPTION:when unable to put back,return EOF  */
         -:   89:/***************************************************/
-      345:   90:char unget_char(ch,fp)
+      348:   90:char unget_char(ch,fp)
         -:   91:character_stream fp;
         -:   92:char ch;
         -:   93:{ char c;
-      345:   94:  c=ungetc(ch,fp);
-      345:   95:  if(c ==EOF)
+      348:   94:  c=ungetc(ch,fp);
+      348:   95:  if(c ==EOF)
         -:   96:    {
-       45:   97:     return(c);
+       42:   97:     return(c);
         -:   98:    }
         -:   99:  else
-      300:  100:     return(c);
-      345:  101:}
+      306:  100:     return(c);
+      348:  101:}
         -:  102:
         -:  103:/* tokenizer.c code */
         -:  104:
@@ -129,15 +129,15 @@
         -:  124:/* DESCRIPTION: when filename is EMPTY,choice standard  */
         -:  125:/*              input device as input source            */
         -:  126:/********************************************************/
-      229:  127:token_stream open_token_stream(fname)
+      233:  127:token_stream open_token_stream(fname)
         -:  128:char *fname;
         -:  129:{
         -:  130: token_stream fp;
-      229:  131: if(strcmp(fname,"")==0)
-      160:  132:    fp=open_character_stream(NULL);
+      233:  131: if(strcmp(fname,"")==0)
+      164:  132:    fp=open_character_stream(NULL);
         -:  133: else
        69:  134:    fp=open_character_stream(fname);
-      227:  135: return(fp);
+      233:  135: return(fp);
         -:  136:}
         -:  137:
         -:  138:/********************************************************/
@@ -147,90 +147,90 @@
         -:  142:/* DESCRIPTION: according the syntax of tokens,dealing  */
         -:  143:/*              with different case  and get one token  */
         -:  144:/********************************************************/
-     1960:  145:token get_token(tp)
+     1922:  145:token get_token(tp)
         -:  146:token_stream tp;
         -:  147:{ 
-     1960:  148:  int i=0,j;
-     1960:  149:  int id=0;
+     1922:  148:  int i=0,j;
+     1922:  149:  int id=0;
         -:  150:  char ch,ch1[2];
-   160720:  151:  for (j=0;j<=80;j++)          /* initial the buffer   */
-   158760:  152:      { buffer[j]='\0';} 
-     1960:  153:   ch1[0]='\0';
-     1960:  154:   ch1[1]='\0';
-     1960:  155:   ch=get_char(tp);
-     4675:  156:   while(ch==' '||ch=='\n')      /* strip all blanks until meet characters */
+   157604:  151:  for (j=0;j<=80;j++)          /* initial the buffer   */
+   155682:  152:      { buffer[j]='\0';} 
+     1922:  153:   ch1[0]='\0';
+     1922:  154:   ch1[1]='\0';
+     1922:  155:   ch=get_char(tp);
+     3372:  156:   while(ch==' '||ch=='\n')      /* strip all blanks until meet characters */
         -:  157:      {
-     2715:  158:       ch=get_char(tp);
+     1450:  158:       ch=get_char(tp);
         -:  159:      } 
-     1960:  160:   buffer[i]=ch;
-     1960:  161:   if(is_eof_token(buffer)==TRUE)return(buffer);
-     1733:  162:   if(is_spec_symbol(buffer)==TRUE)return(buffer); 
-     1268:  163:   if(ch =='"')id=1;    /* prepare for string */
-     1268:  164:   if(ch ==59)id=2;    /* prepare for comment */
-     1268:  165:   ch=get_char(tp);
+     1922:  160:   buffer[i]=ch;
+     1922:  161:   if(is_eof_token(buffer)==TRUE)return(buffer);
+     1689:  162:   if(is_spec_symbol(buffer)==TRUE)return(buffer); 
+     1213:  163:   if(ch =='"')id=1;    /* prepare for string */
+     1213:  164:   if(ch ==59)id=2;    /* prepare for comment */
+     1213:  165:   ch=get_char(tp);
         -:  166:
-    10099:  167:   while (is_token_end(id,ch) == FALSE)/* until meet the end character */
+     9353:  167:   while (is_token_end(id,ch) == FALSE)/* until meet the end character */
         -:  168:   {
-     8831:  169:       i++;
-     8831:  170:       buffer[i]=ch;
-     8831:  171:       ch=get_char(tp);
+     8140:  169:       i++;
+     8140:  170:       buffer[i]=ch;
+     8140:  171:       ch=get_char(tp);
         -:  172:   }
-     1268:  173:   ch1[0]=ch;                        /* hold the end charcater          */
-     1268:  174:   if(is_eof_token(ch1)==TRUE)       /* if end character is eof token    */
-       45:  175:      { ch=unget_char(ch,tp);        /* then put back eof on token_stream */
-       45:  176:        if(ch==EOF)unget_error(tp);
-       45:  177:        return(buffer);
+     1213:  173:   ch1[0]=ch;                        /* hold the end charcater          */
+     1213:  174:   if(is_eof_token(ch1)==TRUE)       /* if end character is eof token    */
+       42:  175:      { ch=unget_char(ch,tp);        /* then put back eof on token_stream */
+       42:  176:        if(ch==EOF)unget_error(tp);
+       42:  177:        return(buffer);
         -:  178:      }
-     1223:  179:   if(is_spec_symbol(ch1)==TRUE)     /* if end character is special_symbol */
-      271:  180:      { ch=unget_char(ch,tp);        /* then put back this character       */
-      271:  181:        if(ch==EOF)unget_error(tp);
-      271:  182:        return(buffer);
+     1171:  179:   if(is_spec_symbol(ch1)==TRUE)     /* if end character is special_symbol */
+      285:  180:      { ch=unget_char(ch,tp);        /* then put back this character       */
+      285:  181:        if(ch==EOF)unget_error(tp);
+      285:  182:        return(buffer);
         -:  183:      }
-      952:  184:   if(id==1)                  /* if end character is " and is string */
-      149:  185:     { i++;                     /* case,hold the second " in buffer    */
-      149:  186:       buffer[i]=ch;
-      149:  187:       return(buffer); 
+      886:  184:   if(id==1)                  /* if end character is " and is string */
+      143:  185:     { i++;                     /* case,hold the second " in buffer    */
+      143:  186:       buffer[i]=ch;
+      143:  187:       return(buffer); 
         -:  188:     }
-      803:  189:   if(id==0 && ch==59)
+      743:  189:   if(id==0 && ch==59)
         -:  190:                                   /* when not in string or comment,meet ";" */
-       29:  191:     { ch=unget_char(ch,tp);       /* then put back this character         */
-       29:  192:       if(ch==EOF)unget_error(tp);
-       29:  193:       return(buffer); 
+       21:  191:     { ch=unget_char(ch,tp);       /* then put back this character         */
+       21:  192:       if(ch==EOF)unget_error(tp);
+       21:  193:       return(buffer); 
         -:  194:     }
-      774:  195:  return(buffer);                   /* return nomal case token             */
-     1960:  196:}
+      722:  195:  return(buffer);                   /* return nomal case token             */
+     1922:  196:}
         -:  197:
         -:  198:/*******************************************************/
         -:  199:/* NAME:	is_token_end                           */
         -:  200:/* INPUT:       a character,a token status             */
         -:  201:/* OUTPUT:	a BOOLEAN value                        */
         -:  202:/*******************************************************/
-    10099:  203:static int is_token_end(str_com_id,ch)
+     9353:  203:static int is_token_end(str_com_id,ch)
         -:  204:char ch;
         -:  205:int str_com_id;
         -:  206:{ char ch1[2];  /* fixed array declaration MONI */
-    10099:  207: ch1[0]=ch;
-    10099:  208: ch1[1]='\0';
-    10099:  209: if(is_eof_token(ch1)==TRUE)return(TRUE); /* is eof token? */
-    10054:  210: if(str_com_id==1)          /* is string token */
-     2155:  211:    { if(ch=='"' | ch=='\n')   /* for string until meet another " */
-      149:  212:         return(TRUE);
+     9353:  207: ch1[0]=ch;
+     9353:  208: ch1[1]='\0';
+     9353:  209: if(is_eof_token(ch1)==TRUE)return(TRUE); /* is eof token? */
+     9311:  210: if(str_com_id==1)          /* is string token */
+     2103:  211:    { if(ch=='"' | ch=='\n')   /* for string until meet another " */
+      143:  212:         return(TRUE);
         -:  213:      else
-     2006:  214:         return(FALSE);
+     1960:  214:         return(FALSE);
         -:  215:    }
         -:  216:
-     7899:  217: if(str_com_id==2)    /* is comment token */
-     1505:  218:   { if(ch=='\n')     /* for comment until meet end of line */
-      124:  219:        return(TRUE);
+     7208:  217: if(str_com_id==2)    /* is comment token */
+     1217:  218:   { if(ch=='\n')     /* for comment until meet end of line */
+      112:  219:        return(TRUE);
         -:  220:      else
-     1381:  221:        return(FALSE);
+     1105:  221:        return(FALSE);
         -:  222:   }
         -:  223:
-     6394:  224: if(is_spec_symbol(ch1)==TRUE) return(TRUE); /* is special_symbol? */
-     6123:  225: if(ch ==' ' || ch=='\n' || ch==59) return(TRUE); 
+     5991:  224: if(is_spec_symbol(ch1)==TRUE) return(TRUE); /* is special_symbol? */
+     5706:  225: if(ch ==' ' || ch=='\n' || ch==59) return(TRUE); 
         -:  226:                              /* others until meet blank or tab or 59 */
-     5444:  227: return(FALSE);               /* other case,return FALSE */
-    10099:  228:}
+     5075:  227: return(FALSE);               /* other case,return FALSE */
+     9353:  228:}
         -:  229:
         -:  230:/****************************************************/
         -:  231:/* NAME :	token_type                          */
@@ -239,19 +239,19 @@
         -:  234:/* DESCRIPTION: the integer value is corresponding  */
         -:  235:/*              to the different token type         */
         -:  236:/****************************************************/
-     1960:  237:static int token_type(tok)
+     1922:  237:static int token_type(tok)
         -:  238:token tok;
         -:  239:{ 
-     1960:  240: if(is_keyword(tok))return(keyword);
-     1787:  241: if(is_spec_symbol(tok))return(spec_symbol);
-     1322:  242: if(is_identifier(tok))return(identifier);
-     1075:  243: if(is_num_constant(tok))return(num_constant);
-      952:  244: if(is_str_constant(tok))return(str_constant);
-      811:  245: if(is_char_constant(tok))return(char_constant);
-      758:  246: if(is_comment(tok))return(comment);
-      629:  247: if(is_eof_token(tok))return(end);
-      402:  248: return(error);                    /* else look as error token */
-     1960:  249:}
+     1922:  240: if(is_keyword(tok))return(keyword);
+     1756:  241: if(is_spec_symbol(tok))return(spec_symbol);
+     1280:  242: if(is_identifier(tok))return(identifier);
+     1070:  243: if(is_num_constant(tok))return(num_constant);
+      951:  244: if(is_str_constant(tok))return(str_constant);
+      822:  245: if(is_char_constant(tok))return(char_constant);
+      769:  246: if(is_comment(tok))return(comment);
+      654:  247: if(is_eof_token(tok))return(end);
+      421:  248: return(error);                    /* else look as error token */
+     1922:  249:}
         -:  250:
         -:  251:/****************************************************/
         -:  252:/* NAME:	print_token                         */
@@ -259,33 +259,33 @@
         -:  254:/* OUTPUT:      a BOOLEAN value,print out the token */
         -:  255:/*              according the forms required        */
         -:  256:/****************************************************/
-     1960:  257:int print_token(tok)
+     1922:  257:int print_token(tok)
         -:  258:token tok;
         -:  259:{ int type;
-     1960:  260:  type=token_type(tok);
-     1960:  261: if(type==error)
-      402:  262:   { fprintf(stdout, "error,\"%s\".\n",tok);
-      402:  263:   } 
-     1960:  264: if(type==keyword)
-      173:  265:   {fprintf(stdout, "keyword,\"%s\".\n",tok);
-      173:  266:   }
-     1960:  267: if(type==spec_symbol)print_spec_symbol(tok);
-     1960:  268: if(type==identifier)
-      247:  269:   {fprintf(stdout, "identifier,\"%s\".\n",tok);
-      247:  270:   }
-     1960:  271: if(type==num_constant)
-      123:  272:   {fprintf(stdout, "numeric,%s.\n",tok);
-      123:  273:   }
-     1960:  274: if(type==str_constant)
-      141:  275:   {fprintf(stdout, "string,%s.\n",tok);
-      141:  276:   }
-     1960:  277: if(type==char_constant)
+     1922:  260:  type=token_type(tok);
+     1922:  261: if(type==error)
+      421:  262:   { fprintf(stdout, "error,\"%s\".\n",tok);
+      421:  263:   } 
+     1922:  264: if(type==keyword)
+      166:  265:   {fprintf(stdout, "keyword,\"%s\".\n",tok);
+      166:  266:   }
+     1922:  267: if(type==spec_symbol)print_spec_symbol(tok);
+     1922:  268: if(type==identifier)
+      210:  269:   {fprintf(stdout, "identifier,\"%s\".\n",tok);
+      210:  270:   }
+     1922:  271: if(type==num_constant)
+      119:  272:   {fprintf(stdout, "numeric,%s.\n",tok);
+      119:  273:   }
+     1922:  274: if(type==str_constant)
+      129:  275:   {fprintf(stdout, "string,%s.\n",tok);
+      129:  276:   }
+     1922:  277: if(type==char_constant)
        53:  278:   {tok=tok+1;
        53:  279:    fprintf(stdout, "character,\"%s\".\n",tok);
        53:  280:   }
-     1960:  281: if(type==end) 
-      227:  282:   fprintf(stdout, "eof.\n");
-     1960:  283:   }
+     1922:  281: if(type==end) 
+      233:  282:   fprintf(stdout, "eof.\n");
+     1922:  283:   }
         -:  284:
         -:  285:/* the code for tokens judgment function */
         -:  286:
@@ -294,140 +294,140 @@
         -:  289:/* INPUT: 	a pointer to a token */
         -:  290:/* OUTPUT:      a BOOLEAN value      */
         -:  291:/*************************************/
-    15916:  292:int is_eof_token(tok)
+    15064:  292:int is_eof_token(tok)
         -:  293:token tok;
         -:  294:{ 
-    15916:  295:  if( *tok==EOF)
-      771:  296:      return(TRUE);
+    15064:  295:  if( *tok==EOF)
+      783:  296:      return(TRUE);
         -:  297:  else
-    15145:  298:      return(FALSE);
-    15916:  299:}
+    14281:  298:      return(FALSE);
+    15064:  299:}
         -:  300:
         -:  301:/*************************************/
         -:  302:/* NAME:	is_comment           */
         -:  303:/* INPUT: 	a pointer to a token */
         -:  304:/* OUTPUT:      a BOOLEAN value      */
         -:  305:/*************************************/
-      758:  306:static int is_comment(ident)
+      769:  306:static int is_comment(ident)
         -:  307:token ident;
         -:  308:{
-      758:  309:  if( (*ident) ==59 )   /* the char is 59   */
-      129:  310:     return(TRUE);
+      769:  309:  if( (*ident) ==59 )   /* the char is 59   */
+      115:  310:     return(TRUE);
         -:  311:  else
-      629:  312:     return(FALSE);
-      758:  313:}
+      654:  312:     return(FALSE);
+      769:  313:}
         -:  314:
         -:  315:/*************************************/
         -:  316:/* NAME:	is_keyword           */
         -:  317:/* INPUT: 	a pointer to a token */
         -:  318:/* OUTPUT:      a BOOLEAN value      */
         -:  319:/*************************************/
-     1960:  320:static int is_keyword(str)
+     1922:  320:static int is_keyword(str)
         -:  321:    token  str;
         -:  322:{ 
-     3782:  323: if (!strcmp(str,"and") || !strcmp(str,"or") || !strcmp(str,"if") ||
-     1886:  324:    !strcmp(str,"xor")||!strcmp(str,"lambda")||!strcmp(str,"=>"))
-      173:  325:      return(TRUE);
+     3701:  323: if (!strcmp(str,"and") || !strcmp(str,"or") || !strcmp(str,"if") ||
+     1846:  324:    !strcmp(str,"xor")||!strcmp(str,"lambda")||!strcmp(str,"=>"))
+      166:  325:      return(TRUE);
         -:  326:  else 
-     1787:  327:      return(FALSE);
-     1960:  328:}
+     1756:  327:      return(FALSE);
+     1922:  328:}
         -:  329:
         -:  330:/*************************************/
         -:  331:/* NAME:	is_char_constant     */
         -:  332:/* INPUT: 	a pointer to a token */
         -:  333:/* OUTPUT:      a BOOLEAN value      */
         -:  334:/*************************************/
-      811:  335:static int is_char_constant(str)
+      822:  335:static int is_char_constant(str)
         -:  336:    token str;
         -:  337:{
-      811:  338:  if ((*str)=='#' && isalpha(*(str+1)))
+      822:  338:  if ((*str)=='#' && isalpha(*(str+1)))
        53:  339:     return(TRUE);
         -:  340:  else  
-      758:  341:     return(FALSE);
-      811:  342:}
+      769:  341:     return(FALSE);
+      822:  342:}
         -:  343:
         -:  344:/*************************************/
         -:  345:/* NAME:	is_num_constant      */
         -:  346:/* INPUT: 	a pointer to a token */
         -:  347:/* OUTPUT:      a BOOLEAN value      */
         -:  348:/*************************************/
-     1075:  349:static int is_num_constant(str)
+     1070:  349:static int is_num_constant(str)
         -:  350:    token  str;
         -:  351:{
-     1075:  352:  int i=1;
+     1070:  352:  int i=1;
         -:  353:  
-     1075:  354:  if ( isdigit(*str)) 
+     1070:  354:  if ( isdigit(*str)) 
         -:  355:    {
-      274:  356:    while ( *(str+i) != '\0' )   /* until meet token end sign */
+      281:  356:    while ( *(str+i) != '\0' )   /* until meet token end sign */
         -:  357:      {
-      151:  358:       if(isdigit(*(str+i)))
-      100:  359:         i++;
+      162:  358:       if(isdigit(*(str+i)))
+      107:  359:         i++;
         -:  360:       else
-       51:  361:         return(FALSE);
+       55:  361:         return(FALSE);
         -:  362:      }                         /* end WHILE */
-      123:  363:    return(TRUE);
+      119:  363:    return(TRUE);
         -:  364:    }
         -:  365:  else
-      901:  366:   return(FALSE);               /* other return FALSE */
-     1075:  367:}
+      896:  366:   return(FALSE);               /* other return FALSE */
+     1070:  367:}
         -:  368:
         -:  369:/*************************************/
         -:  370:/* NAME:	is_str_constant      */
         -:  371:/* INPUT: 	a pointer to a token */
         -:  372:/* OUTPUT:      a BOOLEAN value      */
         -:  373:/*************************************/
-      952:  374:static int is_str_constant(str)
+      951:  374:static int is_str_constant(str)
         -:  375:    token str;
         -:  376:{
-      952:  377:  int i=1;
+      951:  377:  int i=1;
         -:  378: 
-      952:  379:  if ( *str =='"')
-     2165:  380:     { while (*(str+i)!='\0')  /* until meet the token end sign */
-     2155:  381:         { if(*(str+i)=='"')
-      141:  382:             return(TRUE);        /* meet the second '"'           */
+      951:  379:  if ( *str =='"')
+     2120:  380:     { while (*(str+i)!='\0')  /* until meet the token end sign */
+     2103:  381:         { if(*(str+i)=='"')
+      129:  382:             return(TRUE);        /* meet the second '"'           */
         -:  383:           else
-     2014:  384:           i++;
+     1974:  384:           i++;
         -:  385:         }               /* end WHILE */
-       10:  386:     return(FALSE);
+       17:  386:     return(FALSE);
         -:  387:    }
         -:  388:  else
-      801:  389:    return(FALSE);       /* other return FALSE */
-      952:  390:}
+      805:  389:    return(FALSE);       /* other return FALSE */
+      951:  390:}
         -:  391:/*************************************/
         -:  392:/* NAME:	is_identifier         */
         -:  393:/* INPUT: 	a pointer to a token */
         -:  394:/* OUTPUT:      a BOOLEAN value      */
         -:  395:/*************************************/
-     1322:  396:static int is_identifier(str)
+     1280:  396:static int is_identifier(str)
         -:  397:    token  str;
         -:  398:{
-     1322:  399:  int i=1;
+     1280:  399:  int i=1;
         -:  400:
-     1322:  401:  if ( isalpha( *str) ) 
+     1280:  401:  if ( isalpha( *str) ) 
         -:  402:     {
-     2278:  403:        while(  *(str+i) !='\0' )   /* unti meet the end token sign */
+     1982:  403:        while(  *(str+i) !='\0' )   /* unti meet the end token sign */
         -:  404:           { 
-     2031:  405:            if(isalpha(*(str+i)) || isdigit(*(str+i)))   
-     1851:  406:               i++;
+     1772:  405:            if(isalpha(*(str+i)) || isdigit(*(str+i)))   
+     1591:  406:               i++;
         -:  407:            else
-      180:  408:               return(FALSE);
+      181:  408:               return(FALSE);
         -:  409:           }      /* end WHILE */
-      247:  410:     return(TRUE);
+      210:  410:     return(TRUE);
         -:  411:     }
         -:  412:  else
-      895:  413:     return(FALSE);
-     1322:  414:}
+      889:  413:     return(FALSE);
+     1280:  414:}
         -:  415:
         -:  416:/******************************************/
         -:  417:/* NAME:	unget_error               */
         -:  418:/* INPUT:       a pointer to token stream */
         -:  419:/* OUTPUT: 	print error message       */
         -:  420:/******************************************/
-       45:  421:static unget_error(fp)
+       42:  421:static unget_error(fp)
         -:  422:character_stream *fp;
         -:  423:{
-       45:  424:fprintf(stdout,"It can not get charcter\n");
-       45:  425:}
+       42:  424:fprintf(stdout,"It can not get charcter\n");
+       42:  425:}
         -:  426:
         -:  427:/*************************************************/
         -:  428:/* NAME:        print_spec_symbol                */
@@ -435,42 +435,42 @@
         -:  430:/* OUTPUT :     print out the spec_symbol token  */
         -:  431:/*              according to the form required   */
         -:  432:/*************************************************/
-      465:  433:static void print_spec_symbol(str)
+      476:  433:static void print_spec_symbol(str)
         -:  434:token str;
         -:  435:{
-      465:  436:    if      (!strcmp(str,"("))
+      476:  436:    if      (!strcmp(str,"("))
         -:  437:    {
        61:  438:             fprintf(stdout, "%s\n","lparen.");
        61:  439:             return;
         -:  440:    } 
-      404:  441:    if (!strcmp(str,")"))
+      415:  441:    if (!strcmp(str,")"))
         -:  442:    {
-       68:  443:             fprintf(stdout, "%s\n","rparen.");
-       68:  444:             return;
+       61:  443:             fprintf(stdout, "%s\n","rparen.");
+       61:  444:             return;
         -:  445:    }
-      336:  446:    if (!strcmp(str,"["))
+      354:  446:    if (!strcmp(str,"["))
         -:  447:    {
-       65:  448:             fprintf(stdout, "%s\n","lsquare.");
-       65:  449:             return;
+       71:  448:             fprintf(stdout, "%s\n","lsquare.");
+       71:  449:             return;
         -:  450:    }
-      271:  451:    if (!strcmp(str,"]"))
+      283:  451:    if (!strcmp(str,"]"))
         -:  452:    {
-       67:  453:             fprintf(stdout, "%s\n","rsquare.");
-       67:  454:             return;
+       70:  453:             fprintf(stdout, "%s\n","rsquare.");
+       70:  454:             return;
         -:  455:    }
-      204:  456:    if (!strcmp(str,"'"))
+      213:  456:    if (!strcmp(str,"'"))
         -:  457:    {
-       55:  458:             fprintf(stdout, "%s\n","quote.");
-       55:  459:             return;
+       63:  458:             fprintf(stdout, "%s\n","quote.");
+       63:  459:             return;
         -:  460:    }
-      149:  461:    if (!strcmp(str,"`"))
+      150:  461:    if (!strcmp(str,"`"))
         -:  462:    {
-       83:  463:             fprintf(stdout, "%s\n","bquote.");
-       83:  464:             return;
+       62:  463:             fprintf(stdout, "%s\n","bquote.");
+       62:  464:             return;
         -:  465:    }
         -:  466:    
-       66:  467:             fprintf(stdout, "%s\n","comma.");
-      465:  468:}
+       88:  467:             fprintf(stdout, "%s\n","comma.");
+      476:  468:}
         -:  469:
         -:  470:
         -:  471:/*************************************/
@@ -478,38 +478,38 @@
         -:  473:/* INPUT:       a pointer to a token */
         -:  474:/* OUTPUT:      a BOOLEAN value      */
         -:  475:/*************************************/
-    11137:  476:static int is_spec_symbol(str)
+    10607:  476:static int is_spec_symbol(str)
         -:  477:    token str;
         -:  478:{
-    11137:  479:    if (!strcmp(str,"("))
+    10607:  479:    if (!strcmp(str,"("))
         -:  480:    {  
-      186:  481:        return(TRUE);
+      200:  481:        return(TRUE);
         -:  482:    }
-    10951:  483:    if (!strcmp(str,")"))
+    10407:  483:    if (!strcmp(str,")"))
         -:  484:    {
-      226:  485:        return(TRUE);
+      196:  485:        return(TRUE);
         -:  486:    }
-    10725:  487:    if (!strcmp(str,"["))
+    10211:  487:    if (!strcmp(str,"["))
         -:  488:    {
-      198:  489:        return(TRUE);
+      222:  489:        return(TRUE);
         -:  490:    }
-    10527:  491:    if (!strcmp(str,"]"))
+     9989:  491:    if (!strcmp(str,"]"))
         -:  492:    {
-      214:  493:        return(TRUE);
+      228:  493:        return(TRUE);
         -:  494:    }
-    10313:  495:    if (!strcmp(str,"'"))
+     9761:  495:    if (!strcmp(str,"'"))
         -:  496:    {
-      174:  497:        return(TRUE);
+      204:  497:        return(TRUE);
         -:  498:    }
-    10139:  499:    if (!strcmp(str,"`"))
+     9557:  499:    if (!strcmp(str,"`"))
         -:  500:    {
-      256:  501:        return(TRUE);
+      182:  501:        return(TRUE);
         -:  502:    }
-     9883:  503:    if (!strcmp(str,","))
+     9375:  503:    if (!strcmp(str,","))
         -:  504:    {
-      218:  505:        return(TRUE);
+      290:  505:        return(TRUE);
         -:  506:    }
-     9665:  507:    return(FALSE);     /* others return FALSE */
-    11137:  508:}
+     9085:  507:    return(FALSE);     /* others return FALSE */
+    10607:  508:}
         -:  509:
         -:  510:

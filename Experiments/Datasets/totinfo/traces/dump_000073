@@ -59,7 +59,7 @@
         -:   54:
         3:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
         -:   56:		{
-        8:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
+        9:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
         -:   58:			;
         -:   59:
         2:   60:		if ( *p == '\0' )
@@ -85,15 +85,15 @@
         -:   80:
         -:   81:		/* input tallies */
         -:   82:
-       13:   83:		for ( i = 0; i < r; ++i )
-       60:   84:			for ( j = 0; j < c; ++j )
-       48:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
+        3:   83:		for ( i = 0; i < r; ++i )
+       10:   84:			for ( j = 0; j < c; ++j )
+        8:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
         -:   89:						   );
     #####:   90:					return EXIT_FAILURE;
-       12:   91:					}
+        2:   91:					}
         -:   92:
         -:   93:		/* compute statistic */
         -:   94:
@@ -334,25 +334,25 @@
         -:  329:
         1:  330:	N = 0.0;
         -:  331:
-       13:  332:	for ( i = 0; i < r; ++i )
+        3:  332:	for ( i = 0; i < r; ++i )
         -:  333:		{
-       12:  334:		double	sum = 0.0;	/* accumulator */
+        2:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-       60:  336:		for ( j = 0; j < c; ++j )
+       10:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
-       48:  338:			long	k = x(i,j);
+        8:  338:			long	k = x(i,j);
         -:  339:
-       48:  340:			if ( k < 0L )
+        8:  340:			if ( k < 0L )
         -:  341:				{
     #####:  342:				info = -2.0;
     #####:  343:				goto ret1;
         -:  344:				}
         -:  345:
-       48:  346:			sum += (double)k;
-       48:  347:			}
+        8:  346:			sum += (double)k;
+        8:  347:			}
         -:  348:
-       12:  349:		N += xi[i] = sum;
-       12:  350:		}
+        2:  349:		N += xi[i] = sum;
+        2:  350:		}
         -:  351:
         1:  352:	if ( N <= 0.0 )
         -:  353:		{
@@ -366,8 +366,8 @@
         -:  361:		{
         4:  362:		double	sum = 0.0;	/* accumulator */
         -:  363:
-       52:  364:		for ( i = 0; i < r; ++i )
-       48:  365:			sum += (double)x(i,j);
+       12:  364:		for ( i = 0; i < r; ++i )
+        8:  365:			sum += (double)x(i,j);
         -:  366:
         4:  367:		xj[j] = sum;
         4:  368:		}
@@ -376,21 +376,21 @@
         -:  371:
         1:  372:	info = N * log( N );					/* part 1 */
         -:  373:
-       13:  374:	for ( i = 0; i < r; ++i )
+        3:  374:	for ( i = 0; i < r; ++i )
         -:  375:		{
-       12:  376:		double	pi = xi[i];	/* row sum */
+        2:  376:		double	pi = xi[i];	/* row sum */
         -:  377:
-       12:  378:		if ( pi > 0.0 )
-       12:  379:			info -= pi * log( pi );			/* part 2 */
+        2:  378:		if ( pi > 0.0 )
+        2:  379:			info -= pi * log( pi );			/* part 2 */
         -:  380:
-       60:  381:		for ( j = 0; j < c; ++j )
+       10:  381:		for ( j = 0; j < c; ++j )
         -:  382:			{
-       48:  383:			double	pij = (double)x(i,j);
+        8:  383:			double	pij = (double)x(i,j);
         -:  384:
-       48:  385:			if ( pij > 0.0 )
-       48:  386:				info += pij * log( pij );	/* part 3 */
-       48:  387:			}
-       12:  388:		}
+        8:  385:			if ( pij > 0.0 )
+        8:  386:				info += pij * log( pij );	/* part 3 */
+        8:  387:			}
+        2:  388:		}
         -:  389:
         5:  390:	for ( j = 0; j < c; ++j )
         -:  391:		{

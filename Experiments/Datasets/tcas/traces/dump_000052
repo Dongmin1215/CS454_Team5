@@ -104,14 +104,14 @@
         1:   99:    return result;
         -:  100:}
         -:  101:
-        3:  102:bool Own_Below_Threat()
+        4:  102:bool Own_Below_Threat()
         -:  103:{
-        3:  104:    return (Own_Tracked_Alt < Other_Tracked_Alt);
+        4:  104:    return (Own_Tracked_Alt < Other_Tracked_Alt);
         -:  105:}
         -:  106:
-        1:  107:bool Own_Above_Threat()
+    #####:  107:bool Own_Above_Threat()
         -:  108:{
-        1:  109:    return (Other_Tracked_Alt < Own_Tracked_Alt);
+    #####:  109:    return (Other_Tracked_Alt < Own_Tracked_Alt);
         -:  110:}
         -:  111:
         1:  112:int alt_sep_test()
@@ -136,11 +136,11 @@
         -:  131:           and Other_Tracked_Alt < Own_Tracked_Alt, which isn't possible */
     #####:  132:	    alt_sep = UNRESOLVED;
         1:  133:	else if (need_upward_RA)
-    #####:  134:	    alt_sep = UPWARD_RA;
-        1:  135:	else if (need_downward_RA)
+        1:  134:	    alt_sep = UPWARD_RA;
+    #####:  135:	else if (need_downward_RA)
     #####:  136:	    alt_sep = DOWNWARD_RA;
         -:  137:	else
-        1:  138:	    alt_sep = UNRESOLVED;
+    #####:  138:	    alt_sep = UNRESOLVED;
         1:  139:    }
         -:  140:    
         1:  141:    return alt_sep;

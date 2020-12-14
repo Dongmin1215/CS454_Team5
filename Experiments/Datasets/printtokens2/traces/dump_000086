@@ -79,11 +79,11 @@
         -:   74:/* INPUT:       a pointer to char_stream      */
         -:   75:/* OUTPUT:      a character                   */
         -:   76:/**********************************************/
-        7:   77:char get_char(fp)
+        6:   77:char get_char(fp)
         -:   78:character_stream fp;
         -:   79:{ char ch;
-        7:   80:  ch=getc(fp);
-        7:   81:  return(ch);
+        6:   80:  ch=getc(fp);
+        6:   81:  return(ch);
         -:   82:}
         -:   83:
         -:   84:/***************************************************/
@@ -158,9 +158,9 @@
         2:  153:   ch1[0]='\0';
         2:  154:   ch1[1]='\0';
         2:  155:   ch=get_char(tp);
-        3:  156:   while(ch==' '||ch=='\n')      /* strip all blanks until meet characters */
+        2:  156:   while(ch==' '||ch=='\n')      /* strip all blanks until meet characters */
         -:  157:      {
-        1:  158:       ch=get_char(tp);
+    #####:  158:       ch=get_char(tp);
         -:  159:      } 
         2:  160:   buffer[i]=ch;
         2:  161:   if(is_eof_token(buffer)==TRUE)return(buffer);

@@ -454,22 +454,22 @@
         -:  449:                   state state and the inpu character ch.
         -:  450: * ****************************************************************** */
         -:  451:              
-       20:  452:static int next_state(state,ch)
+       18:  452:static int next_state(state,ch)
         -:  453:int state;
         -:  454:char ch;
         -:  455:{
-       20:  456:    if(state < 0)
+       18:  456:    if(state < 0)
         3:  457:      return(state);
-       17:  458:    if(base[state]+ch >= 0)
+       15:  458:    if(base[state]+ch >= 0)
         -:  459:    {
-       15:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
+       13:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
         6:  461:             return(next[base[state]+ch]);
         -:  462:        else
-        9:  463:              return(next_state(default1[state],ch));
+        7:  463:              return(next_state(default1[state],ch));
         -:  464:    }
         -:  465:    else
         2:  466:        return(next_state(default1[state],ch));
-       20:  467:}
+       18:  467:}
         -:  468:
         -:  469:/* *********************************************************************
         -:  470:   Function name : is_eof_token
@@ -556,11 +556,11 @@
         3:  551:          for(ind=token_ind;ind>0 && isspace(token_str[ind-1]);--ind); 
         -:  552:                        /* Delete the trailing white spaces & protect - hf */
         3:  553:           token_str[ind]='\0';token_ind=ind;
-        4:  554:          for(ind=0;ind<token_ind;++ind)
-        4:  555:                if(!isspace(token_str[ind]))
+        5:  554:          for(ind=0;ind<token_ind;++ind)
+        5:  555:                if(!isspace(token_str[ind]))
         3:  556:                      break;
-       12:  557:          for(start=0;ind<=token_ind;++start,++ind) /* Delete the leading
+       11:  557:          for(start=0;ind<=token_ind;++start,++ind) /* Delete the leading
         -:  558:                                                       white spaces. */
-        9:  559:                token_str[start]=token_str[ind];
+        8:  559:                token_str[start]=token_str[ind];
         3:  560:          return 0;
         -:  561:}

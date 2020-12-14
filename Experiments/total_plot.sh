@@ -6,7 +6,7 @@ declare -a arr=("printtokens2" "tcas" "totinfo" "printtokens" "schedule" "schedu
 ## loop!
 for i in "${arr[@]}"
 do
-	python main_boxplot.py -d "$i" &
+	python main.py -d "$i"
 done
 
 exit 1

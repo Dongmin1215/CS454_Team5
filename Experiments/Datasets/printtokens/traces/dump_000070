@@ -89,16 +89,16 @@
         -:   84:                   returns the character.       
         -:   85: * ****************************************************************** */
         -:   86:
-       10:   87:CHARACTER get_char(stream_ptr)
+       15:   87:CHARACTER get_char(stream_ptr)
         -:   88:character_stream stream_ptr;
         -:   89:{
-       10:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
+       15:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
         -:   91:      {
         3:   92:              if(fgets(stream_ptr->stream+START,80-START,stream_ptr->fp) == NULL)/* Fix bug: add -START - hf*/
         1:   93:                    stream_ptr->stream[START]=EOF;
         3:   94:              stream_ptr->stream_ind=START;
         3:   95:      }
-       10:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
+       15:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
         -:   97:}
         -:   98:
         -:   99:/* *******************************************************************
@@ -112,14 +112,14 @@
         -:  107:                   returns the value according to it.
         -:  108: * ****************************************************************** */
         -:  109:
-        7:  110:BOOLEAN is_end_of_character_stream(stream_ptr)
+       12:  110:BOOLEAN is_end_of_character_stream(stream_ptr)
         -:  111:character_stream stream_ptr;
         -:  112:{
-        7:  113:      if(stream_ptr->stream[stream_ptr->stream_ind-1] == EOF)
+       12:  113:      if(stream_ptr->stream[stream_ptr->stream_ind-1] == EOF)
         1:  114:            return(TRUE);
         -:  115:      else
-        6:  116:            return(FALSE);
-        7:  117:}
+       11:  116:            return(FALSE);
+       12:  117:}
         -:  118:
         -:  119:/* *********************************************************************
         -:  120:   Function name : unget_char
@@ -415,8 +415,8 @@
         -:  410:{
         -:  411:        char c;
         -:  412:  
-        8:  413:        while((c=get_char(stream_ptr))!='\n' && 
-        6:  414:               !is_end_of_character_stream(stream_ptr))
+       13:  413:        while((c=get_char(stream_ptr))!='\n' && 
+       11:  414:               !is_end_of_character_stream(stream_ptr))
         -:  415:             ; /* Skip the characters until EOF or EOL found. */
         1:  416:  if(c==EOF) unget_char(c, stream_ptr); /* Put back to leave gracefully - hf */
         1:  417:        return 0;
