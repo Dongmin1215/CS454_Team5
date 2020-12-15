@@ -6,7 +6,7 @@ declare -a arr=("printtokens2" "tcas" "totinfo" "printtokens" "schedule" "schedu
 ## loop!
 for i in "${arr[@]}"
 do
-	python main.py -d "$i"
+	python main.py -d "$i" -n 1000 &
 done
 
 exit 1

@@ -86,8 +86,8 @@
         -:   81:		/* input tallies */
         -:   82:
        12:   83:		for ( i = 0; i < r; ++i )
-      275:   84:			for ( j = 0; j < c; ++j )
-      264:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
+       33:   84:			for ( j = 0; j < c; ++j )
+       22:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
@@ -217,30 +217,30 @@
         2:  212:	double		gold = 0.0, fac = 1.0, b1 = 1.0,
         2:  213:			b0 = 0.0, a0 = 1.0, a1 = x;
         -:  214:
-        6:  215:	for ( n = 1; n <= ITMAX; ++n )
+        4:  215:	for ( n = 1; n <= ITMAX; ++n )
         -:  216:		{
         -:  217:		double	anf;
-        6:  218:		double	an = (double)n;
-        6:  219:		double	ana = an - a;
+        4:  218:		double	an = (double)n;
+        4:  219:		double	ana = an - a;
         -:  220:
-        6:  221:		a0 = (a1 + a0 * ana) * fac;
-        6:  222:		b0 = (b1 + b0 * ana) * fac;
-        6:  223:		anf = an * fac;
-        6:  224:		b1 = x * b0 + anf * b1;
-        6:  225:		a1 = x * a0 + anf * a1;
+        4:  221:		a0 = (a1 + a0 * ana) * fac;
+        4:  222:		b0 = (b1 + b0 * ana) * fac;
+        4:  223:		anf = an * fac;
+        4:  224:		b1 = x * b0 + anf * b1;
+        4:  225:		a1 = x * a0 + anf * a1;
         -:  226:
-        6:  227:		if ( a1 != 0.0 )
+        4:  227:		if ( a1 != 0.0 )
         -:  228:			{		/* renormalize */
-        6:  229:			double	g = b1 * (fac = 1.0 / a1);
+        4:  229:			double	g = b1 * (fac = 1.0 / a1);
         -:  230:
-        6:  231:			gold = g - gold;
+        4:  231:			gold = g - gold;
         -:  232:
-        6:  233:			if ( Abs( gold ) < EPS * Abs( g ) )
+        4:  233:			if ( Abs( gold ) < EPS * Abs( g ) )
         2:  234:				return exp( -x + a * log( x ) - LGamma( a ) ) * g;
         -:  235:
-        4:  236:			gold = g;
-        4:  237:			}
-        4:  238:		}
+        2:  236:			gold = g;
+        2:  237:			}
+        2:  238:		}
         -:  239:
         -:  240:	/*NOTREACHED*/
         2:  241:	}
@@ -338,18 +338,18 @@
         -:  333:		{
        11:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-      275:  336:		for ( j = 0; j < c; ++j )
+       33:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
-      264:  338:			long	k = x(i,j);
+       22:  338:			long	k = x(i,j);
         -:  339:
-      264:  340:			if ( k < 0L )
+       22:  340:			if ( k < 0L )
         -:  341:				{
     #####:  342:				info = -2.0;
     #####:  343:				goto ret1;
         -:  344:				}
         -:  345:
-      264:  346:			sum += (double)k;
-      264:  347:			}
+       22:  346:			sum += (double)k;
+       22:  347:			}
         -:  348:
        11:  349:		N += xi[i] = sum;
        11:  350:		}
@@ -362,15 +362,15 @@
         -:  357:
         -:  358:	/* compute column sums */
         -:  359:
-       25:  360:	for ( j = 0; j < c; ++j )
+        3:  360:	for ( j = 0; j < c; ++j )
         -:  361:		{
-       24:  362:		double	sum = 0.0;	/* accumulator */
+        2:  362:		double	sum = 0.0;	/* accumulator */
         -:  363:
-      288:  364:		for ( i = 0; i < r; ++i )
-      264:  365:			sum += (double)x(i,j);
+       24:  364:		for ( i = 0; i < r; ++i )
+       22:  365:			sum += (double)x(i,j);
         -:  366:
-       24:  367:		xj[j] = sum;
-       24:  368:		}
+        2:  367:		xj[j] = sum;
+        2:  368:		}
         -:  369:
         -:  370:	/* compute information measure (four parts) */
         -:  371:
@@ -383,22 +383,22 @@
        11:  378:		if ( pi > 0.0 )
        11:  379:			info -= pi * log( pi );			/* part 2 */
         -:  380:
-      275:  381:		for ( j = 0; j < c; ++j )
+       33:  381:		for ( j = 0; j < c; ++j )
         -:  382:			{
-      264:  383:			double	pij = (double)x(i,j);
+       22:  383:			double	pij = (double)x(i,j);
         -:  384:
-      264:  385:			if ( pij > 0.0 )
-      262:  386:				info += pij * log( pij );	/* part 3 */
-      264:  387:			}
+       22:  385:			if ( pij > 0.0 )
+       22:  386:				info += pij * log( pij );	/* part 3 */
+       22:  387:			}
        11:  388:		}
         -:  389:
-       25:  390:	for ( j = 0; j < c; ++j )
+        3:  390:	for ( j = 0; j < c; ++j )
         -:  391:		{
-       24:  392:		double	pj = xj[j];	/* column sum */
+        2:  392:		double	pj = xj[j];	/* column sum */
         -:  393:
-       24:  394:		if ( pj > 0.0 )
-       24:  395:			info -= pj * log( pj );			/* part 4 */
-       24:  396:		}
+        2:  394:		if ( pj > 0.0 )
+        2:  395:			info -= pj * log( pj );			/* part 4 */
+        2:  396:		}
         -:  397:
         1:  398:	info *= 2.0;			/* for comparability with chi-square */
         -:  399:

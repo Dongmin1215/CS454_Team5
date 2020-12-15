@@ -85,15 +85,15 @@
         -:   80:
         -:   81:		/* input tallies */
         -:   82:
-       83:   83:		for ( i = 0; i < r; ++i )
-     1113:   84:			for ( j = 0; j < c; ++j )
-     1040:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
+       55:   83:		for ( i = 0; i < r; ++i )
+      885:   84:			for ( j = 0; j < c; ++j )
+      840:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
         -:   89:						   );
     #####:   90:					return EXIT_FAILURE;
-       73:   91:					}
+       45:   91:					}
         -:   92:
         -:   93:		/* compute statistic */
         -:   94:
@@ -334,25 +334,25 @@
         -:  329:
        10:  330:	N = 0.0;
         -:  331:
-       81:  332:	for ( i = 0; i < r; ++i )
+       53:  332:	for ( i = 0; i < r; ++i )
         -:  333:		{
-       72:  334:		double	sum = 0.0;	/* accumulator */
+       44:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-     1108:  336:		for ( j = 0; j < c; ++j )
+      880:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
-     1037:  338:			long	k = x(i,j);
+      837:  338:			long	k = x(i,j);
         -:  339:
-     1037:  340:			if ( k < 0L )
+      837:  340:			if ( k < 0L )
         -:  341:				{
         1:  342:				info = -2.0;
         1:  343:				goto ret1;
         -:  344:				}
         -:  345:
-     1036:  346:			sum += (double)k;
-     1036:  347:			}
+      836:  346:			sum += (double)k;
+      836:  347:			}
         -:  348:
-       71:  349:		N += xi[i] = sum;
-       71:  350:		}
+       43:  349:		N += xi[i] = sum;
+       43:  350:		}
         -:  351:
         9:  352:	if ( N <= 0.0 )
         -:  353:		{
@@ -362,43 +362,43 @@
         -:  357:
         -:  358:	/* compute column sums */
         -:  359:
-       50:  360:	for ( j = 0; j < c; ++j )
+       68:  360:	for ( j = 0; j < c; ++j )
         -:  361:		{
-       42:  362:		double	sum = 0.0;	/* accumulator */
+       60:  362:		double	sum = 0.0;	/* accumulator */
         -:  363:
-     1062:  364:		for ( i = 0; i < r; ++i )
-     1020:  365:			sum += (double)x(i,j);
+      880:  364:		for ( i = 0; i < r; ++i )
+      820:  365:			sum += (double)x(i,j);
         -:  366:
-       42:  367:		xj[j] = sum;
-       42:  368:		}
+       60:  367:		xj[j] = sum;
+       60:  368:		}
         -:  369:
         -:  370:	/* compute information measure (four parts) */
         -:  371:
         8:  372:	info = N * log( N );					/* part 1 */
         -:  373:
-       75:  374:	for ( i = 0; i < r; ++i )
+       47:  374:	for ( i = 0; i < r; ++i )
         -:  375:		{
-       67:  376:		double	pi = xi[i];	/* row sum */
+       39:  376:		double	pi = xi[i];	/* row sum */
         -:  377:
-       67:  378:		if ( pi > 0.0 )
-       67:  379:			info -= pi * log( pi );			/* part 2 */
+       39:  378:		if ( pi > 0.0 )
+       39:  379:			info -= pi * log( pi );			/* part 2 */
         -:  380:
-     1087:  381:		for ( j = 0; j < c; ++j )
+      859:  381:		for ( j = 0; j < c; ++j )
         -:  382:			{
-     1020:  383:			double	pij = (double)x(i,j);
+      820:  383:			double	pij = (double)x(i,j);
         -:  384:
-     1020:  385:			if ( pij > 0.0 )
-     1020:  386:				info += pij * log( pij );	/* part 3 */
-     1020:  387:			}
-       67:  388:		}
+      820:  385:			if ( pij > 0.0 )
+      814:  386:				info += pij * log( pij );	/* part 3 */
+      820:  387:			}
+       39:  388:		}
         -:  389:
-       50:  390:	for ( j = 0; j < c; ++j )
+       68:  390:	for ( j = 0; j < c; ++j )
         -:  391:		{
-       42:  392:		double	pj = xj[j];	/* column sum */
+       60:  392:		double	pj = xj[j];	/* column sum */
         -:  393:
-       42:  394:		if ( pj > 0.0 )
-       42:  395:			info -= pj * log( pj );			/* part 4 */
-       42:  396:		}
+       60:  394:		if ( pj > 0.0 )
+       60:  395:			info -= pj * log( pj );			/* part 4 */
+       60:  396:		}
         -:  397:
         8:  398:	info *= 2.0;			/* for comparability with chi-square */
         -:  399:

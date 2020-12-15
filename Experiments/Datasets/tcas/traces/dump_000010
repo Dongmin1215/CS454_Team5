@@ -58,60 +58,60 @@
         1:   53:    Positive_RA_Alt_Thresh[3] = 740;
         1:   54:}
         -:   55:
-    #####:   56:int ALIM ()
+        2:   56:int ALIM ()
         -:   57:{
-    #####:   58: return Positive_RA_Alt_Thresh[Alt_Layer_Value];
+        2:   58: return Positive_RA_Alt_Thresh[Alt_Layer_Value];
         -:   59:}
         -:   60:
-    #####:   61:int Inhibit_Biased_Climb ()
+        2:   61:int Inhibit_Biased_Climb ()
         -:   62:{
-    #####:   63:    return (Climb_Inhibit ? Up_Separation + NOZCROSS : Up_Separation);
+        2:   63:    return (Climb_Inhibit ? Up_Separation + NOZCROSS : Up_Separation);
         -:   64:}
         -:   65:
-    #####:   66:bool Non_Crossing_Biased_Climb()
+        1:   66:bool Non_Crossing_Biased_Climb()
         -:   67:{
         -:   68:    int upward_preferred;
         -:   69:    int upward_crossing_situation;
         -:   70:    bool result;
         -:   71:
-    #####:   72:    upward_preferred = Inhibit_Biased_Climb() > Down_Separation;
-    #####:   73:    if (upward_preferred)
+        1:   72:    upward_preferred = Inhibit_Biased_Climb() > Down_Separation;
+        1:   73:    if (upward_preferred)
         -:   74:    {
-    #####:   75:	result = !(Own_Below_Threat()) || ((Own_Below_Threat()) && (!(Down_Separation >= ALIM())));
-    #####:   76:    }
+        1:   75:	result = !(Own_Below_Threat()) || ((Own_Below_Threat()) && (!(Down_Separation >= ALIM())));
+        1:   76:    }
         -:   77:    else
         -:   78:    {	
     #####:   79:	result = Own_Above_Threat() && (Cur_Vertical_Sep >= MINSEP) && (Up_Separation >= ALIM());
         -:   80:    }
-    #####:   81:    return result;
+        1:   81:    return result;
         -:   82:}
         -:   83:
-    #####:   84:bool Non_Crossing_Biased_Descend()
+        1:   84:bool Non_Crossing_Biased_Descend()
         -:   85:{
         -:   86:    int upward_preferred;
         -:   87:    int upward_crossing_situation;
         -:   88:    bool result;
         -:   89:
-    #####:   90:    upward_preferred = Inhibit_Biased_Climb() > Down_Separation;
-    #####:   91:    if (upward_preferred)
+        1:   90:    upward_preferred = Inhibit_Biased_Climb() > Down_Separation;
+        1:   91:    if (upward_preferred)
         -:   92:    {
-    #####:   93:	result = Own_Below_Threat() && (Cur_Vertical_Sep >= MINSEP) && (Down_Separation >= ALIM());
-    #####:   94:    }
+        1:   93:	result = Own_Below_Threat() && (Cur_Vertical_Sep >= MINSEP) && (Down_Separation >= ALIM());
+        1:   94:    }
         -:   95:    else
         -:   96:    {
     #####:   97:	result = !(Own_Above_Threat()) || ((Own_Above_Threat()) && (Up_Separation >= ALIM()));
         -:   98:    }
-    #####:   99:    return result;
+        1:   99:    return result;
         -:  100:}
         -:  101:
-    #####:  102:bool Own_Below_Threat()
+        3:  102:bool Own_Below_Threat()
         -:  103:{
-    #####:  104:    return (Own_Tracked_Alt < Other_Tracked_Alt);
+        3:  104:    return (Own_Tracked_Alt < Other_Tracked_Alt);
         -:  105:}
         -:  106:
-    #####:  107:bool Own_Above_Threat()
+        1:  107:bool Own_Above_Threat()
         -:  108:{
-    #####:  109:    return (Other_Tracked_Alt < Own_Tracked_Alt);
+        1:  109:    return (Other_Tracked_Alt < Own_Tracked_Alt);
         -:  110:}
         -:  111:
         1:  112:int alt_sep_test()
@@ -128,20 +128,20 @@
         -:  123:    
         1:  124:    if (enabled && ((tcas_equipped && intent_not_known) || !tcas_equipped))
         -:  125:    {
-    #####:  126:	need_upward_RA = Non_Crossing_Biased_Climb() && Own_Below_Threat();
-    #####:  127:	need_downward_RA = Non_Crossing_Biased_Descend() && Own_Above_Threat();
-    #####:  128:	if (need_upward_RA && need_downward_RA)
+        1:  126:	need_upward_RA = Non_Crossing_Biased_Climb() && Own_Below_Threat();
+        1:  127:	need_downward_RA = Non_Crossing_Biased_Descend() && Own_Above_Threat();
+        1:  128:	if (need_upward_RA && need_downward_RA)
         -:  129:        /* unreachable: requires Own_Below_Threat and Own_Above_Threat
         -:  130:           to both be true - that requires Own_Tracked_Alt < Other_Tracked_Alt
         -:  131:           and Other_Tracked_Alt < Own_Tracked_Alt, which isn't possible */
     #####:  132:	    alt_sep = UNRESOLVED;
-    #####:  133:	else if (need_upward_RA)
+        1:  133:	else if (need_upward_RA)
     #####:  134:	    alt_sep = UPWARD_RA;
-    #####:  135:	else if (need_downward_RA)
+        1:  135:	else if (need_downward_RA)
     #####:  136:	    alt_sep = DOWNWARD_RA;
         -:  137:	else
-    #####:  138:	    alt_sep = UNRESOLVED;
-    #####:  139:    }
+        1:  138:	    alt_sep = UNRESOLVED;
+        1:  139:    }
         -:  140:    
         1:  141:    return alt_sep;
         -:  142:}

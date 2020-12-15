@@ -85,15 +85,15 @@
         -:   80:
         -:   81:		/* input tallies */
         -:   82:
-        3:   83:		for ( i = 0; i < r; ++i )
-        8:   84:			for ( j = 0; j < c; ++j )
+        4:   83:		for ( i = 0; i < r; ++i )
+        9:   84:			for ( j = 0; j < c; ++j )
         6:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
         -:   89:						   );
     #####:   90:					return EXIT_FAILURE;
-        2:   91:					}
+        3:   91:					}
         -:   92:
         -:   93:		/* compute statistic */
         -:   94:
@@ -334,11 +334,11 @@
         -:  329:
         1:  330:	N = 0.0;
         -:  331:
-        3:  332:	for ( i = 0; i < r; ++i )
+        4:  332:	for ( i = 0; i < r; ++i )
         -:  333:		{
-        2:  334:		double	sum = 0.0;	/* accumulator */
+        3:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-        8:  336:		for ( j = 0; j < c; ++j )
+        9:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
         6:  338:			long	k = x(i,j);
         -:  339:
@@ -351,8 +351,8 @@
         6:  346:			sum += (double)k;
         6:  347:			}
         -:  348:
-        2:  349:		N += xi[i] = sum;
-        2:  350:		}
+        3:  349:		N += xi[i] = sum;
+        3:  350:		}
         -:  351:
         1:  352:	if ( N <= 0.0 )
         -:  353:		{

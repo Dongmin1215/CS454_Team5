@@ -152,7 +152,7 @@
         -:  147:#include	"std.h"
         -:  148:
         -:  149:double
-    #####:  150:LGamma( x )
+        4:  150:LGamma( x )
         -:  151:	double			x;
         -:  152:	{
         -:  153:	static const double	cof[6] =
@@ -164,23 +164,23 @@
         -:  159:	int		j;
         -:  160:
         -:  161:
-    #####:  162:	if ( --x < 0.0 )	/* use reflection formula for accuracy */
+        4:  162:	if ( --x < 0.0 )	/* use reflection formula for accuracy */
         -:  163:		{
-    #####:  164:		double	pix = PI * x;
+        2:  164:		double	pix = PI * x;
         -:  165:
-    #####:  166:		return log( pix / sin( pix ) ) - LGamma( 1.0 - x );
+        2:  166:		return log( pix / sin( pix ) ) - LGamma( 1.0 - x );
         -:  167:		}
         -:  168:
-    #####:  169:	tmp = x + 5.5;
-    #####:  170:	tmp -= (x + 0.5) * log( tmp );
+        2:  169:	tmp = x + 5.5;
+        2:  170:	tmp -= (x + 0.5) * log( tmp );
         -:  171:
-    #####:  172:	ser = 1.0;
+        2:  172:	ser = 1.0;
         -:  173:
-    #####:  174:	for ( j = 0; j < 6; ++j )
-    #####:  175:		ser += cof[j] / ++x;
+       14:  174:	for ( j = 0; j < 6; ++j )
+       12:  175:		ser += cof[j] / ++x;
         -:  176:
-    #####:  177:	return -tmp + log( 2.50662827465 * ser );
-    #####:  178:	}
+        2:  177:	return -tmp + log( 2.50662827465 * ser );
+        4:  178:	}
         -:  179:
         -:  180:#define	ITMAX	100
         -:  181:#define	EPS	3.0e-7
@@ -194,17 +194,17 @@
         -:  189:
         -:  190:
         2:  191:	if ( x <= 0.0 )
-        2:  192:		return 0.0;
+    #####:  192:		return 0.0;
         -:  193:
-    #####:  194:	del = sum = 1.0 / (ap = a);
+        2:  194:	del = sum = 1.0 / (ap = a);
         -:  195:
-    #####:  196:	for ( n = 1; n <= ITMAX; ++n )
+       16:  196:	for ( n = 1; n <= ITMAX; ++n )
         -:  197:		{
-    #####:  198:		sum += del *= x / ++ap;
+       16:  198:		sum += del *= x / ++ap;
         -:  199:
-    #####:  200:		if ( Abs( del ) < Abs( sum ) * EPS )
-    #####:  201:			return sum * exp( -x + a * log( x ) - LGamma( a ) );
-    #####:  202:		}
+       16:  200:		if ( Abs( del ) < Abs( sum ) * EPS )
+        2:  201:			return sum * exp( -x + a * log( x ) - LGamma( a ) );
+       14:  202:		}
         -:  203:
         -:  204:	/*NOTREACHED*/
         2:  205:	}
@@ -388,7 +388,7 @@
         4:  383:			double	pij = (double)x(i,j);
         -:  384:
         4:  385:			if ( pij > 0.0 )
-        2:  386:				info += pij * log( pij );	/* part 3 */
+        3:  386:				info += pij * log( pij );	/* part 3 */
         4:  387:			}
         2:  388:		}
         -:  389:
@@ -397,7 +397,7 @@
         2:  392:		double	pj = xj[j];	/* column sum */
         -:  393:
         2:  394:		if ( pj > 0.0 )
-        1:  395:			info -= pj * log( pj );			/* part 4 */
+        2:  395:			info -= pj * log( pj );			/* part 4 */
         2:  396:		}
         -:  397:
         1:  398:	info *= 2.0;			/* for comparability with chi-square */

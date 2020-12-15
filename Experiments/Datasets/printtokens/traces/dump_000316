@@ -34,12 +34,12 @@
         -:   29:
         1:   30:      if(argc>2)
         -:   31:      {
-    #####:   32:          fprintf(stdout, "The format is print_tokens filename(optional)\n");
-    #####:   33:          exit(1);
+        1:   32:          fprintf(stdout, "The format is print_tokens filename(optional)\n");
+        1:   33:          exit(1);
         -:   34:      }
-        1:   35:      stream_ptr=open_token_stream(argv[1]);
+    #####:   35:      stream_ptr=open_token_stream(argv[1]);
         -:   36:
-        1:   37:      while(!is_eof_token((token_ptr=get_token(stream_ptr))))
+    #####:   37:      while(!is_eof_token((token_ptr=get_token(stream_ptr))))
     #####:   38:                print_token(token_ptr);
     #####:   39:      print_token(token_ptr);
     #####:   40:  exit(0);
@@ -60,20 +60,20 @@
         -:   55:                       empty string. If it is it assigns file pointer
         -:   56:                       to stdin else it opens the respective file as input.                   * ******************************************************************* */
         -:   57:
-        1:   58:character_stream open_character_stream(FILENAME)
+    #####:   58:character_stream open_character_stream(FILENAME)
         -:   59:string FILENAME;
         -:   60:{
         -:   61:      character_stream stream_ptr;
         -:   62:
-        1:   63:      stream_ptr=(character_stream)malloc(sizeof(struct stream_type));
-        1:   64:      stream_ptr->stream_ind=START;
-        1:   65:      stream_ptr->stream[START]='\0';
-        1:   66:      if(FILENAME == NULL)
+    #####:   63:      stream_ptr=(character_stream)malloc(sizeof(struct stream_type));
+    #####:   64:      stream_ptr->stream_ind=START;
+    #####:   65:      stream_ptr->stream[START]='\0';
+    #####:   66:      if(FILENAME == NULL)
     #####:   67:          stream_ptr->fp=stdin;
-        1:   68:      else if((stream_ptr->fp=fopen(FILENAME,"r"))==NULL)
+    #####:   68:      else if((stream_ptr->fp=fopen(FILENAME,"r"))==NULL)
         -:   69:           {
-        1:   70:               fprintf(stdout, "The file %s doesn't exists\n",FILENAME);
-        1:   71:               exit(0);
+    #####:   70:               fprintf(stdout, "The file %s doesn't exists\n",FILENAME);
+    #####:   71:               exit(0);
         -:   72:           }
     #####:   73:      return(stream_ptr);
         -:   74:}
@@ -155,15 +155,15 @@
         -:  150:                   input. This function returns the token_stream.
         -:  151: * ****************************************************************** */
         -:  152:
-        1:  153:token_stream open_token_stream(FILENAME)
+    #####:  153:token_stream open_token_stream(FILENAME)
         -:  154:string FILENAME;
         -:  155:{
         -:  156:    token_stream token_ptr;
         -:  157:  
-        1:  158:    token_ptr=(token_stream)malloc(sizeof(struct token_stream_type));
-        1:  159:    token_ptr->ch_stream=open_character_stream(FILENAME);/* Get character
+    #####:  158:    token_ptr=(token_stream)malloc(sizeof(struct token_stream_type));
+    #####:  159:    token_ptr->ch_stream=open_character_stream(FILENAME);/* Get character
         -:  160:                                                             stream  */
-        1:  161:    return(token_ptr);
+    #####:  161:    return(token_ptr);
         -:  162:}
         -:  163:
         -:  164:/* ********************************************************************

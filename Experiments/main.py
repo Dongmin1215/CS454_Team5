@@ -26,7 +26,7 @@ if __name__ == '__main__':
     parser.add_argument("-n", "--number", help="number of test suites to compute over", type=int, default=500)
     parser.add_argument("-e", "--embedding", help="type of embedding used (1 for non-distortive, 2 for distortive)",
                         type=int)
-    parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 20)
+    parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 10)
     parser.add_argument("-s", "--stop", help="stop SWAY clustering when candidate number is less than this value",
                         type=int, default=20)
     # parser.add_argument("-iter", "--iteration", help="iteration number of SWAY", type=int, default=1)
