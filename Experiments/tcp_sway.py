@@ -49,6 +49,12 @@ def where(pop):  # pop = candidates
 
 
 def tcp_sway(dataset, initial, stop, embedding):
+    
+    # Compare function
+    def comparing(part1, part2):
+        return get_apsd(dataset, part1) > get_apsd(dataset, part2)
+
+
     path = 'Datasets/' + dataset + '/traces'
     file_list = os.listdir(path)
     length = sum(['dump' in name for name in file_list])
@@ -61,9 +67,14 @@ def tcp_sway(dataset, initial, stop, embedding):
         while x in candidates:  # avoid any repetitions
             random.shuffle(x)
         candidates.append(x)
+    
+    # Binary
+    if embedding == 1:
+        emb_cand, emb_dict = embed(candidates)
+        res = sway(emb_cand, partial(split_products, groupC=min(15, dim // 7), ))
 
-    # Compare function
-    def comparing(part1, part2):
-        return get_apsd(dataset, part1) > get_apsd(dataset, part2)
+    # continuous
+    elif embedding == 2:
+        return sway(candidates, where, comparing, stop), candidates
 
-    return sway(candidates, where, comparing, stop), candidates
+
