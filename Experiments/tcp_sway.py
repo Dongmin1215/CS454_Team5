@@ -48,11 +48,12 @@ def where(pop):  # pop = candidates
     return west, east, eastItems, westItems
 
 
-def tcp_sway(dataset, initial, stop):
+def tcp_sway(dataset, initial, stop, embedding):
     path = 'Datasets/' + dataset + '/traces'
     file_list = os.listdir(path)
     length = sum(['dump' in name for name in file_list])
     candidates = []
+    print("embedding", embedding)
 
     # Build initial population
     for _ in range(initial):

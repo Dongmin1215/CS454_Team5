@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
         # SWAY
         start_time = time.time()
-        res, can = tcp_sway(dataset, args.initial, args.stop)
+        res, can = tcp_sway(dataset, args.initial, args.stop, args.embedding)
         time_list_sway.append(time.time() - start_time)
 
         tmp_apsd, tmp_apfd = [], []
