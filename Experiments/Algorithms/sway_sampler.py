@@ -45,8 +45,8 @@ def bin_dominate(ind1, ind2):
     return True
 
 
-def sway(pop, splitor, better, stop):
-    def cluster(items):
+def sway(pop, splitor, better, stop, alg, emb_dict):
+    def cluster(items, emb_dict, alg):
         # print(len(items))
         # add termination condition here
         if len(items) < stop:
@@ -55,7 +55,11 @@ def sway(pop, splitor, better, stop):
 
         west, east, west_items, east_items = splitor(items)
         # return cluster(west_items)s
-    
+        if alg==1:
+            # print("east:",tuple(east))
+            print(type(tuple(east)))
+            east = emb_dict[tuple(east)]
+            west = emb_dict[tuple(west)]
 
         if better(east, west):
             selected = east_items
@@ -65,9 +69,9 @@ def sway(pop, splitor, better, stop):
             selected = random.sample(west_items+east_items, len(items)//2)
             # return cluster(east_items) + cluster(west_items)
         # selected = west_items[:len(west_items)//2]+east_items[:len(east_items)//2]
-        return cluster(selected)
+        return cluster(selected, emb_dict, alg)
 
-    res = cluster(pop)
+    res = cluster(pop, emb_dict, alg)
 
     # for i in res:
     #     if not i.fitness.valid:

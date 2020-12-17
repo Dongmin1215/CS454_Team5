@@ -17,6 +17,7 @@ import fileinput
 import time
 import argparse
 from tqdm import tqdm
+from embedding import embed
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -88,21 +89,21 @@ if __name__ == '__main__':
                                cwd='Datasets/' + dataset + '/scripts')
         stdout, stderr = out.communicate()
 
-        # Random permutation ("sanity check")
-        start_time = time.time()
-        res = tcp_random(dataset)
-        time_list_random.append(time.time() - start_time)
+        # # Random permutation ("sanity check")
+        # start_time = time.time()
+        # res = tcp_random(dataset)
+        # time_list_random.append(time.time() - start_time)
 
-        apsd_list_random.append(get_apsd(dataset, res))
-        apfd_list_random.append(get_apfd(matrix, fault_dict, dataset, suite, res))
+        # apsd_list_random.append(get_apsd(dataset, res))
+        # apfd_list_random.append(get_apfd(matrix, fault_dict, dataset, suite, res))
 
-        # Greedy algorithm
-        start_time = time.time()
-        res = tcp_greedy(dataset)
-        time_list_greedy.append(time.time() - start_time)
+        # # Greedy algorithm
+        # start_time = time.time()
+        # res = tcp_greedy(dataset)
+        # time_list_greedy.append(time.time() - start_time)
 
-        apsd_list_greedy.append(get_apsd(dataset, res))
-        apfd_list_greedy.append(get_apfd(matrix, fault_dict, dataset, suite, res))
+        # apsd_list_greedy.append(get_apsd(dataset, res))
+        # apfd_list_greedy.append(get_apfd(matrix, fault_dict, dataset, suite, res))
 
         # SWAY
         start_time = time.time()

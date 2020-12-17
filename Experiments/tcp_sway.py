@@ -48,7 +48,7 @@ def where(pop):  # pop = candidates
     return west, east, eastItems, westItems
 
 
-def tcp_sway(dataset, initial, stop, embedding):
+def tcp_sway(dataset, initial, stop, alg):
     
     # Compare function
     def comparing(part1, part2):
@@ -59,7 +59,6 @@ def tcp_sway(dataset, initial, stop, embedding):
     file_list = os.listdir(path)
     length = sum(['dump' in name for name in file_list])
     candidates = []
-    print("embedding", embedding)
 
     # Build initial population
     for _ in range(initial):
@@ -69,12 +68,13 @@ def tcp_sway(dataset, initial, stop, embedding):
         candidates.append(x)
     
     # Binary
-    if embedding == 1:
+    if alg == 1:
         emb_cand, emb_dict = embed(candidates)
-        res = sway(emb_cand, partial(split_products, groupC=min(15, dim // 7), ))
+        res = sway(emb_cand, partial(split_products, groupC=min(15, dim // 7)), comparing, alg, emb_dict)
+        return res, candidates
 
     # continuous
-    elif embedding == 2:
-        return sway(candidates, where, comparing, stop), candidates
+    elif alg == 2:
+        return sway(candidates, where, comparing, stop, alg, None), candidates
 
 
