@@ -38,45 +38,10 @@ Use any text editor to manually edit the testme.sh, for now.
 (For schedule and schedule2, one needs to replace all occurences of input with ../input)
 
 ### Part 2: Running SWAY
-7. Run the following command in ../Experiments with the desired options:
+7. Run the following command in ../Experiments:
 ```console
-python tcp_sway.py -d DATASET -suite SUITE -e EMBEDDING
+sh total_plot.sh
 ```
-(Above are required options. For more optional options, see below)
-
----
-## Descriptions of each file
-
-`parse_suite.py` 
-
-* wraps `-P` or `-I` depending on the way of indicating directory in suite file
-
-* Input example : `suite1`
-* Output example : `s1`
-
-`get_apsd.py` 
-
-*
-* Input example : 
-* Output example : 
-
-`get_apfd.py` 
-
-*
-* Input example : 
-* Output example : 
-
-`embedding.py` 
-
-* 
-* Input example : 
-* Output example : 
-
-`tcp_sway.py` 
-
-* 
-* Input example : 
-* Output example : 
 
 ---
 ## To-Do

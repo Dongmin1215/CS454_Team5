@@ -1,0 +1,566 @@
+        -:    0:Source:print_tokens.c
+        -:    0:Graph:print_tokens.gcno
+        -:    0:Data:print_tokens.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:# include <ctype.h>
+        -:    2:
+        -:    3:# define START  5
+        -:    4:# define TRUE  1
+        -:    5:# define FALSE 0
+        -:    6:
+        -:    7:typedef int BOOLEAN;
+        -:    8:typedef char *string;
+        -:    9:
+        -:   10:# include <stdio.h>
+        -:   11:# include "tokens.h"
+        -:   12:
+        -:   13:static token numeric_case();
+        -:   14:static token error_or_eof_case();
+        -:   15:static int check_delimiter();
+        -:   16:static int keyword(int state);
+        -:   17:static int special(int state);
+        -:   18:static skip(character_stream stream_ptr);
+        -:   19:static int constant(int state,char token_str[],int token_ind);
+        -:   20:static int next_state();
+        -:   21:static get_actual_token(char token_str[],int token_ind);
+        -:   22:
+        1:   23:main(argc,argv)
+        -:   24:int argc;
+        -:   25:char *argv[];
+        -:   26:{
+        -:   27:      token token_ptr;
+        -:   28:      token_stream stream_ptr;
+        -:   29:
+        1:   30:      if(argc>2)
+        -:   31:      {
+    #####:   32:          fprintf(stdout, "The format is print_tokens filename(optional)\n");
+    #####:   33:          exit(1);
+        -:   34:      }
+        1:   35:      stream_ptr=open_token_stream(argv[1]);
+        -:   36:
+        3:   37:      while(!is_eof_token((token_ptr=get_token(stream_ptr))))
+        2:   38:                print_token(token_ptr);
+        1:   39:      print_token(token_ptr);
+        1:   40:  exit(0);
+        -:   41:}
+        -:   42:
+        -:   43:
+        -:   44:
+        -:   45:/* *********************************************************************
+        -:   46:       Function name : open_character_stream
+        -:   47:       Input         : filename 
+        -:   48:       Output        : charactre stream.
+        -:   49:       Exceptions    : If file name doesn't exists it will
+        -:   50:                       exit from the program.
+        -:   51:       Description   : The function first allocates the memory for 
+        -:   52:                       the structure and initilizes it. The constant
+        -:   53:                       START gives the first character available in
+        -:   54:                       the stream. It ckecks whether the filename is
+        -:   55:                       empty string. If it is it assigns file pointer
+        -:   56:                       to stdin else it opens the respective file as input.                   * ******************************************************************* */
+        -:   57:
+        1:   58:character_stream open_character_stream(FILENAME)
+        -:   59:string FILENAME;
+        -:   60:{
+        -:   61:      character_stream stream_ptr;
+        -:   62:
+        1:   63:      stream_ptr=(character_stream)malloc(sizeof(struct stream_type));
+        1:   64:      stream_ptr->stream_ind=START;
+        1:   65:      stream_ptr->stream[START]='\0';
+        1:   66:      if(FILENAME == NULL)
+        1:   67:          stream_ptr->fp=stdin;
+    #####:   68:      else if((stream_ptr->fp=fopen(FILENAME,"r"))==NULL)
+        -:   69:           {
+    #####:   70:               fprintf(stdout, "The file %s doesn't exists\n",FILENAME);
+    #####:   71:               exit(0);
+        -:   72:           }
+        1:   73:      return(stream_ptr);
+        -:   74:}
+        -:   75:
+        -:   76:/* *********************************************************************
+        -:   77:   Function name : get_char
+        -:   78:   Input         : charcter_stream.
+        -:   79:   Output        : character.
+        -:   80:   Exceptions    : None.
+        -:   81:   Description   : This function takes character_stream type variable 
+        -:   82:                   as input and returns one character. If the stream is
+        -:   83:                   empty then it reads the next line from the file and
+        -:   84:                   returns the character.       
+        -:   85: * ****************************************************************** */
+        -:   86:
+       14:   87:CHARACTER get_char(stream_ptr)
+        -:   88:character_stream stream_ptr;
+        -:   89:{
+       14:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
+        -:   91:      {
+        2:   92:              if(fgets(stream_ptr->stream+START,80-START,stream_ptr->fp) == NULL)/* Fix bug: add -START - hf*/
+        1:   93:                    stream_ptr->stream[START]=EOF;
+        2:   94:              stream_ptr->stream_ind=START;
+        2:   95:      }
+       14:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
+        -:   97:}
+        -:   98:
+        -:   99:/* *******************************************************************
+        -:  100:   Function name : is_end_of_character_stream.
+        -:  101:   Input         : character_stream.
+        -:  102:   Output        : Boolean value.
+        -:  103:   Description   : This function checks whether it is end of character
+        -:  104:                   stream or not. It returns BOOLEANvariable which is 
+        -:  105:                   true or false. The function checks whether the last 
+        -:  106:                   read character is end file character or not and
+        -:  107:                   returns the value according to it.
+        -:  108: * ****************************************************************** */
+        -:  109:
+        2:  110:BOOLEAN is_end_of_character_stream(stream_ptr)
+        -:  111:character_stream stream_ptr;
+        -:  112:{
+        2:  113:      if(stream_ptr->stream[stream_ptr->stream_ind-1] == EOF)
+        1:  114:            return(TRUE);
+        -:  115:      else
+        1:  116:            return(FALSE);
+        2:  117:}
+        -:  118:
+        -:  119:/* *********************************************************************
+        -:  120:   Function name : unget_char
+        -:  121:   Input         : character,character_stream.
+        -:  122:   Output        : void.
+        -:  123:   Description   : This function adds the character ch to the stream. 
+        -:  124:                   This is accomplished by decrementing the stream_ind
+        -:  125:                   and storing it in the stream. If it is not possible
+        -:  126:                   to unget the character then it returns
+        -:  127: * ******************************************************************* */
+        -:  128:
+        1:  129:unget_char(ch,stream_ptr)
+        -:  130:CHARACTER ch;
+        -:  131:character_stream stream_ptr;
+        -:  132:{
+        1:  133:      if(stream_ptr->stream_ind == 0)
+    #####:  134:          return 0;
+        -:  135:      else
+        1:  136:          stream_ptr->stream[--(stream_ptr->stream_ind)]=ch;
+        1:  137:      return 0;
+        1:  138:}
+        -:  139:
+        -:  140:
+        -:  141:/* *******************************************************************
+        -:  142:   Function name : open_token_stream
+        -:  143:   Input         : filename
+        -:  144:   Output        : token_stream
+        -:  145:   Exceptions    : Exits if the file specified by filename not found.
+        -:  146:   Description   : This function takes filename as input and opens the
+        -:  147:                   token_stream which is nothing but the character stream.
+        -:  148:                   This function allocates the memory for token_stream 
+        -:  149:                   and calls open_character_stream to open the file as
+        -:  150:                   input. This function returns the token_stream.
+        -:  151: * ****************************************************************** */
+        -:  152:
+        1:  153:token_stream open_token_stream(FILENAME)
+        -:  154:string FILENAME;
+        -:  155:{
+        -:  156:    token_stream token_ptr;
+        -:  157:  
+        1:  158:    token_ptr=(token_stream)malloc(sizeof(struct token_stream_type));
+        1:  159:    token_ptr->ch_stream=open_character_stream(FILENAME);/* Get character
+        -:  160:                                                             stream  */
+        1:  161:    return(token_ptr);
+        -:  162:}
+        -:  163:
+        -:  164:/* ********************************************************************
+        -:  165:   Function name : get_token
+        -:  166:   Input         : token_stream
+        -:  167:   Output        : token
+        -:  168:   Exceptions    : none.
+        -:  169:   Description   : This function returns the next token from the
+        -:  170:                   token_stream.The type of token is integer and specifies 
+        -:  171:                   only the type of the token. DFA is used for finding the
+        -:  172:                   next token. cu_state is initialized to zero and charcter
+        -:  173:                   are read until the the is the final state and it
+        -:  174:                   returns the token type.
+        -:  175:* ******************************************************************* */
+        -:  176:
+        3:  177:token get_token(tstream_ptr)
+        -:  178:token_stream tstream_ptr;
+        -:  179:{
+        -:  180:      char token_str[80]; /* This buffer stores the current token */
+        -:  181:      int token_ind;      /* Index to the token_str  */
+        -:  182:      token token_ptr;
+        -:  183:      CHARACTER ch;
+        -:  184:      int cu_state,next_st,token_found;
+        -:  185:  
+        3:  186:      token_ptr=(token)(malloc(sizeof(struct token_type)));
+        3:  187:      ch=get_char(tstream_ptr->ch_stream);
+        3:  188:      cu_state=token_ind=token_found=0;
+       14:  189:      while(!token_found)
+        -:  190:      {
+       14:  191:    if(token_ind < 80) /* ADDED ERROR CHECK - hf */
+        -:  192:    {
+       14:  193:        token_str[token_ind++]=ch;
+       14:  194:        next_st=next_state(cu_state,ch);
+       14:  195:    }
+        -:  196:    else
+        -:  197:    {
+    #####:  198:        next_st = -1; /* - hf */
+        -:  199:    }
+       14:  200:    if (next_st == -1) { /* ERROR or EOF case */
+        4:  201:        return(error_or_eof_case(tstream_ptr, 
+        2:  202:               token_ptr,cu_state,token_str,token_ind,ch));
+       12:  203:    } else if (next_st == -2) {/* This is numeric case. */
+    #####:  204:        return(numeric_case(tstream_ptr,token_ptr,ch,
+    #####:  205:          token_str,token_ind));
+       12:  206:    } else if (next_st == -3) {/* This is the IDENTIFIER case */
+        1:  207:        token_ptr->token_id=IDENTIFIER;
+        1:  208:        unget_char(ch,tstream_ptr->ch_stream);
+        1:  209:        token_ind--;
+        1:  210:        get_actual_token(token_str,token_ind);
+        1:  211:        strcpy(token_ptr->token_string,token_str);
+        1:  212:        return(token_ptr);
+        -:  213:    } 
+        -:  214:      
+       11:  215:    switch(next_st) 
+        -:  216:            { 
+       11:  217:                 default : break;
+        -:  218:                 case 6  : /* These are all KEYWORD cases. */
+        -:  219:                 case 9  :
+        -:  220:                 case 11 :
+        -:  221:                 case 13 :
+    #####:  222:                 case 16 : ch=get_char(tstream_ptr->ch_stream);
+    #####:  223:                           if(check_delimiter(ch)==TRUE)
+        -:  224:                           {
+    #####:  225:                                 token_ptr->token_id=keyword(next_st);
+    #####:  226:                                 unget_char(ch,tstream_ptr->ch_stream);
+    #####:  227:                                 token_ptr->token_string[0]='\0';
+    #####:  228:                                 return(token_ptr);
+        -:  229:                           }
+    #####:  230:                           unget_char(ch,tstream_ptr->ch_stream);
+    #####:  231:                           break;
+        -:  232:                 case 19 : /* These are all special SPECIAL character */
+        -:  233:                 case 20 : /* cases */
+        -:  234:                 case 21 :
+        -:  235:                 case 22 :
+        -:  236:                 case 23 :
+        -:  237:                 case 24 :
+        -:  238:                 case 25 :
+    #####:  239:                 case 32 : token_ptr->token_id=special(next_st);
+    #####:  240:                           token_ptr->token_string[0]='\0';
+    #####:  241:                           return(token_ptr);
+        -:  242:                 case 27 : /* These are constant cases */
+    #####:  243:                 case 29 : token_ptr->token_id=constant(next_st,token_str,token_ind);
+    #####:  244:                           get_actual_token(token_str,token_ind);
+    #####:  245:                           strcpy(token_ptr->token_string,token_str);
+    #####:  246:                           return(token_ptr);
+        -:  247:                 case 30 :  /* This is COMMENT case */
+    #####:  248:                           skip(tstream_ptr->ch_stream);
+    #####:  249:                           token_ind=next_st=0;
+    #####:  250:                           break;
+        -:  251:            }
+       11:  252:            cu_state=next_st;
+       11:  253:            ch=get_char(tstream_ptr->ch_stream);
+        -:  254:      }
+        3:  255:}
+        -:  256:
+        -:  257:/* ******************************************************************
+        -:  258:   Function name : numeric_case
+        -:  259:   Input         : tstream_ptr,token_ptr,ch,token_str,token_ind
+        -:  260:   Output        : token_ptr;
+        -:  261:   Exceptions    : none 
+        -:  262:   Description   : It checks for the delimiter, if it is then it
+        -:  263:                   forms numeric token else forms error token.
+        -:  264: * ****************************************************************** */
+        -:  265:
+    #####:  266:static token numeric_case(tstream_ptr,token_ptr,ch,token_str,token_ind)
+        -:  267:token_stream tstream_ptr;
+        -:  268:token token_ptr;
+        -:  269:char ch,token_str[];
+        -:  270:int token_ind;
+        -:  271:{
+    #####:  272:        if(check_delimiter(ch)!=TRUE)
+        -:  273:        {   /* Error case */
+    #####:  274:            token_ptr->token_id=ERROR;
+    #####:  275:            while(check_delimiter(ch)==FALSE)
+        -:  276:      {
+    #####:  277:    if(token_ind >= 80) break; /* Added protection - hf */
+    #####:  278:    token_str[token_ind++]=ch=get_char(tstream_ptr->ch_stream);
+        -:  279:      }
+    #####:  280:            unget_char(ch,tstream_ptr->ch_stream);
+    #####:  281:            token_ind--;
+    #####:  282:            get_actual_token(token_str,token_ind);
+    #####:  283:            strcpy(token_ptr->token_string,token_str);
+    #####:  284:            return(token_ptr);
+        -:  285:        }
+    #####:  286:        token_ptr->token_id=NUMERIC; /* Numeric case */
+    #####:  287:        unget_char(ch,tstream_ptr->ch_stream);
+    #####:  288:        token_ind--;
+    #####:  289:        get_actual_token(token_str,token_ind);
+    #####:  290:        strcpy(token_ptr->token_string,token_str);
+    #####:  291:        return(token_ptr);
+    #####:  292:}
+        -:  293:
+        -:  294:/* *****************************************************************
+        -:  295:   Function name : error_or_eof_case 
+        -:  296:   Input         : tstream_ptr,token_ptr,cu_state,token_str,token_ind,ch
+        -:  297:   Output        : token_ptr 
+        -:  298:   Exceptions    : none 
+        -:  299:   Description   : This function checks whether it is EOF or not.
+        -:  300:                   If it is it returns EOF token else returns ERROR 
+        -:  301:                   token.
+        -:  302: * *****************************************************************/
+        -:  303:
+        2:  304:static token error_or_eof_case(tstream_ptr,token_ptr,cu_state,token_str,token_ind,ch)
+        -:  305:token_stream tstream_ptr;
+        -:  306:token token_ptr;
+        -:  307:int cu_state,token_ind;
+        -:  308:char token_str[],ch;
+        -:  309:{
+        2:  310:      if(is_end_of_character_stream(tstream_ptr->ch_stream)) 
+        -:  311:      {
+        1:  312:            token_ptr->token_id = EOTSTREAM;
+        1:  313:            token_ptr->token_string[0]='\0';
+        1:  314:            return(token_ptr);
+        -:  315:      }
+        1:  316:      if(cu_state !=0)
+        -:  317:      {
+    #####:  318:            unget_char(ch,tstream_ptr->ch_stream);
+    #####:  319:            token_ind--;
+    #####:  320:      }
+        1:  321:      token_ptr->token_id=ERROR;
+        1:  322:      get_actual_token(token_str,token_ind);
+        1:  323:      strcpy(token_ptr->token_string,token_str);
+        1:  324:      return(token_ptr);                
+        2:  325:}
+        -:  326:
+        -:  327:/* *********************************************************************
+        -:  328:   Function name : check_delimiter
+        -:  329:   Input         : character
+        -:  330:   Output        : boolean
+        -:  331:   Exceptions    : none.
+        -:  332:   Description   : This function checks for the delimiter. If ch is not
+        -:  333:                   alphabet and non numeric then it returns TRUE else 
+        -:  334:                   it returns FALSE. 
+        -:  335: * ******************************************************************* */
+        -:  336:
+    #####:  337:static int check_delimiter(ch)
+        -:  338:char ch;
+        -:  339:{
+    #####:  340:      if(!isalpha(ch) && !isdigit(ch)) /* Check for digit and alpha */
+    #####:  341:          return(TRUE);
+    #####:  342:      return(FALSE);
+    #####:  343:}
+        -:  344:
+        -:  345:/* ********************************************************************
+        -:  346:   Function name : keyword
+        -:  347:   Input         : state of the DFA
+        -:  348:   Output        : Keyword.
+        -:  349:   Exceptions    : If the state doesn't represent a keyword it exits.
+        -:  350:   Description   : According to the final state specified by state the
+        -:  351:                   respective token_id is returned.
+        -:  352: * ***************************************************************** */
+        -:  353:
+    #####:  354:static int keyword(state)
+        -:  355:int state;
+        -:  356:{
+    #####:  357:      switch(state)
+        -:  358:      {   /* Return the respective macro for the Keyword. */
+    #####:  359:          case 6 : return(LAMBDA);
+    #####:  360:          case 9 : return(AND);
+    #####:  361:          case 11: return(OR);
+    #####:  362:          case 13: return(IF);
+    #####:  363:          case 16: return(XOR);
+    #####:  364:          default: fprintf(stdout, "error\n");break;
+        -:  365:      }
+    #####:  366:      exit(0);
+    #####:  367:}
+        -:  368:
+        -:  369:/* ********************************************************************
+        -:  370:   Function name : special
+        -:  371:   Input         : The state of the DFA.
+        -:  372:   Output        : special symbol.
+        -:  373:   Exceptions    : if the state doesn't belong to a special character
+        -:  374:                   it exits.
+        -:  375:   Description   : This function returns the token_id according to the
+        -:  376:                   final state given by state.
+        -:  377: * ****************************************************************** */
+        -:  378:
+    #####:  379:static int special(state)
+        -:  380:int state;
+        -:  381:{
+    #####:  382:     switch(state)
+        -:  383:     {   /* return the respective macro for the special character. */
+    #####:  384:         case 19: return(LPAREN);
+    #####:  385:         case 20: return(RPAREN);
+    #####:  386:         case 21: return(LSQUARE);
+    #####:  387:         case 22: return(RSQUARE);
+    #####:  388:         case 23: return(QUOTE);
+    #####:  389:         case 24: return(BQUOTE);
+    #####:  390:         case 25: return(COMMA);
+    #####:  391:         case 32: return(EQUALGREATER);
+    #####:  392:         default: fprintf(stdout, "error\n");break;
+        -:  393:     }
+    #####:  394:     exit(0);
+    #####:  395:}
+        -:  396:
+        -:  397:/* **********************************************************************
+        -:  398:   Function name : skip
+        -:  399:   Input         : character_stream
+        -:  400:   Output        : void.
+        -:  401:   Exceptions    : none.
+        -:  402:   Description   : This function skips the comment part of the program.
+        -:  403:                   It takes charcter_stream as input and reads character
+        -:  404:                   until it finds new line character or
+        -:  405:                   end_of_character_stream.                   
+        -:  406: * ******************************************************************* */
+        -:  407:
+    #####:  408:static skip(stream_ptr)
+        -:  409:character_stream stream_ptr;
+        -:  410:{
+        -:  411:        char c;
+        -:  412:  
+    #####:  413:        while((c=get_char(stream_ptr))!='\n' && 
+    #####:  414:               !is_end_of_character_stream(stream_ptr))
+        -:  415:             ; /* Skip the characters until EOF or EOL found. */
+    #####:  416:  if(c==EOF) unget_char(c, stream_ptr); /* Put back to leave gracefully - hf */
+    #####:  417:        return 0;
+        -:  418:}
+        -:  419:
+        -:  420:/* *********************************************************************
+        -:  421:   Function name : constant
+        -:  422:   Input         : state of DFA, Token string, Token id.
+        -:  423:   Output        : constant token.
+        -:  424:   Exceptions    : none.
+        -:  425:   Description   : This function returns the token_id for the constatnts
+        -:  426:                   speccified by  the final state. 
+        -:  427: * ****************************************************************** */
+        -:  428:
+    #####:  429:static int constant(state,token_str,token_ind)
+        -:  430:int state,token_ind;
+        -:  431:char token_str[];
+        -:  432:{
+    #####:  433:     switch(state)
+        -:  434:     {   /* Return the respective CONSTANT macro. */
+    #####:  435:         case 27 : return(STRING_CONSTANT);
+    #####:  436:         case 29 : token_str[token_ind-2]=' '; return(CHARACTER_CONSTANT);
+    #####:  437:         default : break;
+        -:  438:     }
+    #####:  439:}
+        -:  440:
+        -:  441:
+        -:  442:/* *******************************************************************
+        -:  443:   Function name : next_state
+        -:  444:   Input         : current state, character
+        -:  445:   Output        : next state of the DFA
+        -:  446:   Exceptions    : none.
+        -:  447:   Description   : This function returns the next state in the transition
+        -:  448:                   diagram. The next state is determined by the current
+        -:  449:                   state state and the inpu character ch.
+        -:  450: * ****************************************************************** */
+        -:  451:              
+       33:  452:static int next_state(state,ch)
+        -:  453:int state;
+        -:  454:char ch;
+        -:  455:{
+       33:  456:    if(state < 0)
+        3:  457:      return(state);
+       30:  458:    if(base[state]+ch >= 0)
+        -:  459:    {
+       28:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
+       11:  461:             return(next[base[state]+ch]);
+        -:  462:        else
+       17:  463:              return(next_state(default1[state],ch));
+        -:  464:    }
+        -:  465:    else
+        2:  466:        return(next_state(default1[state],ch));
+       33:  467:}
+        -:  468:
+        -:  469:/* *********************************************************************
+        -:  470:   Function name : is_eof_token
+        -:  471:   Input         : token
+        -:  472:   Output        : Boolean
+        -:  473:   Exceptions    : none.
+        -:  474:   Description   : This function checks whether the token t is eof_token 
+        -:  475:                   or not. If the integer value stored in the t is
+        -:  476:                   EOTSTREAM then it is eof_token.
+        -:  477: * ***************************************************************** */
+        -:  478:
+        3:  479:BOOLEAN is_eof_token(t)
+        -:  480:token t;
+        -:  481:{
+        3:  482:    if(t->token_id==EOTSTREAM)
+        1:  483:        return(TRUE);
+        2:  484:    return(FALSE);
+        3:  485:}
+        -:  486:
+        -:  487:/* ********************************************************************
+        -:  488:   Function name : print_token
+        -:  489:   Input         : token
+        -:  490:   Output        : Boolean
+        -:  491:   Exceptions    : none.
+        -:  492:   Description   : This function  prints the token. The token_id gives 
+        -:  493:                   the type of token not the token itself. So, in the
+        -:  494:                   case of identifier,numeric,  string,character it is
+        -:  495:                   required to print the actual token  from token_str. 
+        -:  496:                   So, precaution must be taken when printing the token.
+        -:  497:                   This function is able to print the current token only
+        -:  498:                   and it is the limitation of the program.
+        -:  499: * ******************************************************************** */
+        -:  500:
+        3:  501:BOOLEAN print_token(token_ptr)
+        -:  502:token token_ptr;
+        -:  503:{
+        3:  504:     switch(token_ptr->token_id)
+        -:  505:     {    /* Print the respective tokens. */
+        1:  506:          case ERROR : fprintf(stdout, "error,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
+        1:  507:                       fprintf(stdout, "\".\n");return(TRUE);
+        1:  508:          case EOTSTREAM : fprintf(stdout, "eof.\n");return(TRUE);
+    #####:  509:          case 6 : fprintf(stdout, "keyword,\t\"lambda\".\n");return(TRUE);
+    #####:  510:          case 9 : fprintf(stdout, "keyword,\t\"and\".\n");return(TRUE);
+    #####:  511:          case 11: fprintf(stdout, "keyword,\t\"or\".\n");return(TRUE);
+    #####:  512:          case 13: fprintf(stdout, "keyword,\t\"if\".\n");return(TRUE);
+    #####:  513:          case 16: fprintf(stdout, "keyword,\t\"xor\".\n");return(TRUE);
+        1:  514:          case 17: fprintf(stdout, "identifier,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
+        1:  515:                   fprintf(stdout, "\".\n");return(TRUE);
+    #####:  516:          case 18: fprintf(stdout, "numeric,\t");fprintf(stdout, "%s",token_ptr->token_string);
+    #####:  517:                   fprintf(stdout, ".\n");return(TRUE);
+    #####:  518:          case 19: fprintf(stdout, "lparen.\n");return(TRUE);
+    #####:  519:          case 20: fprintf(stdout, "rparen.\n");return(TRUE);
+    #####:  520:          case 21: fprintf(stdout, "lsquare.\n");return(TRUE);
+    #####:  521:          case 22: fprintf(stdout, "rsquare.\n");return(TRUE);
+    #####:  522:          case 23: fprintf(stdout, "quote.\n");return(TRUE);
+    #####:  523:          case 24: fprintf(stdout, "bquote.\n");return(TRUE);
+    #####:  524:          case 25: fprintf(stdout, "comma.\n");return(TRUE);
+    #####:  525:          case 27: fprintf(stdout, "string,\t");fprintf(stdout, "%s",token_ptr->token_string);
+    #####:  526:                   fprintf(stdout, ".\n");return(TRUE);
+    #####:  527:          case 29: fprintf(stdout, "character,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
+    #####:  528:                   fprintf(stdout, "\".\n");return(TRUE);
+    #####:  529:          case 32: fprintf(stdout, "keyword,\t\"=>\".\n");return(TRUE);
+    #####:  530:          default: break;
+        -:  531:      }
+    #####:  532:      return(FALSE);
+        3:  533:}
+        -:  534:
+        -:  535:/* **********************************************************************
+        -:  536:   Function name : get_actual_token
+        -:  537:   Input         : token string and token id.
+        -:  538:   Output        : void.
+        -:  539:   Exceptions    : none.
+        -:  540:   Description   : This function prints the actual token in the case of
+        -:  541:                   identifier,numeric,string and character. It removes
+        -:  542:                   the leading and trailing  spaces and prints the token.
+        -:  543: * ****************************************************************** */
+        -:  544:
+        2:  545:static get_actual_token(token_str,token_ind)
+        -:  546:int token_ind;
+        -:  547:char token_str[];
+        -:  548:{
+        -:  549:          int ind,start;
+        -:  550:
+        2:  551:          for(ind=token_ind;ind>0 && isspace(token_str[ind-1]);--ind); 
+        -:  552:                        /* Delete the trailing white spaces & protect - hf */
+        2:  553:           token_str[ind]='\0';token_ind=ind;
+        2:  554:          for(ind=0;ind<token_ind;++ind)
+        2:  555:                if(!isspace(token_str[ind]))
+        2:  556:                      break;
+       16:  557:          for(start=0;ind<=token_ind;++start,++ind) /* Delete the leading
+        -:  558:                                                       white spaces. */
+       14:  559:                token_str[start]=token_str[ind];
+        2:  560:          return 0;
+        -:  561:}
