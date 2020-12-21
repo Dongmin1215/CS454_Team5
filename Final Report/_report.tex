@@ -1053,41 +1053,6 @@
 	
 	
 	
-	\appendices
-	% you can choose not to have a title for an appendix
-	% if you want by leaving the argument blank
-	\section{Another Embedding}
-	\label{sec:appendix}
-	Let us recall an important concept from coding theory\cite{coding}:
-	\begin{definition}
-		Given any two vectors(codewords) $x = (x_1, \dots, x_n)$ and $y = (y_1, \dots, y_n)$, the {\bf Hamming distance} between $x, y$, denoted as $d_H(x, y)$, is defined as
-		\[ d_H(x, y) := \sum_{i=1}^n \left[x_i \stackrel{?}{=} y_i\right] \]
-		
-		where $\left[x_i \stackrel{?}{=} y_i\right]$ is the indicator function of whether $x_i$ is equal to $y_i$.
-		
-		(The definition naturally extends for two equal-sized matrices by considering their vectorizations.)
-	\end{definition}
-	
-	One can immediately see that if $x, y \in \{0, 1\}^n$, then $d_H(x, y)$ can be rewritten as $\sum_{i=1}^n |x_i - y_i|$ i.e. the {\it Jaccard distance} between $x$ and $y$.
-	
-	The following lemma from \cite{cormode} is the key theoretical basis for this embedding:
-	\begin{lemma}
-		\[ \forall \pi, \pi' \in S_n \quad d_K(\pi, \pi') = d_H \left( S(\pi), S(\pi') \right) \]
-		
-		where $[S(\pi)]_{ij} := [i < j \wedge \pi^{-1}(i) < \pi^{-1}(j)]$ and $[\cdot]$ is the indicator function for the given logical predicate.
-	\end{lemma}
-	
-	The significance of above lemma is that {\it such binary embedding scheme gives a distortion-free embedding of $S_n$ onto $\{0, 1\}^n$ with Hamming distance as the endowed metric}\footnote{This space is known as the {\it Hamming space} in coding theory.} i.e. we can {\bf directly use binary SWAY} as proposed in \cite{SWAY}!
-	Moreover, note that in our binary case, the Hamming distance is equivalent to the Jaccard distance, providing further justification for the direct application of binary SWAY.
-	
-	Lastly, noting that for all $\pi \in S_n$, $S(\pi)$ is anti-symmetric (if $(i, j)$-th component is $1$, then $(j, i)$-th component is $0$ and $(i, i)$-th component is $0$), we can reduce the space complexity from $n^2$ to $\frac{n(n-1)}{2}$.
-	
-	Note that in exchange for preserving the pairwise swap distances, the space complexity (and thus the expected computational complexity) is rather high.
-	It takes $O(N_0 n^2)$ space complexity with $O(N_0 n)$ time complexity for embedding each permutation, where $N_0$ is the size of the initial population.
-	Our embedding scheme as mentioned in Section \ref{sec:embedding} takes $O(N_0 n)$ space complexity with $O(N_0)$ time complexity for embedding each permutation, but at the cost of some distortion introduced.
-	Thus there is a clear trade-off between the two embedding schemes, and it would be interesting to see if such trade-off extends to performance of the algorithm.
-	
-	
 	% use section* for acknowledgment
 	\ifCLASSOPTIONcompsoc
 	% The Computer Society usually uses the plural form
@@ -1128,6 +1093,40 @@
 	% argument is your BibTeX string definitions and bibliography database(s)
 	\bibliography{_report}
 	
+	
+		\appendices
+	% you can choose not to have a title for an appendix
+	% if you want by leaving the argument blank
+	\section{Another Embedding}
+	\label{sec:appendix}
+	Let us recall an important concept from coding theory\cite{coding}:
+	\begin{definition}
+		Given any two vectors(codewords) $x = (x_1, \dots, x_n)$ and $y = (y_1, \dots, y_n)$, the {\bf Hamming distance} between $x, y$, denoted as $d_H(x, y)$, is defined as
+		\[ d_H(x, y) := \sum_{i=1}^n \left[x_i \stackrel{?}{=} y_i\right] \]
+		
+		where $\left[x_i \stackrel{?}{=} y_i\right]$ is the indicator function of whether $x_i$ is equal to $y_i$.
+		
+		(The definition naturally extends for two equal-sized matrices by considering their vectorizations.)
+	\end{definition}
+	
+	One can immediately see that if $x, y \in \{0, 1\}^n$, then $d_H(x, y)$ can be rewritten as $\sum_{i=1}^n |x_i - y_i|$ i.e. the {\it Jaccard distance} between $x$ and $y$.
+	
+	The following lemma from \cite{cormode} is the key theoretical basis for this embedding:
+	\begin{lemma}
+		\[ \forall \pi, \pi' \in S_n \quad d_K(\pi, \pi') = d_H \left( S(\pi), S(\pi') \right) \]
+		
+		where $[S(\pi)]_{ij} := [i < j \wedge \pi^{-1}(i) < \pi^{-1}(j)]$ and $[\cdot]$ is the indicator function for the given logical predicate.
+	\end{lemma}
+	
+	The significance of above lemma is that {\it such binary embedding scheme gives a distortion-free embedding of $S_n$ onto $\{0, 1\}^n$ with Hamming distance as the endowed metric}\footnote{This space is known as the {\it Hamming space} in coding theory.} i.e. we can {\bf directly use binary SWAY} as proposed in \cite{SWAY}!
+	Moreover, note that in our binary case, the Hamming distance is equivalent to the Jaccard distance, providing further justification for the direct application of binary SWAY.
+	
+	Lastly, noting that for all $\pi \in S_n$, $S(\pi)$ is anti-symmetric (if $(i, j)$-th component is $1$, then $(j, i)$-th component is $0$ and $(i, i)$-th component is $0$), we can reduce the space complexity from $n^2$ to $\frac{n(n-1)}{2}$.
+	
+	Note that in exchange for preserving the pairwise swap distances, the space complexity (and thus the expected computational complexity) is rather high.
+	It takes $O(N_0 n^2)$ space complexity with $O(N_0 n)$ time complexity for embedding each permutation, where $N_0$ is the size of the initial population.
+	Our embedding scheme as mentioned in Section \ref{sec:embedding} takes $O(N_0 n)$ space complexity with $O(N_0)$ time complexity for embedding each permutation, but at the cost of some distortion introduced.
+	Thus there is a clear trade-off between the two embedding schemes, and it would be interesting to see if such trade-off extends to performance of the algorithm.
 	
 	% that's all folks
 \end{document}
