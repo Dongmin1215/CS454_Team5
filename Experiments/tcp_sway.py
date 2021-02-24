@@ -74,7 +74,7 @@ def tcp_sway(dataset, initial, stop, alg):
         return res, candidates
 
     # continuous
-    elif alg == 2:
+    elif alg == 2:\
         return sway(candidates, where, comparing, stop, alg, None), candidates
 
 

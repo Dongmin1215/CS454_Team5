@@ -43,7 +43,7 @@
         3:   38:                print_token(token_ptr);
         1:   39:      print_token(token_ptr);
         1:   40:  exit(0);
-        -:   41:}
+    #####:   41:}
         -:   42:
         -:   43:
         -:   44:
@@ -89,16 +89,16 @@
         -:   84:                   returns the character.       
         -:   85: * ****************************************************************** */
         -:   86:
-       19:   87:CHARACTER get_char(stream_ptr)
+        9:   87:CHARACTER get_char(stream_ptr)
         -:   88:character_stream stream_ptr;
         -:   89:{
-       19:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
+        9:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
         -:   91:      {
         2:   92:              if(fgets(stream_ptr->stream+START,80-START,stream_ptr->fp) == NULL)/* Fix bug: add -START - hf*/
         1:   93:                    stream_ptr->stream[START]=EOF;
         2:   94:              stream_ptr->stream_ind=START;
         2:   95:      }
-       19:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
+        9:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
         -:   97:}
         -:   98:
         -:   99:/* *******************************************************************
@@ -112,14 +112,14 @@
         -:  107:                   returns the value according to it.
         -:  108: * ****************************************************************** */
         -:  109:
-        7:  110:BOOLEAN is_end_of_character_stream(stream_ptr)
+        2:  110:BOOLEAN is_end_of_character_stream(stream_ptr)
         -:  111:character_stream stream_ptr;
         -:  112:{
-        7:  113:      if(stream_ptr->stream[stream_ptr->stream_ind-1] == EOF)
+        2:  113:      if(stream_ptr->stream[stream_ptr->stream_ind-1] == EOF)
         1:  114:            return(TRUE);
         -:  115:      else
-        6:  116:            return(FALSE);
-        7:  117:}
+        1:  116:            return(FALSE);
+        2:  117:}
         -:  118:
         -:  119:/* *********************************************************************
         -:  120:   Function name : unget_char
@@ -131,16 +131,16 @@
         -:  126:                   to unget the character then it returns
         -:  127: * ******************************************************************* */
         -:  128:
-        2:  129:unget_char(ch,stream_ptr)
+    #####:  129:unget_char(ch,stream_ptr)
         -:  130:CHARACTER ch;
         -:  131:character_stream stream_ptr;
         -:  132:{
-        2:  133:      if(stream_ptr->stream_ind == 0)
+    #####:  133:      if(stream_ptr->stream_ind == 0)
     #####:  134:          return 0;
         -:  135:      else
-        2:  136:          stream_ptr->stream[--(stream_ptr->stream_ind)]=ch;
-        2:  137:      return 0;
-        2:  138:}
+    #####:  136:          stream_ptr->stream[--(stream_ptr->stream_ind)]=ch;
+    #####:  137:      return 0;
+    #####:  138:}
         -:  139:
         -:  140:
         -:  141:/* *******************************************************************
@@ -191,24 +191,24 @@
         4:  186:      token_ptr=(token)(malloc(sizeof(struct token_type)));
         4:  187:      ch=get_char(tstream_ptr->ch_stream);
         4:  188:      cu_state=token_ind=token_found=0;
-       11:  189:      while(!token_found)
+        9:  189:      while(!token_found)
         -:  190:      {
-       11:  191:    if(token_ind < 80) /* ADDED ERROR CHECK - hf */
+        9:  191:    if(token_ind < 80) /* ADDED ERROR CHECK - hf */
         -:  192:    {
-       11:  193:        token_str[token_ind++]=ch;
-       11:  194:        next_st=next_state(cu_state,ch);
-       11:  195:    }
+        9:  193:        token_str[token_ind++]=ch;
+        9:  194:        next_st=next_state(cu_state,ch);
+        9:  195:    }
         -:  196:    else
         -:  197:    {
     #####:  198:        next_st = -1; /* - hf */
         -:  199:    }
-       11:  200:    if (next_st == -1) { /* ERROR or EOF case */
-        2:  201:        return(error_or_eof_case(tstream_ptr, 
-        1:  202:               token_ptr,cu_state,token_str,token_ind,ch));
-       10:  203:    } else if (next_st == -2) {/* This is numeric case. */
-        2:  204:        return(numeric_case(tstream_ptr,token_ptr,ch,
-        1:  205:          token_str,token_ind));
-        9:  206:    } else if (next_st == -3) {/* This is the IDENTIFIER case */
+        9:  200:    if (next_st == -1) { /* ERROR or EOF case */
+        4:  201:        return(error_or_eof_case(tstream_ptr, 
+        2:  202:               token_ptr,cu_state,token_str,token_ind,ch));
+        7:  203:    } else if (next_st == -2) {/* This is numeric case. */
+    #####:  204:        return(numeric_case(tstream_ptr,token_ptr,ch,
+    #####:  205:          token_str,token_ind));
+        7:  206:    } else if (next_st == -3) {/* This is the IDENTIFIER case */
     #####:  207:        token_ptr->token_id=IDENTIFIER;
     #####:  208:        unget_char(ch,tstream_ptr->ch_stream);
     #####:  209:        token_ind--;
@@ -217,20 +217,20 @@
     #####:  212:        return(token_ptr);
         -:  213:    } 
         -:  214:      
-        9:  215:    switch(next_st) 
+        7:  215:    switch(next_st) 
         -:  216:            { 
-        6:  217:                 default : break;
+        5:  217:                 default : break;
         -:  218:                 case 6  : /* These are all KEYWORD cases. */
         -:  219:                 case 9  :
         -:  220:                 case 11 :
         -:  221:                 case 13 :
-        1:  222:                 case 16 : ch=get_char(tstream_ptr->ch_stream);
-        1:  223:                           if(check_delimiter(ch)==TRUE)
+    #####:  222:                 case 16 : ch=get_char(tstream_ptr->ch_stream);
+    #####:  223:                           if(check_delimiter(ch)==TRUE)
         -:  224:                           {
-        1:  225:                                 token_ptr->token_id=keyword(next_st);
-        1:  226:                                 unget_char(ch,tstream_ptr->ch_stream);
-        1:  227:                                 token_ptr->token_string[0]='\0';
-        1:  228:                                 return(token_ptr);
+    #####:  225:                                 token_ptr->token_id=keyword(next_st);
+    #####:  226:                                 unget_char(ch,tstream_ptr->ch_stream);
+    #####:  227:                                 token_ptr->token_string[0]='\0';
+    #####:  228:                                 return(token_ptr);
         -:  229:                           }
     #####:  230:                           unget_char(ch,tstream_ptr->ch_stream);
     #####:  231:                           break;
@@ -245,17 +245,17 @@
         1:  240:                           token_ptr->token_string[0]='\0';
         1:  241:                           return(token_ptr);
         -:  242:                 case 27 : /* These are constant cases */
-    #####:  243:                 case 29 : token_ptr->token_id=constant(next_st,token_str,token_ind);
-    #####:  244:                           get_actual_token(token_str,token_ind);
-    #####:  245:                           strcpy(token_ptr->token_string,token_str);
-    #####:  246:                           return(token_ptr);
+        1:  243:                 case 29 : token_ptr->token_id=constant(next_st,token_str,token_ind);
+        1:  244:                           get_actual_token(token_str,token_ind);
+        1:  245:                           strcpy(token_ptr->token_string,token_str);
+        1:  246:                           return(token_ptr);
         -:  247:                 case 30 :  /* This is COMMENT case */
-        1:  248:                           skip(tstream_ptr->ch_stream);
-        1:  249:                           token_ind=next_st=0;
-        1:  250:                           break;
+    #####:  248:                           skip(tstream_ptr->ch_stream);
+    #####:  249:                           token_ind=next_st=0;
+    #####:  250:                           break;
         -:  251:            }
-        7:  252:            cu_state=next_st;
-        7:  253:            ch=get_char(tstream_ptr->ch_stream);
+        5:  252:            cu_state=next_st;
+        5:  253:            ch=get_char(tstream_ptr->ch_stream);
         -:  254:      }
         4:  255:}
         -:  256:
@@ -268,13 +268,13 @@
         -:  263:                   forms numeric token else forms error token.
         -:  264: * ****************************************************************** */
         -:  265:
-        1:  266:static token numeric_case(tstream_ptr,token_ptr,ch,token_str,token_ind)
+    #####:  266:static token numeric_case(tstream_ptr,token_ptr,ch,token_str,token_ind)
         -:  267:token_stream tstream_ptr;
         -:  268:token token_ptr;
         -:  269:char ch,token_str[];
         -:  270:int token_ind;
         -:  271:{
-        1:  272:        if(check_delimiter(ch)!=TRUE)
+    #####:  272:        if(check_delimiter(ch)!=TRUE)
         -:  273:        {   /* Error case */
     #####:  274:            token_ptr->token_id=ERROR;
     #####:  275:            while(check_delimiter(ch)==FALSE)
@@ -288,13 +288,13 @@
     #####:  283:            strcpy(token_ptr->token_string,token_str);
     #####:  284:            return(token_ptr);
         -:  285:        }
-        1:  286:        token_ptr->token_id=NUMERIC; /* Numeric case */
-        1:  287:        unget_char(ch,tstream_ptr->ch_stream);
-        1:  288:        token_ind--;
-        1:  289:        get_actual_token(token_str,token_ind);
-        1:  290:        strcpy(token_ptr->token_string,token_str);
-        1:  291:        return(token_ptr);
-        1:  292:}
+    #####:  286:        token_ptr->token_id=NUMERIC; /* Numeric case */
+    #####:  287:        unget_char(ch,tstream_ptr->ch_stream);
+    #####:  288:        token_ind--;
+    #####:  289:        get_actual_token(token_str,token_ind);
+    #####:  290:        strcpy(token_ptr->token_string,token_str);
+    #####:  291:        return(token_ptr);
+    #####:  292:}
         -:  293:
         -:  294:/* *****************************************************************
         -:  295:   Function name : error_or_eof_case 
@@ -306,28 +306,28 @@
         -:  301:                   token.
         -:  302: * *****************************************************************/
         -:  303:
-        1:  304:static token error_or_eof_case(tstream_ptr,token_ptr,cu_state,token_str,token_ind,ch)
+        2:  304:static token error_or_eof_case(tstream_ptr,token_ptr,cu_state,token_str,token_ind,ch)
         -:  305:token_stream tstream_ptr;
         -:  306:token token_ptr;
         -:  307:int cu_state,token_ind;
         -:  308:char token_str[],ch;
         -:  309:{
-        1:  310:      if(is_end_of_character_stream(tstream_ptr->ch_stream)) 
+        2:  310:      if(is_end_of_character_stream(tstream_ptr->ch_stream)) 
         -:  311:      {
         1:  312:            token_ptr->token_id = EOTSTREAM;
         1:  313:            token_ptr->token_string[0]='\0';
         1:  314:            return(token_ptr);
         -:  315:      }
-    #####:  316:      if(cu_state !=0)
+        1:  316:      if(cu_state !=0)
         -:  317:      {
     #####:  318:            unget_char(ch,tstream_ptr->ch_stream);
     #####:  319:            token_ind--;
     #####:  320:      }
-    #####:  321:      token_ptr->token_id=ERROR;
-    #####:  322:      get_actual_token(token_str,token_ind);
-    #####:  323:      strcpy(token_ptr->token_string,token_str);
-    #####:  324:      return(token_ptr);                
-        1:  325:}
+        1:  321:      token_ptr->token_id=ERROR;
+        1:  322:      get_actual_token(token_str,token_ind);
+        1:  323:      strcpy(token_ptr->token_string,token_str);
+        1:  324:      return(token_ptr);                
+        2:  325:}
         -:  326:
         -:  327:/* *********************************************************************
         -:  328:   Function name : check_delimiter
@@ -339,13 +339,13 @@
         -:  334:                   it returns FALSE. 
         -:  335: * ******************************************************************* */
         -:  336:
-        2:  337:static int check_delimiter(ch)
+    #####:  337:static int check_delimiter(ch)
         -:  338:char ch;
         -:  339:{
-        2:  340:      if(!isalpha(ch) && !isdigit(ch)) /* Check for digit and alpha */
-        2:  341:          return(TRUE);
+    #####:  340:      if(!isalpha(ch) && !isdigit(ch)) /* Check for digit and alpha */
+    #####:  341:          return(TRUE);
     #####:  342:      return(FALSE);
-        2:  343:}
+    #####:  343:}
         -:  344:
         -:  345:/* ********************************************************************
         -:  346:   Function name : keyword
@@ -356,20 +356,20 @@
         -:  351:                   respective token_id is returned.
         -:  352: * ***************************************************************** */
         -:  353:
-        1:  354:static int keyword(state)
+    #####:  354:static int keyword(state)
         -:  355:int state;
         -:  356:{
-        1:  357:      switch(state)
+    #####:  357:      switch(state)
         -:  358:      {   /* Return the respective macro for the Keyword. */
     #####:  359:          case 6 : return(LAMBDA);
     #####:  360:          case 9 : return(AND);
     #####:  361:          case 11: return(OR);
-        1:  362:          case 13: return(IF);
+    #####:  362:          case 13: return(IF);
     #####:  363:          case 16: return(XOR);
     #####:  364:          default: fprintf(stdout, "error\n");break;
         -:  365:      }
     #####:  366:      exit(0);
-        1:  367:}
+    #####:  367:}
         -:  368:
         -:  369:/* ********************************************************************
         -:  370:   Function name : special
@@ -386,13 +386,13 @@
         -:  381:{
         1:  382:     switch(state)
         -:  383:     {   /* return the respective macro for the special character. */
-        1:  384:         case 19: return(LPAREN);
+    #####:  384:         case 19: return(LPAREN);
     #####:  385:         case 20: return(RPAREN);
     #####:  386:         case 21: return(LSQUARE);
     #####:  387:         case 22: return(RSQUARE);
     #####:  388:         case 23: return(QUOTE);
     #####:  389:         case 24: return(BQUOTE);
-    #####:  390:         case 25: return(COMMA);
+        1:  390:         case 25: return(COMMA);
     #####:  391:         case 32: return(EQUALGREATER);
     #####:  392:         default: fprintf(stdout, "error\n");break;
         -:  393:     }
@@ -410,16 +410,16 @@
         -:  405:                   end_of_character_stream.                   
         -:  406: * ******************************************************************* */
         -:  407:
-        1:  408:static skip(stream_ptr)
+    #####:  408:static skip(stream_ptr)
         -:  409:character_stream stream_ptr;
         -:  410:{
         -:  411:        char c;
         -:  412:  
-        8:  413:        while((c=get_char(stream_ptr))!='\n' && 
-        6:  414:               !is_end_of_character_stream(stream_ptr))
+    #####:  413:        while((c=get_char(stream_ptr))!='\n' && 
+    #####:  414:               !is_end_of_character_stream(stream_ptr))
         -:  415:             ; /* Skip the characters until EOF or EOL found. */
-        1:  416:  if(c==EOF) unget_char(c, stream_ptr); /* Put back to leave gracefully - hf */
-        1:  417:        return 0;
+    #####:  416:  if(c==EOF) unget_char(c, stream_ptr); /* Put back to leave gracefully - hf */
+    #####:  417:        return 0;
         -:  418:}
         -:  419:
         -:  420:/* *********************************************************************
@@ -431,17 +431,17 @@
         -:  426:                   speccified by  the final state. 
         -:  427: * ****************************************************************** */
         -:  428:
-    #####:  429:static int constant(state,token_str,token_ind)
+        1:  429:static int constant(state,token_str,token_ind)
         -:  430:int state,token_ind;
         -:  431:char token_str[];
         -:  432:{
-    #####:  433:     switch(state)
+        1:  433:     switch(state)
         -:  434:     {   /* Return the respective CONSTANT macro. */
-    #####:  435:         case 27 : return(STRING_CONSTANT);
+        1:  435:         case 27 : return(STRING_CONSTANT);
     #####:  436:         case 29 : token_str[token_ind-2]=' '; return(CHARACTER_CONSTANT);
     #####:  437:         default : break;
         -:  438:     }
-    #####:  439:}
+        1:  439:}
         -:  440:
         -:  441:
         -:  442:/* *******************************************************************
@@ -454,22 +454,22 @@
         -:  449:                   state state and the inpu character ch.
         -:  450: * ****************************************************************** */
         -:  451:              
-       14:  452:static int next_state(state,ch)
+       13:  452:static int next_state(state,ch)
         -:  453:int state;
         -:  454:char ch;
         -:  455:{
-       14:  456:    if(state < 0)
+       13:  456:    if(state < 0)
         2:  457:      return(state);
-       12:  458:    if(base[state]+ch >= 0)
+       11:  458:    if(base[state]+ch >= 0)
         -:  459:    {
-       11:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
-        9:  461:             return(next[base[state]+ch]);
+        9:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
+        7:  461:             return(next[base[state]+ch]);
         -:  462:        else
         2:  463:              return(next_state(default1[state],ch));
         -:  464:    }
         -:  465:    else
-        1:  466:        return(next_state(default1[state],ch));
-       14:  467:}
+        2:  466:        return(next_state(default1[state],ch));
+       13:  467:}
         -:  468:
         -:  469:/* *********************************************************************
         -:  470:   Function name : is_eof_token
@@ -508,27 +508,27 @@
         -:  503:{
         4:  504:     switch(token_ptr->token_id)
         -:  505:     {    /* Print the respective tokens. */
-    #####:  506:          case ERROR : fprintf(stdout, "error,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
-    #####:  507:                       fprintf(stdout, "\".\n");return(TRUE);
+        1:  506:          case ERROR : fprintf(stdout, "error,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
+        1:  507:                       fprintf(stdout, "\".\n");return(TRUE);
         1:  508:          case EOTSTREAM : fprintf(stdout, "eof.\n");return(TRUE);
     #####:  509:          case 6 : fprintf(stdout, "keyword,\t\"lambda\".\n");return(TRUE);
     #####:  510:          case 9 : fprintf(stdout, "keyword,\t\"and\".\n");return(TRUE);
     #####:  511:          case 11: fprintf(stdout, "keyword,\t\"or\".\n");return(TRUE);
-        1:  512:          case 13: fprintf(stdout, "keyword,\t\"if\".\n");return(TRUE);
+    #####:  512:          case 13: fprintf(stdout, "keyword,\t\"if\".\n");return(TRUE);
     #####:  513:          case 16: fprintf(stdout, "keyword,\t\"xor\".\n");return(TRUE);
     #####:  514:          case 17: fprintf(stdout, "identifier,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
     #####:  515:                   fprintf(stdout, "\".\n");return(TRUE);
-        1:  516:          case 18: fprintf(stdout, "numeric,\t");fprintf(stdout, "%s",token_ptr->token_string);
-        1:  517:                   fprintf(stdout, ".\n");return(TRUE);
-        1:  518:          case 19: fprintf(stdout, "lparen.\n");return(TRUE);
+    #####:  516:          case 18: fprintf(stdout, "numeric,\t");fprintf(stdout, "%s",token_ptr->token_string);
+    #####:  517:                   fprintf(stdout, ".\n");return(TRUE);
+    #####:  518:          case 19: fprintf(stdout, "lparen.\n");return(TRUE);
     #####:  519:          case 20: fprintf(stdout, "rparen.\n");return(TRUE);
     #####:  520:          case 21: fprintf(stdout, "lsquare.\n");return(TRUE);
     #####:  521:          case 22: fprintf(stdout, "rsquare.\n");return(TRUE);
     #####:  522:          case 23: fprintf(stdout, "quote.\n");return(TRUE);
     #####:  523:          case 24: fprintf(stdout, "bquote.\n");return(TRUE);
-    #####:  524:          case 25: fprintf(stdout, "comma.\n");return(TRUE);
-    #####:  525:          case 27: fprintf(stdout, "string,\t");fprintf(stdout, "%s",token_ptr->token_string);
-    #####:  526:                   fprintf(stdout, ".\n");return(TRUE);
+        1:  524:          case 25: fprintf(stdout, "comma.\n");return(TRUE);
+        1:  525:          case 27: fprintf(stdout, "string,\t");fprintf(stdout, "%s",token_ptr->token_string);
+        1:  526:                   fprintf(stdout, ".\n");return(TRUE);
     #####:  527:          case 29: fprintf(stdout, "character,\t\"");fprintf(stdout, "%s",token_ptr->token_string);
     #####:  528:                   fprintf(stdout, "\".\n");return(TRUE);
     #####:  529:          case 32: fprintf(stdout, "keyword,\t\"=>\".\n");return(TRUE);
@@ -547,20 +547,20 @@
         -:  542:                   the leading and trailing  spaces and prints the token.
         -:  543: * ****************************************************************** */
         -:  544:
-        1:  545:static get_actual_token(token_str,token_ind)
+        2:  545:static get_actual_token(token_str,token_ind)
         -:  546:int token_ind;
         -:  547:char token_str[];
         -:  548:{
         -:  549:          int ind,start;
         -:  550:
-        1:  551:          for(ind=token_ind;ind>0 && isspace(token_str[ind-1]);--ind); 
+        2:  551:          for(ind=token_ind;ind>0 && isspace(token_str[ind-1]);--ind); 
         -:  552:                        /* Delete the trailing white spaces & protect - hf */
-        1:  553:           token_str[ind]='\0';token_ind=ind;
+        2:  553:           token_str[ind]='\0';token_ind=ind;
         2:  554:          for(ind=0;ind<token_ind;++ind)
         2:  555:                if(!isspace(token_str[ind]))
-        1:  556:                      break;
-        3:  557:          for(start=0;ind<=token_ind;++start,++ind) /* Delete the leading
+        2:  556:                      break;
+       11:  557:          for(start=0;ind<=token_ind;++start,++ind) /* Delete the leading
         -:  558:                                                       white spaces. */
-        2:  559:                token_str[start]=token_str[ind];
-        1:  560:          return 0;
+        9:  559:                token_str[start]=token_str[ind];
+        2:  560:          return 0;
         -:  561:}

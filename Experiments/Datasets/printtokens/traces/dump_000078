@@ -43,7 +43,7 @@
     #####:   38:                print_token(token_ptr);
         1:   39:      print_token(token_ptr);
         1:   40:  exit(0);
-        -:   41:}
+    #####:   41:}
         -:   42:
         -:   43:
         -:   44:
@@ -89,16 +89,16 @@
         -:   84:                   returns the character.       
         -:   85: * ****************************************************************** */
         -:   86:
-        6:   87:CHARACTER get_char(stream_ptr)
+        7:   87:CHARACTER get_char(stream_ptr)
         -:   88:character_stream stream_ptr;
         -:   89:{
-        6:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
+        7:   90:      if(stream_ptr->stream[stream_ptr->stream_ind] == '\0')
         -:   91:      {
-        2:   92:              if(fgets(stream_ptr->stream+START,80-START,stream_ptr->fp) == NULL)/* Fix bug: add -START - hf*/
+        3:   92:              if(fgets(stream_ptr->stream+START,80-START,stream_ptr->fp) == NULL)/* Fix bug: add -START - hf*/
         1:   93:                    stream_ptr->stream[START]=EOF;
-        2:   94:              stream_ptr->stream_ind=START;
-        2:   95:      }
-        6:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
+        3:   94:              stream_ptr->stream_ind=START;
+        3:   95:      }
+        7:   96:      return(stream_ptr->stream[(stream_ptr->stream_ind)++]);
         -:   97:}
         -:   98:
         -:   99:/* *******************************************************************
@@ -191,24 +191,24 @@
         1:  186:      token_ptr=(token)(malloc(sizeof(struct token_type)));
         1:  187:      ch=get_char(tstream_ptr->ch_stream);
         1:  188:      cu_state=token_ind=token_found=0;
-        2:  189:      while(!token_found)
+        3:  189:      while(!token_found)
         -:  190:      {
-        2:  191:    if(token_ind < 80) /* ADDED ERROR CHECK - hf */
+        3:  191:    if(token_ind < 80) /* ADDED ERROR CHECK - hf */
         -:  192:    {
-        2:  193:        token_str[token_ind++]=ch;
-        2:  194:        next_st=next_state(cu_state,ch);
-        2:  195:    }
+        3:  193:        token_str[token_ind++]=ch;
+        3:  194:        next_st=next_state(cu_state,ch);
+        3:  195:    }
         -:  196:    else
         -:  197:    {
     #####:  198:        next_st = -1; /* - hf */
         -:  199:    }
-        2:  200:    if (next_st == -1) { /* ERROR or EOF case */
+        3:  200:    if (next_st == -1) { /* ERROR or EOF case */
         2:  201:        return(error_or_eof_case(tstream_ptr, 
         1:  202:               token_ptr,cu_state,token_str,token_ind,ch));
-        1:  203:    } else if (next_st == -2) {/* This is numeric case. */
+        2:  203:    } else if (next_st == -2) {/* This is numeric case. */
     #####:  204:        return(numeric_case(tstream_ptr,token_ptr,ch,
     #####:  205:          token_str,token_ind));
-        1:  206:    } else if (next_st == -3) {/* This is the IDENTIFIER case */
+        2:  206:    } else if (next_st == -3) {/* This is the IDENTIFIER case */
     #####:  207:        token_ptr->token_id=IDENTIFIER;
     #####:  208:        unget_char(ch,tstream_ptr->ch_stream);
     #####:  209:        token_ind--;
@@ -217,9 +217,9 @@
     #####:  212:        return(token_ptr);
         -:  213:    } 
         -:  214:      
-        1:  215:    switch(next_st) 
+        2:  215:    switch(next_st) 
         -:  216:            { 
-    #####:  217:                 default : break;
+        1:  217:                 default : break;
         -:  218:                 case 6  : /* These are all KEYWORD cases. */
         -:  219:                 case 9  :
         -:  220:                 case 11 :
@@ -254,8 +254,8 @@
         1:  249:                           token_ind=next_st=0;
         1:  250:                           break;
         -:  251:            }
-        1:  252:            cu_state=next_st;
-        1:  253:            ch=get_char(tstream_ptr->ch_stream);
+        2:  252:            cu_state=next_st;
+        2:  253:            ch=get_char(tstream_ptr->ch_stream);
         -:  254:      }
         1:  255:}
         -:  256:
@@ -454,22 +454,22 @@
         -:  449:                   state state and the inpu character ch.
         -:  450: * ****************************************************************** */
         -:  451:              
-        4:  452:static int next_state(state,ch)
+        6:  452:static int next_state(state,ch)
         -:  453:int state;
         -:  454:char ch;
         -:  455:{
-        4:  456:    if(state < 0)
+        6:  456:    if(state < 0)
         1:  457:      return(state);
-        3:  458:    if(base[state]+ch >= 0)
+        5:  458:    if(base[state]+ch >= 0)
         -:  459:    {
-        2:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
-        1:  461:             return(next[base[state]+ch]);
+        3:  460:        if(check[base[state]+ch] == state) /* Check for the right state */
+        2:  461:             return(next[base[state]+ch]);
         -:  462:        else
         1:  463:              return(next_state(default1[state],ch));
         -:  464:    }
         -:  465:    else
-        1:  466:        return(next_state(default1[state],ch));
-        4:  467:}
+        2:  466:        return(next_state(default1[state],ch));
+        6:  467:}
         -:  468:
         -:  469:/* *********************************************************************
         -:  470:   Function name : is_eof_token

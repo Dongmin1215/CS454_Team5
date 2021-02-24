@@ -1,8 +1,8 @@
         -:    0:Source:tot_info.c
         -:    0:Graph:tot_info.gcno
-        -:    0:Data:tot_info.gcda
-        -:    0:Runs:1
-        -:    0:Programs:1
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
         -:    1:/*
         -:    2:	tot_info -- combine information statistics for multiple tables
         -:    3:
@@ -43,7 +43,7 @@
         -:   38:
         -:   39:/*ARGSUSED*/
         -:   40:int
-        1:   41:main( argc, argv )
+    #####:   41:main( argc, argv )
         -:   42:	int		argc;
         -:   43:	char		*argv[];
         -:   44:	{
@@ -52,35 +52,35 @@
         -:   47:	int	j;		/* column index */
         -:   48:	double		info;		/* computed information measure */
         -:   49:	int		infodf;		/* degrees of freedom for information */
-        1:   50:	double		totinfo = 0.0;	/* accumulated information */
+    #####:   50:	double		totinfo = 0.0;	/* accumulated information */
         -:   51:	int		totdf;	/* accumulated degrees of freedom */
         -:   52: 
-        1:   53:        totdf = 0;
+    #####:   53:        totdf = 0;
         -:   54:
-        2:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
+    #####:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
         -:   56:		{
-        2:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
+    #####:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
         -:   58:			;
         -:   59:
-        2:   60:		if ( *p == '\0' )
+    #####:   60:		if ( *p == '\0' )
     #####:   61:			continue;	/* skip blank line */
         -:   62:
-        2:   63:		if ( *p == COMMENT )
+    #####:   63:		if ( *p == COMMENT )
         -:   64:			{		/* copy comment through */
-        1:   65:			(void)fputs( line, stdout );
-        1:   66:			continue;
+    #####:   65:			(void)fputs( line, stdout );
+    #####:   66:			continue;
         -:   67:			}
         -:   68:
-        1:   69:		if ( sscanf( p, "%d %d\n", &r, &c ) != 2 )
+    #####:   69:		if ( sscanf( p, "%d %d\n", &r, &c ) != 2 )
         -:   70:			{
     #####:   71:			(void)fputs( "* invalid row/column line *\n", stdout );
     #####:   72:			return EXIT_FAILURE;
         -:   73:			}
         -:   74:
-        1:   75:		if ( r * c > MAXTBL )
+    #####:   75:		if ( r * c > MAXTBL )
         -:   76:			{
-        1:   77:			(void)fputs( "* table too large *\n", stdout );
-        1:   78:			return EXIT_FAILURE;
+    #####:   77:			(void)fputs( "* table too large *\n", stdout );
+    #####:   78:			return EXIT_FAILURE;
         -:   79:			}
         -:   80:
         -:   81:		/* input tallies */
@@ -130,7 +130,7 @@
     #####:  125:		      QChiSq( totinfo, totdf )
         -:  126:		    );
     #####:  127:	return EXIT_SUCCESS;
-        1:  128:	}
+    #####:  128:	}
         -:  129:
         -:  130:
         -:  131:/*  -*- Last-Edit:  Tue Dec 15 14:48:14 1992 by Tarak S. Goradia; -*- */

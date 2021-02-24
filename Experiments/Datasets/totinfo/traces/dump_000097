@@ -1,8 +1,8 @@
         -:    0:Source:tot_info.c
         -:    0:Graph:tot_info.gcno
-        -:    0:Data:tot_info.gcda
-        -:    0:Runs:1
-        -:    0:Programs:1
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
         -:    1:/*
         -:    2:	tot_info -- combine information statistics for multiple tables
         -:    3:
@@ -43,7 +43,7 @@
         -:   38:
         -:   39:/*ARGSUSED*/
         -:   40:int
-        1:   41:main( argc, argv )
+    #####:   41:main( argc, argv )
         -:   42:	int		argc;
         -:   43:	char		*argv[];
         -:   44:	{
@@ -52,32 +52,32 @@
         -:   47:	int	j;		/* column index */
         -:   48:	double		info;		/* computed information measure */
         -:   49:	int		infodf;		/* degrees of freedom for information */
-        1:   50:	double		totinfo = 0.0;	/* accumulated information */
+    #####:   50:	double		totinfo = 0.0;	/* accumulated information */
         -:   51:	int		totdf;	/* accumulated degrees of freedom */
         -:   52: 
-        1:   53:        totdf = 0;
+    #####:   53:        totdf = 0;
         -:   54:
-        3:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
+    #####:   55:	while ( fgets( line, MAXLINE, stdin ) != NULL )	/* start new table */
         -:   56:		{
-        9:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
+    #####:   57:		for ( p = line; *p != '\0' && isspace( (int)*p ); ++p )
         -:   58:			;
         -:   59:
-        2:   60:		if ( *p == '\0' )
-        1:   61:			continue;	/* skip blank line */
+    #####:   60:		if ( *p == '\0' )
+    #####:   61:			continue;	/* skip blank line */
         -:   62:
-        1:   63:		if ( *p == COMMENT )
+    #####:   63:		if ( *p == COMMENT )
         -:   64:			{		/* copy comment through */
     #####:   65:			(void)fputs( line, stdout );
     #####:   66:			continue;
         -:   67:			}
         -:   68:
-        1:   69:		if ( sscanf( p, "%d %d\n", &r, &c ) != 2 )
+    #####:   69:		if ( sscanf( p, "%d %d\n", &r, &c ) != 2 )
         -:   70:			{
     #####:   71:			(void)fputs( "* invalid row/column line *\n", stdout );
     #####:   72:			return EXIT_FAILURE;
         -:   73:			}
         -:   74:
-        1:   75:		if ( r * c > MAXTBL )
+    #####:   75:		if ( r * c > MAXTBL )
         -:   76:			{
     #####:   77:			(void)fputs( "* table too large *\n", stdout );
     #####:   78:			return EXIT_FAILURE;
@@ -85,23 +85,23 @@
         -:   80:
         -:   81:		/* input tallies */
         -:   82:
-        3:   83:		for ( i = 0; i < r; ++i )
-        6:   84:			for ( j = 0; j < c; ++j )
-        4:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
+    #####:   83:		for ( i = 0; i < r; ++i )
+    #####:   84:			for ( j = 0; j < c; ++j )
+    #####:   85:				if ( scanf( " %ld", &x(i,j) ) != 1 )
         -:   86:					{
     #####:   87:					(void)fputs( "* EOF in table *\n",
     #####:   88:						     stdout
         -:   89:						   );
     #####:   90:					return EXIT_FAILURE;
-        2:   91:					}
+    #####:   91:					}
         -:   92:
         -:   93:		/* compute statistic */
         -:   94:
-        1:   95:		info = InfoTbl( r, c, f, &infodf );
+    #####:   95:		info = InfoTbl( r, c, f, &infodf );
         -:   96:
         -:   97:		/* print results */
         -:   98:
-        1:   99:		if ( info >= 0.0 )
+    #####:   99:		if ( info >= 0.0 )
         -:  100:			{
     #####:  101:			(void)printf( "2info = %5.2f\tdf = %2d\tq = %7.4f\n",
     #####:  102:				      info, infodf,
@@ -111,18 +111,18 @@
     #####:  106:			totdf += infodf;
     #####:  107:			}
         -:  108:		else
-        2:  109:			(void)fputs( info < -3.5 ? "out of memory\n"
-        1:  110:				   : info < -2.5 ? "table too small\n"
-        1:  111:				   : info < -1.5 ? "negative freq\n"
+    #####:  109:			(void)fputs( info < -3.5 ? "out of memory\n"
+    #####:  110:				   : info < -2.5 ? "table too small\n"
+    #####:  111:				   : info < -1.5 ? "negative freq\n"
         -:  112:				   : "table all zeros\n",
-        1:  113:				     stdout
+    #####:  113:				     stdout
         -:  114:				   );
         -:  115:		}
         -:  116:
-        1:  117:	if ( totdf <= 0 )
+    #####:  117:	if ( totdf <= 0 )
         -:  118:		{
-        1:  119:		(void)fputs( "\n*** no information accumulated ***\n", stdout );
-        1:  120:		return EXIT_FAILURE;
+    #####:  119:		(void)fputs( "\n*** no information accumulated ***\n", stdout );
+    #####:  120:		return EXIT_FAILURE;
         -:  121:		}
         -:  122:
     #####:  123:	(void)printf( "\ntotal 2info = %5.2f\tdf = %2d\tq = %7.4f\n",
@@ -130,7 +130,7 @@
     #####:  125:		      QChiSq( totinfo, totdf )
         -:  126:		    );
     #####:  127:	return EXIT_SUCCESS;
-        1:  128:	}
+    #####:  128:	}
         -:  129:
         -:  130:
         -:  131:/*  -*- Last-Edit:  Tue Dec 15 14:48:14 1992 by Tarak S. Goradia; -*- */
@@ -295,7 +295,7 @@
         -:  290:#define	x(i,j)	f[(i)*c+(j)]		/* convenient way to access freqs */
         -:  291:
         -:  292:double
-        1:  293:InfoTbl( r, c, f, pdf )
+    #####:  293:InfoTbl( r, c, f, pdf )
         -:  294:	int		r;		/* # rows in table */
         -:  295:	int		c;		/* # columns in table */
         -:  296:	const long	*f;		/* -> r*c frequency tallies */
@@ -307,24 +307,24 @@
         -:  302:	double		info;		/* accumulates information measure */
         -:  303:	double		*xi;		/* row sums */
         -:  304:	double		*xj;		/* col sums */
-        1:  305:	int		rdf = r - 1;	/* row degrees of freedom */
-        1:  306:	int		cdf = c - 1;	/* column degrees of freedom */
+    #####:  305:	int		rdf = r - 1;	/* row degrees of freedom */
+    #####:  306:	int		cdf = c - 1;	/* column degrees of freedom */
         -:  307:
-        1:  308:	if ( rdf <= 0 || cdf <= 0 )
+    #####:  308:	if ( rdf <= 0 || cdf <= 0 )
         -:  309:		{
     #####:  310:		info = -3.0;
     #####:  311:		goto ret3;
         -:  312:		}
         -:  313:
-        1:  314:	*pdf = rdf * cdf;		/* total degrees of freedom */
+    #####:  314:	*pdf = rdf * cdf;		/* total degrees of freedom */
         -:  315:
-        1:  316:	if ( (xi = (double *)malloc( r * sizeof(double) )) == NULL )
+    #####:  316:	if ( (xi = (double *)malloc( r * sizeof(double) )) == NULL )
         -:  317:		{
     #####:  318:		info = -4.0;
     #####:  319:		goto ret3;
         -:  320:		}
         -:  321:
-        1:  322:	if ( (xj = (double *)malloc( c * sizeof(double) )) == NULL )
+    #####:  322:	if ( (xj = (double *)malloc( c * sizeof(double) )) == NULL )
         -:  323:		{
     #####:  324:		info = -4.0;
     #####:  325:		goto ret2;
@@ -332,32 +332,32 @@
         -:  327:
         -:  328:	/* compute row sums and total */
         -:  329:
-        1:  330:	N = 0.0;
+    #####:  330:	N = 0.0;
         -:  331:
-        3:  332:	for ( i = 0; i < r; ++i )
+    #####:  332:	for ( i = 0; i < r; ++i )
         -:  333:		{
-        2:  334:		double	sum = 0.0;	/* accumulator */
+    #####:  334:		double	sum = 0.0;	/* accumulator */
         -:  335:
-        6:  336:		for ( j = 0; j < c; ++j )
+    #####:  336:		for ( j = 0; j < c; ++j )
         -:  337:			{
-        4:  338:			long	k = x(i,j);
+    #####:  338:			long	k = x(i,j);
         -:  339:
-        4:  340:			if ( k < 0L )
+    #####:  340:			if ( k < 0L )
         -:  341:				{
     #####:  342:				info = -2.0;
     #####:  343:				goto ret1;
         -:  344:				}
         -:  345:
-        4:  346:			sum += (double)k;
-        4:  347:			}
+    #####:  346:			sum += (double)k;
+    #####:  347:			}
         -:  348:
-        2:  349:		N += xi[i] = sum;
-        2:  350:		}
+    #####:  349:		N += xi[i] = sum;
+    #####:  350:		}
         -:  351:
-        1:  352:	if ( N <= 0.0 )
+    #####:  352:	if ( N <= 0.0 )
         -:  353:		{
-        1:  354:		info = -1.0;
-        1:  355:		goto ret1;
+    #####:  354:		info = -1.0;
+    #####:  355:		goto ret1;
         -:  356:		}
         -:  357:
         -:  358:	/* compute column sums */
@@ -403,9 +403,9 @@
     #####:  398:	info *= 2.0;			/* for comparability with chi-square */
         -:  399:
         -:  400:    ret1:
-        1:  401:	free( (pointer)xj );
+    #####:  401:	free( (pointer)xj );
         -:  402:    ret2:
-        1:  403:	free( (pointer)xi );
+    #####:  403:	free( (pointer)xi );
         -:  404:    ret3:
-        1:  405:	return info;
+    #####:  405:	return info;
         -:  406:	}

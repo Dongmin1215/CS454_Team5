@@ -26,7 +26,7 @@ if __name__ == '__main__':
     parser.add_argument("-d", "--dataset", help="dataset name")
     parser.add_argument("-n", "--number", help="number of test suites to compute over", type=int, default=500)
     parser.add_argument("-e", "--embedding", help="type of embedding used (1 for non-distortive, 2 for distortive)",
-                        type=int)
+                        type=int, default=2)
     parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 10)
     parser.add_argument("-s", "--stop", help="stop SWAY clustering when candidate number is less than this value",
                         type=int, default=20)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     apsd_list_random, apfd_list_random, time_list_random = [], [], []
     apsd_list_greedy, apfd_list_greedy, time_list_greedy = [], [], []
     apsd_list_sway, apfd_list_sway, time_list_sway = [], [], []
-
+    
     print(f"------{dataset}-------")
     for s in tqdm(suites):
         suite = f's{s}'
