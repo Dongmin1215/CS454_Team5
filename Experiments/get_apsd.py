@@ -3,6 +3,7 @@ Created on 2020/12/12
 @author: Dongmin1215, chanijung, yhpark, nicklee
 """
 import numpy as np
+import pandas as pd
 
 
 def coverage_matrix(dataset):
@@ -67,5 +68,38 @@ def get_apsd(dataset, perm):
         # apsd_cumulative.append(apsd)
     valid_profile = [x for x in profile if isValidLine(x)]
     apsd = 1 - sum(ts_values) / ((tc_order - 1) * len(valid_profile)) + 0.5 / (tc_order - 1)
+    # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
+    return apsd
+
+
+# Assume that perm is a list of integers
+def get_apsd_linux(dataset, ver, perm):
+    ts_values = []
+    tc_order = 1
+    uncovered_lines = []
+    path = 'Datasets/linux_utils/linuxutils/coverage_singlefault/' + dataset + '/v' + ver + ".pkl"
+    df = pd.read_pickle(path)
+    # print(df)
+    apsd=0
+    for i in perm:  # i is test case number
+        cov = df.iloc[:, i-1]
+        # print(f'cov:\n{cov}')
+        profile = np.array(cov!=0).astype(int)
+        # for j in range(len(cov.index)):
+        #     line_num = cov.index.get_level_values(1)[i]
+        #     exec_num = cov.iloc[j]
+        # print(f'profile:\n{profile}')
+        if tc_order == 1:
+            uncovered_lines = list(range(profile.size))
+        for k in uncovered_lines:  # j is line number
+            bit = profile[k]
+            if bit:
+                ts_values.append(tc_order)
+                uncovered_lines.remove(k)  # Will not check the cover of this line anymore\
+        tc_order += 1
+
+    # valid_profile = [x for x in profile if isValidLine(x)]
+    apsd = 1 - sum(ts_values) / ((tc_order - 1) * profile.size) + 0.5 / (tc_order - 1)
+    # print(f'apsd: {apsd}')
     # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
     return apsd

@@ -14,6 +14,8 @@ from get_apsd import *
 
 
 def dist(ind1, ind2):
+    ind1 = rank_vector(ind1)    #To calculate swap distance
+    ind2 = rank_vector(ind2) 
     d = 0
     for i, j in zip(ind1, ind2):
         d += (i - j) ** 2
@@ -47,17 +49,33 @@ def where(pop):  # pop = candidates
 
     return west, east, eastItems, westItems
 
+def rank_vector(pi):
+    n = len(pi)
+    result = []
 
-def tcp_sway(dataset, initial, stop, alg):
+    for i in range(n):
+        result.append(pi.index(i+1))
+
+    return result
+
+def tcp_sway(dataset, ver, initial, stop, alg):
     
+    num_tests_dict = {'flex':21, 'grep':193, 'gzip':211, 'sed':36}
+
     # Compare function
-    def comparing(part1, part2):
-        return get_apsd(dataset, part1) > get_apsd(dataset, part2)
+    def comparing(part1, part2): ##Need modification 
+        if ver=='0':
+            return get_apsd(dataset, part1) > get_apsd(dataset, part2)
+        else:
+            return get_apsd_linux(dataset, ver, part1) > get_apsd_linux(dataset, ver, part2)
 
-
-    path = 'Datasets/' + dataset + '/traces'
-    file_list = os.listdir(path)
-    length = sum(['dump' in name for name in file_list])
+    if ver=='0':
+        path = 'Datasets/' + dataset + '/traces'
+        file_list = os.listdir(path)
+        length = sum(['dump' in name for name in file_list])
+    else: #linux utils
+        length = num_tests_dict[dataset]
+        
     candidates = []
 
     # Build initial population
@@ -74,7 +92,7 @@ def tcp_sway(dataset, initial, stop, alg):
         return res, candidates
 
     # continuous
-    elif alg == 2:\
+    elif alg == 2:
         return sway(candidates, where, comparing, stop, alg, None), candidates
 
 

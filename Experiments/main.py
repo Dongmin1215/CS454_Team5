@@ -62,6 +62,7 @@ if __name__ == '__main__':
     apsd_list_sway, apfd_list_sway, time_list_sway = [], [], []
     
     print(f"------{dataset}-------")
+
     for s in tqdm(suites):
         suite = f's{s}'
         if os.path.exists(filepath):
@@ -107,13 +108,13 @@ if __name__ == '__main__':
 
         # SWAY
         start_time = time.time()
-        res, can = tcp_sway(dataset, args.initial, args.stop, args.embedding)
+        res, can = tcp_sway(dataset, '0', args.initial, args.stop, args.embedding)
         time_list_sway.append(time.time() - start_time)
 
         tmp_apsd, tmp_apfd = [], []
         for perm in res:
             tmp_apsd.append(get_apsd(dataset, perm))
-            tmp_apfd.append(get_apfd(matrix, fault_dict, dataset, suite, perm))
+            tmp_apfd.append(get_apfd(matrix, fault_dict, dataset, suite, perm, False))
         idx = tmp_apsd.index(max(tmp_apsd))
         apsd_list_sway.append(tmp_apsd[idx])
         apfd_list_sway.append(tmp_apfd[idx])
@@ -211,3 +212,4 @@ if __name__ == '__main__':
     # fw_.write(f"python main.py -d {dataset} -suite {suite}")
     #
     # subprocess.Popen(['sh', 'helper.sh'])
+
