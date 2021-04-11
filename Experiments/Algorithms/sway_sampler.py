@@ -3,7 +3,9 @@ from math import sqrt, exp
 import random
 import pdb
 import itertools
-
+import numpy as np
+import time
+from copy import deepcopy
 
 def _loss(f1, f2):
     return sum(exp(i - j) for i, j in zip(f1, f2)) / len(f1)
@@ -48,25 +50,36 @@ def bin_dominate(ind1, ind2):
 def sway(pop, splitor, better, stop, alg, emb_dict):
     def cluster(items, emb_dict, alg):
         # print(len(items))
+        N = len(items)
+
         # add termination condition here
-        if len(items) < stop:
+        if N < stop:
             return items
             #  end at here
 
         west, east, west_items, east_items = splitor(items)
         # return cluster(west_items)s
-        if alg==1:
+        if alg == 1:
+            ValueError("Binary embedding not yet implemented!!")
             # print("east:",tuple(east))
-            print(type(tuple(east)))
-            east = emb_dict[tuple(east)]
-            west = emb_dict[tuple(west)]
+            # print(type(tuple(east)))
+            # east = emb_dict[tuple(east)]
+            # west = emb_dict[tuple(west)]
 
         if better(east, west):
             selected = east_items
         if better(west, east):
             selected = west_items
         if not better(east, west) and not better(west, east):
-            selected = random.sample(west_items+east_items, len(items)//2)
+            # tmp = np.concatenate((west_items, east_items))
+            # assert(len(tmp) == N)
+            K = N // 2
+            random_mask = np.array([1] * K + [0] * (N - K), dtype=bool)
+            np.random.shuffle(random_mask)
+            # selected = tmp[random_mask]
+            selected = items[random_mask]
+            # selected = deepcopy(items[random_mask])
+            # selected = random.sample(west_items+east_items, len(items)//2)
             # return cluster(east_items) + cluster(west_items)
         # selected = west_items[:len(west_items)//2]+east_items[:len(east_items)//2]
         return cluster(selected, emb_dict, alg)

@@ -6,6 +6,7 @@ import numpy as np
 import random
 from os import listdir
 from os.path import isfile, join
+import pandas as pd
 
 
 def tcp_greedy(dataset):
@@ -64,6 +65,44 @@ def tcp_greedy(dataset):
 
     return sol
     # print(f'num tests: {num_tests}')
+
+def tcp_greedy_linux(dataset, suite, ver):
+    # print(f'{dataset} s{suite} ver{ver}')
+    path = 'Datasets/linux_utils/linuxutils/coverage_singlefault/' + dataset + '/s' + str(suite) + '/v' + ver + ".pkl"
+    df = pd.read_pickle(path)
+    mat = np.transpose(df.to_numpy())
+    mat = (mat>0).astype(int)
+    # print(f'mat:\n{mat}')
+    # print(f'mat shape: {mat.shape}')
+
+    # Find TCP solution with greedy algorithm
+    sol = []
+    num_tests = mat.shape[0]
+    num_valid_stats = mat.shape[1]
+    covered_stats = np.zeros((1, num_valid_stats))
+    for _ in range(num_tests):
+        addit_stats = (mat - covered_stats == 1).astype(int)
+        # print(f'diff\n{diff}')
+        addit_cov = np.sum(addit_stats, axis=1)
+        # print(f'addit_cov:\n{addit_cov}')
+        if np.sum(addit_cov) == 0:
+            break
+        next_test = np.argmax(addit_cov) + 1
+        # print(f'next_test:{next_test}')
+        covered_stats = (covered_stats + mat[next_test - 1] > 0).astype(int)
+        # print(f'#covered statements:{np.sum(covered_stats)}')
+        sol.append(next_test)
+
+    # If full coverage is obtained before going through all test cases...
+    if len(sol) < num_tests:
+        remaining = list(set(range(1, num_tests+1)) - set(sol))
+        random.shuffle(remaining)
+        sol += remaining
+
+    return sol
+
+
+
 
 
 if __name__ == '__main__':

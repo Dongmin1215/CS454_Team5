@@ -35,8 +35,10 @@ def get_apsd(dataset, perm):
     ts_values = []
     tc_order = 1
     uncovered_lines = []
+    profile = []
     # apsd_cumulative = []
-
+    
+    # print(f'perm: {perm}')
     path = 'Datasets/' + dataset + '/traces'
     for i in perm:  # i is test case number
         zeros = ''.join(['0' for s in range(6 - len(str(i)))])
@@ -67,17 +69,18 @@ def get_apsd(dataset, perm):
         # apsd = 1- sum(ts_values)/((tc_order-1)*len(profile)) + 0.5/(tc_order-1)
         # apsd_cumulative.append(apsd)
     valid_profile = [x for x in profile if isValidLine(x)]
+    # print(f'tc_order: {tc_order}')
     apsd = 1 - sum(ts_values) / ((tc_order - 1) * len(valid_profile)) + 0.5 / (tc_order - 1)
     # print("real coverage: " + str((len(profile)-len(uncovered_lines))/len(valid_profile)))
     return apsd
 
 
 # Assume that perm is a list of integers
-def get_apsd_linux(dataset, ver, perm):
+def get_apsd_linux(dataset, suite, ver, perm):
     ts_values = []
     tc_order = 1
     uncovered_lines = []
-    path = 'Datasets/linux_utils/linuxutils/coverage_singlefault/' + dataset + '/v' + ver + ".pkl"
+    path = 'Datasets/linux_utils/linuxutils/coverage_singlefault/' + dataset + '/s' + str(suite) + '/v' + ver + ".pkl"
     df = pd.read_pickle(path)
     # print(df)
     apsd=0

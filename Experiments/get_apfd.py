@@ -8,7 +8,8 @@ from os import listdir
 from os.path import isfile, join
 import pandas as pd
 
-def fault_matrix(dataset): 
+
+def fault_matrix(dataset):
     """
     Args:
         dataset:
@@ -22,7 +23,7 @@ def fault_matrix(dataset):
     f = open(path, "r")
     l = f.readlines()
 
-    num_faults = int(l[0].split()[0]) #number of faulty versions
+    num_faults = int(l[0].split()[0])  # number of faulty versions
     num_tests = int(l[1].split()[0])
     start = num_tests + 2
 
@@ -34,37 +35,42 @@ def fault_matrix(dataset):
             tmp = tmp[tmp.rfind("/") + 1:]
         if "<" in tmp:
             tmp = tmp[tmp.rfind("<") + 2:]
-        dict[tmp] = i #Maps the serial number and the exact name of testcases.
+        dict[tmp] = i  # Maps the serial number and the exact name of testcases.
         for j in range(num_faults):
-            matrix[i][j] = int(l[start + i * (num_faults * 2 + 1) + 2 * (j + 1)].strip()) #0 or 1 for certain pair of testcase and faulty version
+            matrix[i][j] = int(l[start + i * (num_faults * 2 + 1) + 2 * (
+                        j + 1)].strip())  # 0 or 1 for certain pair of testcase and faulty version
 
     return matrix, dict
 
-def fault_matrix_linux(dataset, num_faults_dict):
+
+def fault_matrix_linux(dataset, suite, num_faults_dict):
     # print('** Start fault_matrix_linux() **')
     # print(f'dataset in fml(): {dataset}')
 
-    num_tests_dict = {'flex':21, 'grep':193, 'gzip':211, 'sed':36}
+    num_tests_dict = {'flex': {1: 21, 2: 525}, 'grep': {1: 193, 2: 152, 3: 140}, 'gzip': {1: 211},
+                      'sed': {1: 36, 2: 360}}
 
-    #Build test case dict
+    # Build test case dict
     # print('*** Build test case dict ***')
-    path = 'Datasets/linux_utils/linuxutils/coverage_singlefault/' + dataset
-    pkl_files = [f for f in listdir(path) if isfile(join(path, f)) and f[0]=='v']
+    path = 'Datasets/linux_utils/linuxutils/coverage_singlefault/' + dataset + '/s' + str(suite)
+    pkl_files = [f for f in listdir(path) if isfile(join(path, f)) and f[0] == 'v']
     pkl_files.sort()
     pkl = pkl_files[0]
     # print(f'sample pkl: {pkl}')
     df = pd.read_pickle(path + "/" + pkl)
-    suite = df.columns
-    num_tests = num_tests_dict[dataset]
+    tests = df.columns
+    num_tests = num_tests_dict[dataset][suite]
     test_dict = {}
     for i in range(num_tests):
-        test_dict[suite[i]] = i
+        test_dict[tests[i]] = i
     # print(f'test_dict: {test_dict}')
 
-    #Build matrices
+    # Build matrices
     # print('*** Build matrices ***')
-    path = 'Datasets/linux_utils/linuxutils/failing_tests_singlefault/' + dataset
-    dump_files = [f for f in listdir(path) if isfile(join(path, f)) and f[0]=='v']
+    path = 'Datasets/linux_utils/linuxutils/failing_tests_singlefault/' + dataset + '/s' + str(suite)
+    # print(f'suite: {suite}')
+    # print(f'path: {path}')
+    dump_files = [f for f in listdir(path) if isfile(join(path, f)) and f[0] == 'v']
     dump_files.sort()
     # print(f'dump files: {dump_files}')
     num_faults = len(dump_files)
@@ -73,18 +79,18 @@ def fault_matrix_linux(dataset, num_faults_dict):
     ##Initialize matrices
     # print('** Initialize matrices **')
     matrices = {}
-    for ver in num_faults_dict[dataset].keys():
-        matrix = np.zeros([num_tests, num_faults_dict[dataset][ver]])
+    for ver in num_faults_dict[dataset][suite].keys():
+        matrix = np.zeros([num_tests, num_faults_dict[dataset][suite][ver]])
         matrices[ver] = matrix
 
     ##Fill in the matrices
     # print('** Fill in the matrices **')
     fault_count = 0
-    ver='0'
+    ver = '0'
     for i in range(num_faults):
         dump = dump_files[i]
         # print(f'faulty version: {dump}')
-        if dump[1]!=ver:
+        if dump[1] != ver:
             fault_count = 0
         ver = dump[1]
         # print(f'ver: {ver}')
@@ -93,6 +99,8 @@ def fault_matrix_linux(dataset, num_faults_dict):
         for l in f.readlines():
             test = l.strip()
             # print(f'failed test: {test}')
+            if test_dict.get(test) == None:
+                print(f'keyerror with {test} : {dataset} s{suite} ver{ver} ')
             matrices[ver][test_dict[test]][fault_count] = 1
         fault_count += 1
     # print(f'matrices:\n{matrices}')
@@ -103,6 +111,7 @@ def fault_matrix_linux(dataset, num_faults_dict):
     # print('** End fault_matrix_linux() **')
 
     return matrices, test_dict
+
 
 def perm_to_str(perm, dataset, suite):
     """
@@ -122,7 +131,7 @@ def perm_to_str(perm, dataset, suite):
 
     result = []
     for i in perm:
-        if i-1>len(cases)-1:
+        if i - 1 > len(cases) - 1:
             print(f'num cases: {len(cases)}')
             print(f'i = {i}')
         case = cases[i - 1]
@@ -136,7 +145,7 @@ def perm_to_str(perm, dataset, suite):
     return result
 
 
-def get_apfd(matrix, test_dict, dataset, suite, perm, isLinux):
+def get_apfd(matrix, test_dict, dataset, suite, perm, isLinux=False):
     """
     :param matrix:
     :param test_dict:
@@ -161,7 +170,7 @@ def get_apfd(matrix, test_dict, dataset, suite, perm, isLinux):
             if np.prod(TFs) > 0:
                 break
             for j in range(num_faults):
-                if TFs[j] == 0 and matrix[case-1][j] != 0:
+                if TFs[j] == 0 and matrix[case - 1][j] != 0:
                     TFs[j] = i
                     # print(f'TFs[{j}] = {i}')
             i += 1

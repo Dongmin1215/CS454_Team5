@@ -10,7 +10,9 @@ import random
 
 def tcp_random(dataset):
     path = 'Datasets/' + dataset + '/traces'
+    # print(os.getcwd())
     file_list = os.listdir(path)
+    # print(f'filelist: {file_list}')
     length = sum(['dump' in name for name in file_list])
 
     # Randomly select a permutation
