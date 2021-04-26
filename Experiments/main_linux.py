@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # parser.add_argument("-n", "--number", help="number of test suites to compute over", type=int, default=500)
     parser.add_argument("-e", "--embedding", help="type of embedding used (1 for non-distortive, 2 for distortive)",
                         type=int, default=2)
-    parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=2 ** 18) 
+    parser.add_argument("-init", "--initial", help="initial number of candidates", type=int, default=18) 
     parser.add_argument("-stop", "--stop", help="stop SWAY clustering when candidate number is less than this value",
                         type=int, default=20)
     # parser.add_argument("-iter", "--iteration", help="iteration number of SWAY", type=int, default=1)
@@ -54,6 +54,9 @@ if __name__ == '__main__':
         test_dicts[suite] = test_dict
 
     algs = ['SWAY', 'Additional Greedy', 'random']
+
+    # Initial population
+    init = 2 ** args.initial
 
     # apsd_list_random, apfd_list_random, time_list_random = [], [], []
     # apsd_list_greedy, apfd_list_greedy, time_list_greedy = [], [], []
@@ -103,7 +106,7 @@ if __name__ == '__main__':
                 # # SWAY for TCP (for 2nd~last version of each program)
                 start_time = time.time()
                 # TCP for the (ver+1)th program version
-                res, can = tcp_sway(dataset, suite, ver, args.initial, args.stop, args.embedding)
+                res, can = tcp_sway(dataset, suite, ver, init, args.stop, args.embedding)
 
                 runtime[2][i] = time.time() - start_time
                 # time_list_sway.append(time.time() - start_time)
@@ -151,13 +154,15 @@ if __name__ == '__main__':
             apfd_std = np.std(apfd, axis=1)
 
             print("APSD mean/std, APFD mean/std")
-            print(
-                f"random {dataset} s{suite} v{ver}: {apsd_mean[0]}/{apsd_std[0]}, {apfd_mean[0]}/{apfd_std[0]}")
-            print(
-                f"greedy {dataset} s{suite} v{ver}: {apsd_mean[1]}/{apsd_std[1]}, {apfd_mean[1]}/{apfd_std[1]}")
+            print(f"random {dataset} s{suite} v{ver}: {apsd_mean[0]}/{apsd_std[0]}, {apfd_mean[0]}/{apfd_std[0]}")
+            print(f"greedy {dataset} s{suite} v{ver}: {apsd_mean[1]}/{apsd_std[1]}, {apfd_mean[1]}/{apfd_std[1]}")
             print(f"sway {dataset} s{suite} v{ver}: {apsd_mean[2]}/{apsd_std[2]}, {apfd_mean[2]}/{apfd_std[2]}")
 
             # Save .csv
-            np.savetxt("CSVs/{}_s{}_v{}_apsd.csv".format(dataset, suite, ver), apsd, delimiter=",")
-            np.savetxt("CSVs/{}_s{}_v{}_apfd.csv".format(dataset, suite, ver), apfd, delimiter=",")
-            np.savetxt("CSVs/{}_s{}_v{}_runtime.csv".format(dataset, suite, ver), runtime, delimiter=",")
+            folder_name = "CSVs/CSV-(2^{})".format(args.initial)
+            # folder_name = "CSVs/CSV-(2^{})".format(args.initial)
+            if not os.path.isdir(folder_name):
+                os.makedirs(folder_name)
+            np.savetxt(folder_name + "/{}_s{}_v{}_apsd.csv".format(dataset, suite, ver), apsd, delimiter=",")
+            np.savetxt(folder_name + "/{}_s{}_v{}_apfd.csv".format(dataset, suite, ver), apfd, delimiter=",")
+            np.savetxt(folder_name + "/{}_s{}_v{}_runtime.csv".format(dataset, suite, ver), runtime, delimiter=",")

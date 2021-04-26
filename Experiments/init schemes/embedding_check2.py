@@ -98,12 +98,21 @@ plt.scatter(Spearman_rho_sq, sanity_check)
 
 plt.figure(2)
 plt.scatter(Spearman_rho_sq, Kendall_tau)
+plt.title("Scatter plot of Kendall tau vs. Spearman rho")
+plt.xlabel("Spearman rho")
+plt.ylabel("Kendall tau")
+plt.savefig("fig2.pdf", dpi=600)
 
 plt.figure(3)
 plt.scatter(Spearman_rho_sq2, Kendall_tau)
+plt.title("Scatter plot of Kendall tau vs. Euclidean distance")
+plt.xlabel("Euclidean distance")
+plt.ylabel("Kendall tau")
+plt.savefig("fig1.pdf", dpi=600)
 
-plt.figure(4)
-plt.scatter(Spearman_rho_sq, Daniels_Guilbaud)
+
+# plt.figure(4)
+# plt.scatter(Spearman_rho_sq, Daniels_Guilbaud)
 
 plt.show()
 # plt.savefig("sanity.png", dpi=600)
